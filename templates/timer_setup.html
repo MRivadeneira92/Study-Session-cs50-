@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title%}
+    Timer setup
+{% endblock %}
+
+{% block body %}
+    <form method ="post">
+        <p class="tset_text">Number of timers: </p>
+        <input class="tset_num_timers" autocomplete="off" id="num_timers" name="num_timers" type="number">
+        <p class="tset_text">All continuous?: </p>
+        <input autocomplete="off" id="continuous" name="continuous" type="checkbox">
+        <button id="btnSetup" type="button">Setup</button>
+    </form>
+    <a href="/timer" type="button">Start</a>
+    <div id="timers">
+        <table>
+            <tbody id="userTimers">
+
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Set the number of timers
+        const saveTimers = new Object();
+        // saveTimers.min = 
+        const btnSetup = document.getElementById("btnSetup");
+        btnSetup.addEventListener("click", function(e) {
+            let nTimers = document.getElementById("num_timers").value;
+            var HTML = "<table><tr><th>Número</th><th>Timer</th><th>Continuous</th></tr>";
+                for (let i = 0; i < nTimers; i++) {
+                    HTML += "<tr><td>" + (i + 1) + "</td><td id='timerMin"+(i + 1)+"'>minutes</td><td>:</td><td id='timerSec"+(i + 1)+"'>seconds</td><td>check</td></tr>";
+                };
+            HTML += "</table>";
+             document.getElementById("userTimers").innerHTML = HTML;
+        });
+
+        //DEBUG: random data to try user timers
+        let differentTimers = [
+            {min: 00, sec: 15},
+            {min: 01, sec: 25},
+            {min:00, sec: 30}
+        ];
+        
+    </script>
+
+{% endblock %}

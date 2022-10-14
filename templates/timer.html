@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+    <div class="timer_display_timer">
+        <p class="timerNum" id="timerHour">{{hour}}</p>
+        <p>:</p>
+        <p class="timerNum" id="timerMin">{{min}}</p>
+        <p>:</p>
+        <p class="timerNum" id="timerSec">{{sec}}</p>
+        <p id="printTest"></p>
+    </div>
+    <button class="start" id="btnStart" type="button">Start!</button>
+    <button id="reset1" type="button">Reset 30s</button>
+    <button id="reset2" type="button">Reset 1m</button>
+    <button id="reset3" type="button">Reset 1m5s</button>
+    <button id="timerStop" type="button">Stop</button>
+    <script>         
+        const timer_start = document.getElementById("btnStart");
+        timer_start.addEventListener("click", function(e) {
+            // Get the variables stored in the timer
+            let timer_hour = parseInt(document.getElementById("timerHour").innerHTML);
+            let timer_min = parseInt(document.getElementById("timerMin").innerHTML);
+            let timer_sec = parseInt(document.getElementById("timerSec").innerHTML);
+
+
+
+            // Timer code
+            downTimer(0, timer_min, timer_sec);
+        });
+
+        // DEBUG: set up and reset timer
+        const reset1 = document.getElementById("reset1");
+        reset1.addEventListener("click", function(e){
+            document.getElementById("timerSec").innerHTML = 30;
+            document.getElementById("timerMin").innerHTML = 0;
+        });
+        const reset2 = document.getElementById("reset2");
+        reset2.addEventListener("click", function(e){
+            document.getElementById("timerMin").innerHTML = 1;
+            document.getElementById("timerSec").innerHTML = 0;
+        });
+        const reset3 = document.getElementById("reset3");
+        reset3.addEventListener("click", function(e){
+            document.getElementById("timerMin").innerHTML = 1;
+            document.getElementById("timerSec").innerHTML = 5;
+        });
+ 
+        // Timer function 
+        function downTimer (hour, min, sec) {
+            let timerStart = setInterval(() => {
+                sec = sec - 1;
+                if (sec == -1) {
+                    sec = 59;
+                    min = min - 1;
+                    if (min == -1) {
+                        min = 59;
+                    };
+                };
+                document.getElementById("timerSec").innerHTML = sec;
+                document.getElementById("timerMin").innerHTML = min;
+                // DEBUG: get stop button
+                const stop = document.getElementById("timerStop");
+                // DEBUG: stop button
+                stop.addEventListener("click", function(e) {
+                    clearInterval(timerStart);
+                });
+                if (min == 0 && sec == 0) {
+                    clearInterval(timerStart);
+                };
+            }, 1000);
+        };
+    </script>
+{% endblock %}
