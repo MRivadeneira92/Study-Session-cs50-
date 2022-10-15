@@ -30,7 +30,7 @@
             let nTimers = document.getElementById("num_timers").value;
             var HTML = "<table><tr><th>Número</th><th>Timer</th><th>Continuous</th></tr>";
                 for (let i = 0; i < nTimers; i++) {
-                    HTML += "<tr><td>" + (i + 1) + "</td><td id='timerMin"+(i + 1)+"'>minutes</td><td>:</td><td id='timerSec"+(i + 1)+"'>seconds</td><td>check</td></tr>";
+                    HTML += "<tr><td>" + (i + 1) + "</td><td id='timerMin"+(i + 1)+"'><input autocomplete='off' type='number'></td><td>:</td><td id='timerSec"+(i + 1)+"'><input autocomplete='off' type='number'></td><td>check</td></tr>";
                 };
             HTML += "</table>";
              document.getElementById("userTimers").innerHTML = HTML;
