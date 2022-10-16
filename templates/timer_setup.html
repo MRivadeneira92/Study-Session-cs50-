@@ -19,21 +19,40 @@
 
             </tbody>
         </table>
+    <button id="btnLoad" type="button">Load</button>
     </div>
 
     <script>
         // Set the number of timers
-        const saveTimers = new Object();
-        // saveTimers.min = 
+        const saveTimers = {};
+        let groupTimers = [];
+         
+
+        // Set the ammount of timers so they can be mannualy set up
         const btnSetup = document.getElementById("btnSetup");
         btnSetup.addEventListener("click", function(e) {
             let nTimers = document.getElementById("num_timers").value;
             var HTML = "<table><tr><th>Número</th><th>Timer</th><th>Continuous</th></tr>";
                 for (let i = 0; i < nTimers; i++) {
-                    HTML += "<tr><td>" + (i + 1) + "</td><td id='timerMin"+(i + 1)+"'><input autocomplete='off' type='number'></td><td>:</td><td id='timerSec"+(i + 1)+"'><input autocomplete='off' type='number'></td><td>check</td></tr>";
+                    HTML += "<tr><td>" + (i + 1) + "</td><td><input autocomplete='off' id='timerMin"+(i + 1)+"' type='number'></td><td>:</td><td ><input autocomplete='off' id='timerSec"+(i + 1)+"' type='number'></td><td>check</td></tr>";
                 };
             HTML += "</table>";
              document.getElementById("userTimers").innerHTML = HTML;
+        });
+
+        // Load the numbers of the timers in an array
+        const btnLoad = document.getElementById("btnLoad");
+        btnLoad.addEventListener("click", function(e) {
+            let nTimers = document.getElementById("num_timers").value;
+            for(let i = 0; i < nTimers; i++) {
+                valueMin = '"'+"timerMin"+(i + 1)+'"';
+                console.log(typeof(valueMin));
+                saveTimers["min"] = document.getElementById("timerMin1").value;
+                saveTimers["sec"] = document.getElementById("timerSec1").value;
+                groupTimers.push(saveTimers);
+            };
+            console.log("saveTimers: " + saveTimers);
+            console.log("groupTimers: " + groupTimers);
         });
 
         //DEBUG: random data to try user timers
