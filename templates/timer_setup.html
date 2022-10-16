@@ -27,7 +27,6 @@
         const saveTimers = {};
         let groupTimers = [];
          
-
         // Set the ammount of timers so they can be mannualy set up
         const btnSetup = document.getElementById("btnSetup");
         btnSetup.addEventListener("click", function(e) {
@@ -45,14 +44,12 @@
         btnLoad.addEventListener("click", function(e) {
             let nTimers = document.getElementById("num_timers").value;
             for(let i = 0; i < nTimers; i++) {
-                valueMin = '"'+"timerMin"+(i + 1)+'"';
-                console.log(typeof(valueMin));
-                saveTimers["min"] = document.getElementById("timerMin1").value;
-                saveTimers["sec"] = document.getElementById("timerSec1").value;
-                groupTimers.push(saveTimers);
+                const testMin = document.getElementById(`timerMin${(i + 1)}`).value;
+                const testSec = document.getElementById(`timerSec${(i + 1)}`).value;
+                saveTimers["min" + i] = Number(testMin);
+                saveTimers["sec" + i]= Number(testSec);
             };
             console.log("saveTimers: " + saveTimers);
-            console.log("groupTimers: " + groupTimers);
         });
 
         //DEBUG: random data to try user timers
