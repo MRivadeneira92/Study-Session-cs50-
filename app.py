@@ -19,3 +19,7 @@ def timer():
     min = 0
     sec = 5
     return render_template("timer.html", hour=hour, min=min, sec=sec)
+
+@app.route("/test")
+def test():
+    return render_template("test.html")

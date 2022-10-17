@@ -49,3 +49,15 @@ nav li {
 .timer_display_timer p {
     display: inline-block;
 }
+
+.test_activeTimer {
+    font-size: 30px;
+}
+
+.test_activeTimer p {
+    display: inline-block;
+}
+
+.test_nextTimers p {
+    display: inline-block;
+}

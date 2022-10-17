@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+
+{% block title%}
+    TEST
+{% endblock %}
+
+{% block body %}
+    <!--Active timer-->
+    <div id="activeTimer" class="test_activeTimer">   
+    </div>
+    <button id="btnStart" type="button">Start timers</button>
+
+    <!--Show the next timers -->
+    <div class="test_nextTimers" id="test_nextTimers">
+    </div>
+    <button id="load" type="button">Load page</button>
+    <button id="timerStop" type="button">Stop</button>
+
+    <script>
+        // DEBUG: Array to test timer
+        testTimers = {
+            timerMin0: 0,
+            timerSec0: 1,
+            timerMin1: 0,
+            timerSec1: 30,
+            timerMin2: 1,
+            timerSec2: 0
+        };
+        // DEBUG: Number of timers
+        const nTimers = 3; 
+
+        // Timer start
+        let timerFinish = false;
+        let fistStart = true; 
+
+        // Render the next timers
+        const btnCreate = document.getElementById("load");
+        btnCreate.addEventListener("click", function(e) {
+            firstStart = false;
+            // Render first timer
+            var firstHTML ='<p id="timerHour">0</p>' + '<p>:</p>' +
+            '<p id="timerMin">' + testTimers["timerMin0"] + '</p>' +
+            '<p>:</p>' + 
+            '<p id="timerSec">' + testTimers["timerSec0"] + '</p>';
+            document.getElementById("activeTimer").innerHTML = firstHTML;
+            // Render second timer
+            var nextHTML = '';
+            for (let i = 1; i < nTimers; i++) {
+                nextHTML += '<p id="hour">0</p>' + '<p>:</p>' +
+                '<p id="min">' + testTimers[`timerMin${i}`] + '</p>' +
+                '<p>:</p>' + 
+                '<p id="sec">' + testTimers[`timerSec${i}`] + '</p><br>'
+            };
+            document.getElementById("test_nextTimers").innerHTML = nextHTML;
+        });
+
+        const timer_start = document.getElementById("btnStart");
+        timer_start.addEventListener("click", function(e) {
+            // Get the variables stored in the timer
+            let timer_hour = parseInt(document.getElementById("timerHour").innerHTML);
+            let timer_min = parseInt(document.getElementById("timerMin").innerHTML);
+            let timer_sec = parseInt(document.getElementById("timerSec").innerHTML);
+
+            // Timer code
+            downTimer(0, timer_min, timer_sec);
+            // Pass to next timer if completed
+            if (fistStart == true && timerFinish == true) {
+                let timerReplaceMin = document.getElementById("timerMin");
+                let timerReplaceSec = document.getElementById("timerSec");
+                timerReplaceMin.innerHTML = testTimers[`timerMin${1}`];
+                timerReplaceSec.innerHTML = testTimers[`timerSec${1}`];
+                timerFinish = false;
+            };   
+        });
+       
+        // Pass to next timer if completed
+        if (fistStart == false && timerFinish == true) {
+            let timerReplaceMin = document.getElementById("timerMin");
+            let timerReplaceSec = document.getElementById("timerSec");
+            timerReplaceMin.innerHTML = testTimers[`timerMin${1}`];
+            timerReplaceSec.innerHTML = testTimers[`timerSec${1}`];
+            timerFinish = false;
+        };
+
+        // Timer code
+        function downTimer (hour, min, sec) {
+            let timerStart = setInterval(() => {
+                sec = sec - 1;
+                if (sec == -1) {
+                    sec = 59;
+                    min = min - 1;
+                    if (min == -1) {
+                        min = 59;
+                    };
+                };
+                document.getElementById("timerSec").innerHTML = sec;
+                document.getElementById("timerMin").innerHTML = min;
+                // DEBUG: get stop button
+                const stop = document.getElementById("timerStop");
+                // DEBUG: stop button
+                stop.addEventListener("click", function(e) {
+                    clearInterval(timerStart);
+                });
+                if (min == 0 && sec == 0) {
+                    timerFinish = true; 
+                    clearInterval(timerStart);
+                };
+            }, 1000);
+        };
+
+    </script>
+{% endblock %}
