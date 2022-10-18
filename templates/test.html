@@ -63,6 +63,7 @@
 
             // Timer code
             downTimer(0, timer_min, timer_sec);
+
             // Pass to next timer if completed
             if (fistStart == true && timerFinish == true) {
                 let timerReplaceMin = document.getElementById("timerMin");
@@ -70,6 +71,7 @@
                 timerReplaceMin.innerHTML = testTimers[`timerMin${1}`];
                 timerReplaceSec.innerHTML = testTimers[`timerSec${1}`];
                 timerFinish = false;
+                downTimer(0, timerReplaceMin, timerReplaceSec);
             };   
         });
        
@@ -85,6 +87,8 @@
         // Timer code
         function downTimer (hour, min, sec) {
             let timerStart = setInterval(() => {
+                document.getElementById("timerSec").innerHTML = sec;
+                document.getElementById("timerMin").innerHTML = min;
                 sec = sec - 1;
                 if (sec == -1) {
                     sec = 59;
@@ -93,8 +97,6 @@
                         min = 59;
                     };
                 };
-                document.getElementById("timerSec").innerHTML = sec;
-                document.getElementById("timerMin").innerHTML = min;
                 // DEBUG: get stop button
                 const stop = document.getElementById("timerStop");
                 // DEBUG: stop button
