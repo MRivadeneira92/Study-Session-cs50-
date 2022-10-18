@@ -20,9 +20,9 @@
         // DEBUG: Array to test timer
         testTimers = {
             timerMin0: 0,
-            timerSec0: 1,
+            timerSec0: 7,
             timerMin1: 0,
-            timerSec1: 30,
+            timerSec1: 31,
             timerMin2: 1,
             timerSec2: 0
         };
@@ -56,14 +56,7 @@
 
         const timer_start = document.getElementById("btnStart");
         timer_start.addEventListener("click", function(e) {
-            // Get the variables stored in the timer
-            let timer_hour = parseInt(document.getElementById("timerHour").innerHTML);
-            let timer_min = parseInt(document.getElementById("timerMin").innerHTML);
-            let timer_sec = parseInt(document.getElementById("timerSec").innerHTML);
-
-            // Timer code
-            downTimer(0, timer_min, timer_sec);
-
+            downTimer();
             // Pass to next timer if completed
             if (fistStart == true && timerFinish == true) {
                 let timerReplaceMin = document.getElementById("timerMin");
@@ -85,10 +78,12 @@
         };
 
         // Timer code
-        function downTimer (hour, min, sec) {
+        function downTimer () {
             let timerStart = setInterval(() => {
-                document.getElementById("timerSec").innerHTML = sec;
-                document.getElementById("timerMin").innerHTML = min;
+                sec = Number(document.getElementById("timerSec").innerHTML);
+                min = Number(document.getElementById("timerMin").innerHTML);
+                // DEBUG: get stop button
+                const stop = document.getElementById("timerStop");
                 sec = sec - 1;
                 if (sec == -1) {
                     sec = 59;
@@ -97,12 +92,15 @@
                         min = 59;
                     };
                 };
-                // DEBUG: get stop button
-                const stop = document.getElementById("timerStop");
+                document.getElementById("timerSec").innerHTML = sec;
+                document.getElementById("timerMin").innerHTML = min;
+                console.log("min: " + min);
+                console.log("sec: " + sec);
                 // DEBUG: stop button
                 stop.addEventListener("click", function(e) {
                     clearInterval(timerStart);
                 });
+
                 if (min == 0 && sec == 0) {
                     timerFinish = true; 
                     clearInterval(timerStart);
