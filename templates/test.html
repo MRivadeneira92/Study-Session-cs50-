@@ -18,6 +18,7 @@
 
     <!--DEBUG: Load next timer-->
     <button id="btnNextTimer" type="button">Next</button>
+
     <script>
         // DEBUG: Array to test timer
         testTimers = {
@@ -29,7 +30,9 @@
             timerSec2: 0
         };
         // DEBUG: Number of timers
-        const nTimers = 3; 
+        let nTimers = 3;
+        // DEBUG: Remove last timer
+        let delTimers = nTimers;
 
         // DEBUG: Load next timer button
         btnNextTimer = document.getElementById("btnNextTimer");
@@ -37,6 +40,8 @@
         let timerFinish = false;
         let fistStart = true; 
         let numbNextTimers = 1;
+        let tMin = document.getElementById("timerMin");
+        let tSec = document.getElementById("timerSec");
 
         // Render the next timers
         const btnCreate = document.getElementById("load");
@@ -51,10 +56,12 @@
             // Render second timer
             var nextHTML = '';
             for (let i = 1; i < nTimers; i++) {
+                nextHTML += '<div id="nextTimers' + i + '">';
                 nextHTML += '<p id="hour">0</p>' + '<p>:</p>' +
-                '<p id="min">' + testTimers[`timerMin${i}`] + '</p>' +
+                '<p id="min' + i + '">' + testTimers[`timerMin${i}`] + '</p>' +
                 '<p>:</p>' + 
-                '<p id="sec">' + testTimers[`timerSec${i}`] + '</p><br>'
+                '<p id="sec' + i + '">' + testTimers[`timerSec${i}`] + '</p><br>'
+                nextHTML += '</div>';
             };
             document.getElementById("test_nextTimers").innerHTML = nextHTML;
         });
@@ -72,8 +79,17 @@
                 let timerReplaceSec = document.getElementById("timerSec");
                 timerReplaceMin.innerHTML = testTimers[`timerMin${numbNextTimers}`];
                 timerReplaceSec.innerHTML = testTimers[`timerSec${numbNextTimers}`];
+                document.getElementById("min1").innerHTML = testTimers[`timerMin${numbNextTimers + 1}`]
+                document.getElementById("sec1").innerHTML = testTimers[`timerSec${numbNextTimers + 1}`]
+                delTimers = delTimers - 1;
+                let delMin = `nextTimers${delTimers}`;
+                let delSec = `nextTimers${delTimers}`;
                 timerFinish = false;
                 numbNextTimers = numbNextTimers + 1;
+                let x = document.getElementById(delMin);
+                let y = document.getElementById(delSec);
+                x.remove();
+                y.remove();
             };  
         })
        
