@@ -16,27 +16,32 @@
     <button id="load" type="button">Load page</button>
     <button id="timerStop" type="button">Stop</button>
 
+    <!--DEBUG: Load next timer-->
+    <button id="btnNextTimer" type="button">Next</button>
     <script>
         // DEBUG: Array to test timer
         testTimers = {
             timerMin0: 0,
             timerSec0: 7,
             timerMin1: 0,
-            timerSec1: 31,
+            timerSec1: 4,
             timerMin2: 1,
             timerSec2: 0
         };
         // DEBUG: Number of timers
         const nTimers = 3; 
 
+        // DEBUG: Load next timer button
+        btnNextTimer = document.getElementById("btnNextTimer");
         // Timer start
         let timerFinish = false;
         let fistStart = true; 
+        let numbNextTimers = 1;
 
         // Render the next timers
         const btnCreate = document.getElementById("load");
         btnCreate.addEventListener("click", function(e) {
-            firstStart = false;
+            fistStart = false;
             // Render first timer
             var firstHTML ='<p id="timerHour">0</p>' + '<p>:</p>' +
             '<p id="timerMin">' + testTimers["timerMin0"] + '</p>' +
@@ -56,27 +61,22 @@
 
         const timer_start = document.getElementById("btnStart");
         timer_start.addEventListener("click", function(e) {
-            downTimer();
-            // Pass to next timer if completed
-            if (fistStart == true && timerFinish == true) {
+            downTimer(); 
+        });
+
+        //DEBUG: button
+        // Pass to next timer if completed
+        btnNextTimer.addEventListener("click", function(e) {
+            if (fistStart == false && timerFinish == true) {
                 let timerReplaceMin = document.getElementById("timerMin");
                 let timerReplaceSec = document.getElementById("timerSec");
-                timerReplaceMin.innerHTML = testTimers[`timerMin${1}`];
-                timerReplaceSec.innerHTML = testTimers[`timerSec${1}`];
+                timerReplaceMin.innerHTML = testTimers[`timerMin${numbNextTimers}`];
+                timerReplaceSec.innerHTML = testTimers[`timerSec${numbNextTimers}`];
                 timerFinish = false;
-                downTimer(0, timerReplaceMin, timerReplaceSec);
-            };   
-        });
+                numbNextTimers = numbNextTimers + 1;
+            };  
+        })
        
-        // Pass to next timer if completed
-        if (fistStart == false && timerFinish == true) {
-            let timerReplaceMin = document.getElementById("timerMin");
-            let timerReplaceSec = document.getElementById("timerSec");
-            timerReplaceMin.innerHTML = testTimers[`timerMin${1}`];
-            timerReplaceSec.innerHTML = testTimers[`timerSec${1}`];
-            timerFinish = false;
-        };
-
         // Timer code
         function downTimer () {
             let timerStart = setInterval(() => {
@@ -94,8 +94,6 @@
                 };
                 document.getElementById("timerSec").innerHTML = sec;
                 document.getElementById("timerMin").innerHTML = min;
-                console.log("min: " + min);
-                console.log("sec: " + sec);
                 // DEBUG: stop button
                 stop.addEventListener("click", function(e) {
                     clearInterval(timerStart);
@@ -107,6 +105,5 @@
                 };
             }, 1000);
         };
-
     </script>
 {% endblock %}
