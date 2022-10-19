@@ -49,18 +49,18 @@
             fistStart = false;
             // Render first timer
             var firstHTML ='<p id="timerHour">0</p>' + '<p>:</p>' +
-            '<p id="timerMin">' + testTimers["timerMin0"] + '</p>' +
+            '<p id="timerMin">' + padZero(testTimers["timerMin0"]) + '</p>' +
             '<p>:</p>' + 
-            '<p id="timerSec">' + testTimers["timerSec0"] + '</p>';
+            '<p id="timerSec">' + padZero(testTimers["timerSec0"]) + '</p>';
             document.getElementById("activeTimer").innerHTML = firstHTML;
             // Render second timer
             var nextHTML = '';
             for (let i = 1; i < nTimers; i++) {
                 nextHTML += '<div id="nextTimers' + i + '">';
                 nextHTML += '<p id="hour">0</p>' + '<p>:</p>' +
-                '<p id="min' + i + '">' + testTimers[`timerMin${i}`] + '</p>' +
+                '<p id="min' + i + '">' + padZero(testTimers[`timerMin${i}`]) + '</p>' +
                 '<p>:</p>' + 
-                '<p id="sec' + i + '">' + testTimers[`timerSec${i}`] + '</p><br>'
+                '<p id="sec' + i + '">' + padZero(testTimers[`timerSec${i}`]) + '</p><br>'
                 nextHTML += '</div>';
             };
             document.getElementById("test_nextTimers").innerHTML = nextHTML;
@@ -77,10 +77,10 @@
             if (fistStart == false && timerFinish == true) {
                 let timerReplaceMin = document.getElementById("timerMin");
                 let timerReplaceSec = document.getElementById("timerSec");
-                timerReplaceMin.innerHTML = testTimers[`timerMin${numbNextTimers}`];
-                timerReplaceSec.innerHTML = testTimers[`timerSec${numbNextTimers}`];
-                document.getElementById("min1").innerHTML = testTimers[`timerMin${numbNextTimers + 1}`]
-                document.getElementById("sec1").innerHTML = testTimers[`timerSec${numbNextTimers + 1}`]
+                timerReplaceMin.innerHTML = padZero(testTimers[`timerMin${numbNextTimers}`]);
+                timerReplaceSec.innerHTML = padZero(testTimers[`timerSec${numbNextTimers}`]);
+                document.getElementById("min1").innerHTML = padZero(testTimers[`timerMin${numbNextTimers + 1}`]);
+                document.getElementById("sec1").innerHTML = padZero(testTimers[`timerSec${numbNextTimers + 1}`]);
                 delTimers = delTimers - 1;
                 let delMin = `nextTimers${delTimers}`;
                 let delSec = `nextTimers${delTimers}`;
@@ -108,8 +108,8 @@
                         min = 59;
                     };
                 };
-                document.getElementById("timerSec").innerHTML = sec;
-                document.getElementById("timerMin").innerHTML = min;
+                document.getElementById("timerSec").innerHTML = padZero(sec);
+                document.getElementById("timerMin").innerHTML = padZero(min);
                 // DEBUG: stop button
                 stop.addEventListener("click", function(e) {
                     clearInterval(timerStart);
@@ -120,6 +120,11 @@
                     clearInterval(timerStart);
                 };
             }, 1000);
+        };
+
+        // Leading zero function
+        function padZero(num) {
+            return String(num).padStart(2, '0');
         };
     </script>
 {% endblock %}
