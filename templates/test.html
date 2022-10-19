@@ -40,6 +40,7 @@
         let timerFinish = false;
         let fistStart = true; 
         let numbNextTimers = 1;
+        let oneTimer = true;
         let tMin = document.getElementById("timerMin");
         let tSec = document.getElementById("timerSec");
 
@@ -60,7 +61,8 @@
                 nextHTML += '<p id="hour">0</p>' + '<p>:</p>' +
                 '<p id="min' + i + '">' + padZero(testTimers[`timerMin${i}`]) + '</p>' +
                 '<p>:</p>' + 
-                '<p id="sec' + i + '">' + padZero(testTimers[`timerSec${i}`]) + '</p><br>'
+                '<p id="sec' + i + '">' + padZero(testTimers[`timerSec${i}`]) + '</p>' 
+                 +'<input class="timerCheck id="check' + i + '" type="checkbox"><br>'
                 nextHTML += '</div>';
             };
             document.getElementById("test_nextTimers").innerHTML = nextHTML;
@@ -68,13 +70,17 @@
 
         const timer_start = document.getElementById("btnStart");
         timer_start.addEventListener("click", function(e) {
-            downTimer(); 
+            if (oneTimer == true) {
+                oneTimer = false;
+                downTimer();
+            };             
         });
 
         //DEBUG: button
         // Pass to next timer if completed
+        // NEXT: Fix pressing button after no timers left
         btnNextTimer.addEventListener("click", function(e) {
-            if (fistStart == false && timerFinish == true) {
+            if (fistStart == false && timerFinish == true && numbNextTimers != nTimers) {
                 let timerReplaceMin = document.getElementById("timerMin");
                 let timerReplaceSec = document.getElementById("timerSec");
                 timerReplaceMin.innerHTML = padZero(testTimers[`timerMin${numbNextTimers}`]);
@@ -116,6 +122,7 @@
                 });
 
                 if (min == 0 && sec == 0) {
+                    oneTimer = true;
                     timerFinish = true; 
                     clearInterval(timerStart);
                 };

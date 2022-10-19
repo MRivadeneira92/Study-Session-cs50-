@@ -61,3 +61,7 @@ nav li {
 .test_nextTimers p {
     display: inline-block;
 }
+
+.timerCheck {
+    display: inline-block;
+}
