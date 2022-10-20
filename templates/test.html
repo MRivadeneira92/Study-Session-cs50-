@@ -76,9 +76,7 @@
             };             
         });
 
-        //DEBUG: button
         // Pass to next timer if completed
-        // NEXT: Fix pressing button after no timers left
         btnNextTimer.addEventListener("click", function(e) {
             if (fistStart == false && timerFinish == true && numbNextTimers != nTimers) {
                 let timerReplaceMin = document.getElementById("timerMin");
@@ -97,7 +95,7 @@
                 x.remove();
                 y.remove();
             };  
-        })
+        });
        
         // Timer code
         function downTimer () {

@@ -5,15 +5,17 @@
 {% endblock %}
 
 {% block body %}
-    <form method ="post">
-        <p class="tset_text">Number of timers: </p>
-        <input class="tset_num_timers" autocomplete="off" id="num_timers" name="num_timers" type="number">
-        <p class="tset_text">All continuous?: </p>
-        <input autocomplete="off" id="continuous" name="continuous" type="checkbox">
-        <button id="btnSetup" type="button">Setup</button>
-    </form>
-    <a href="/timer" type="button">Start</a>
-    <div id="timers">
+    <div id="firstDiv">
+        <form method ="post">
+            <p class="tset_text">Number of timers: </p>
+            <input class="tset_num_timers" autocomplete="off" id="num_timers" name="num_timers" type="number">
+            <p class="tset_text">All continuous?: </p>
+            <input autocomplete="off" id="continuous" name="continuous" type="checkbox">
+            <button id="btnSetup" type="button">Setup</button>
+        </form>
+    </div>
+
+    <div id="secondDiv" class="timerSecondDiv">
         <table>
             <tbody id="userTimers">
             </tbody>
@@ -25,21 +27,31 @@
     <script>
         // Set the number of timers
         const saveTimers = {};
-         
+        const btnSetup = document.getElementById("btnSetup");  // Load page button with number of timers    
+        const btnLoad = document.getElementById("btnLoad"); // Load number of timers to array
+        const btnStart = document.getElementById("btnStart"); // Start timer
+        const btnStop = document.getElementById("btnStop"); // Stop timer
+        const btnNext = document.getElementById("btnNext"); // Pass to next timer
+        let oneTimer = true; // Make sure that timer runs only once
+        let numbNextTimers = 1; // For nextTimer function. Number of the timer that follows the active timer 
+
+
+
         // Set the ammount of timers so they can be mannualy set up
-        const btnSetup = document.getElementById("btnSetup");
         btnSetup.addEventListener("click", function(e) {
             let nTimers = document.getElementById("num_timers").value;
             var HTML = "<table><tr><th>Número</th><th>Timer</th><th>Continuous</th></tr>";
                 for (let i = 0; i < nTimers; i++) {
-                    HTML += "<tr><td>" + (i + 1) + "</td><td><input autocomplete='off' id='timerMin"+(i + 1)+"' min='0' max='60' maxlength='2' type='text'></td><td>:</td><td ><input autocomplete='off' id='timerSec"+(i + 1)+"' min='0' max='60' maxlength='2' type='text'></td><td>check</td></tr>";
+                    HTML += "<tr><td>" + (i + 1) + "</td><td><input autocomplete='off' id='timerMin" + (i + 1) + 
+                    "' min='0' max='60' maxlength='2' type='text'></td><td>:</td>" + 
+                    "<td><input autocomplete='off' id='timerSec" + (i + 1) + "' min='0' max='60' maxlength='2' type='text'>" + 
+                    "</td><td>check</td></tr>";
                 };
             HTML += "</table>";
              document.getElementById("userTimers").innerHTML = HTML;
         });
 
         // Load the numbers of the timers in an array
-        const btnLoad = document.getElementById("btnLoad");
         btnLoad.addEventListener("click", function(e) {
             let nTimers = document.getElementById("num_timers").value;
             for(let i = 0; i < nTimers; i++) {
@@ -48,13 +60,94 @@
                 saveTimers["min" + i] = Number(testMin);
                 saveTimers["sec" + i]= Number(testSec);
             };
-            console.log("saveTimers: " + saveTimers);
-        }); 
 
-        function startTimers () {
-            let nTimers = document.getElementById("num_timers").value;
-            
-        };       
+            // Render first timer
+            var firstHTML ='<div class="timerFirstDiv"><p id="timerHour">0</p>' + '<p>:</p>' +
+            '<p id="timerMin">' + padZero(saveTimers["min0"]) + '</p>' +
+            '<p>:</p>' + 
+            '<p id="timerSec">' + padZero(saveTimers["sec0"]) + '</p></div>' + 
+            '<button id="btnStart" type="button">Start!</button>' +
+            '<button id="btnStop" type="button">Stop</button>' + 
+            '<button id="btnNext" type="button">Next</button>';
+            document.getElementById("firstDiv").innerHTML = firstHTML;
+
+            // Render second timer
+            var nextHTML = '';
+            for (let i = 1; i < nTimers; i++) {
+                nextHTML += '<div id="nextTimers' + i + '">';
+                nextHTML += '<p id="hour">0</p>' + '<p>:</p>' +
+                '<p id="min' + i + '">' + padZero(saveTimers[`min${i}`]) + '</p>' +
+                '<p>:</p>' + 
+                '<p id="sec' + i + '">' + padZero(saveTimers[`sec${i}`]) + '</p>' 
+                 +'<input class="timerCheck id="check' + i + '" type="checkbox"><br>'
+                nextHTML += '</div>';
+            };
+            document.getElementById("secondDiv").innerHTML = nextHTML;
+        }); 
+        
+        btnStart.addEventListener("click", function(e) {
+            downTimer();
+        });
+        
+        btnLoad.addEventListener("click", function(e) {
+            nextTimer();
+        })
+     
+        //FUNCTIONS 
+
+        function downTimer () { // Timer mechanism
+            let timerStart = setInterval(() => {
+                sec = Number(document.getElementById("timerSec").innerHTML);
+                min = Number(document.getElementById("timerMin").innerHTML);
+                // DEBUG: get stop button
+                const stop = document.getElementById("timerStop");
+                sec = sec - 1;
+                if (sec == -1) {
+                    sec = 59;
+                    min = min - 1;
+                    if (min == -1) {
+                        min = 59;
+                    };
+                };
+                document.getElementById("timerSec").innerHTML = padZero(sec);
+                document.getElementById("timerMin").innerHTML = padZero(min);
+                btnStop.addEventListener("click", function(e) {
+                    clearInterval(timerStart);
+                });
+
+                if (min == 0 && sec == 0) {
+                    oneTimer = true;
+                    timerFinish = true; 
+                    clearInterval(timerStart);
+                };
+            }, 1000);
+        };
+        // Pass to next timer
+        function nextTimer() {
+            if (fistStart == false && timerFinish == true && numbNextTimers != nTimers) {
+                let delTimers = saveTimers.length;
+                let timerReplaceMin = document.getElementById("timerMin");
+                let timerReplaceSec = document.getElementById("timerSec");
+                timerReplaceMin.innerHTML = padZero(saveTimers[`min${numbNextTimers}`]);
+                timerReplaceSec.innerHTML = padZero(saveTimers[`sec${numbNextTimers}`]);
+                document.getElementById("min1").innerHTML = padZero(saveTimers[`min${numbNextTimers + 1}`]);
+                document.getElementById("sec1").innerHTML = padZero(saveTimers[`sec${numbNextTimers + 1}`]);
+                delTimers = delTimers - 1;
+                let delMin = `nextTimers${delTimers}`;
+                let delSec = `nextTimers${delTimers}`;
+                timerFinish = false;
+                numbNextTimers = numbNextTimers + 1;
+                let x = document.getElementById(delMin);
+                let y = document.getElementById(delSec);
+                x.remove();
+                y.remove();
+            };  
+        };
+
+        // Leading zero
+        function padZero(num) {
+            return String(num).padStart(2, '0');
+        };
     </script>
 
 {% endblock %}

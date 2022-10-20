@@ -50,6 +50,15 @@ nav li {
     display: inline-block;
 }
 
+.timerFirstDiv p {
+    display: inline-block;
+    font-size: 30px;
+}
+
+.timerSecondDiv p {
+    display: inline-block;
+}
+
 .test_activeTimer {
     font-size: 30px;
 }
