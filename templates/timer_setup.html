@@ -94,8 +94,10 @@
         });
 
         btnNext.addEventListener("click", function(e) {
-            nextTimer();
-        })
+            if (numbNextTimers != nTimers) {
+                nextTimer();
+            };
+        });
      
         //FUNCTIONS 
 
