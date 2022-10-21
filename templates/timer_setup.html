@@ -38,12 +38,11 @@
         let numbNextTimers = 1; // For nextTimer function. Number of the timer that follows the active timer 
         const saveTimers = {}; // Save the number of timers
         let fistStart = true; 
+        let nTimers;
 
-
-
-        // Set the ammount of timers so they can be mannualy set up
+        // Set the ammount of timers so they can be manually set up
         btnSetup.addEventListener("click", function(e) {
-            let nTimers = document.getElementById("num_timers").value;
+            nTimers = document.getElementById("num_timers").value;
             var HTML = "<table><tr><th>Número</th><th>Timer</th><th>Continuous</th></tr>";
                 for (let i = 0; i < nTimers; i++) {
                     HTML += "<tr><td>" + (i + 1) + "</td><td><input autocomplete='off' id='timerMin" + (i + 1) + 
@@ -126,25 +125,23 @@
         } 
 
         // Pass to next timer
-        function nextTimer() {
-            if (fistStart == false && timerFinish == true && numbNextTimers != nTimers) {
-                let delTimers = saveTimers.length;
-                let timerReplaceMin = document.getElementById("timerMin");
-                let timerReplaceSec = document.getElementById("timerSec");
-                timerReplaceMin.innerHTML = padZero(saveTimers[`min${numbNextTimers}`]);
-                timerReplaceSec.innerHTML = padZero(saveTimers[`sec${numbNextTimers}`]);
-                document.getElementById("min1").innerHTML = padZero(saveTimers[`min${numbNextTimers + 1}`]);
-                document.getElementById("sec1").innerHTML = padZero(saveTimers[`sec${numbNextTimers + 1}`]);
-                delTimers = delTimers - 1;
-                let delMin = `nextTimers${delTimers}`;
-                let delSec = `nextTimers${delTimers}`;
-                timerFinish = false;
-                numbNextTimers = numbNextTimers + 1;
-                let x = document.getElementById(delMin);
-                let y = document.getElementById(delSec);
-                x.remove();
-                y.remove();
-            };  
+        function nextTimer() {        
+            let delTimers = nTimers;
+            let timerReplaceMin = document.getElementById("timerMin");
+            let timerReplaceSec = document.getElementById("timerSec");
+            timerReplaceMin.innerHTML = padZero(saveTimers[`min${numbNextTimers}`]);
+            timerReplaceSec.innerHTML = padZero(saveTimers[`sec${numbNextTimers}`]);
+            document.getElementById("min1").innerHTML = padZero(saveTimers[`min${numbNextTimers + 1}`]);
+            document.getElementById("sec1").innerHTML = padZero(saveTimers[`sec${numbNextTimers + 1}`]);
+            delTimers = delTimers - 1;
+            let delMin = `nextTimers${delTimers}`;
+            let delSec = `nextTimers${delTimers}`;
+            timerFinish = false;
+            numbNextTimers = numbNextTimers + 1;
+            let x = document.getElementById(delMin);
+            let y = document.getElementById(delSec);
+            x.remove();
+            y.remove(); 
         }
 
         // Leading zero
