@@ -8,7 +8,7 @@
     <div id="firstDiv">
         <form method ="post">
             <p class="tset_text">Number of timers: </p>
-            <input class="tset_num_timers" autocomplete="off" id="num_timers" name="num_timers" type="number">
+            <input class="tset_num_timers" autocomplete="off" id="numTimers" name="num_timers" type="number">
             <p class="tset_text">All continuous?: </p>
             <input autocomplete="off" id="continuous" name="continuous" type="checkbox">
             <button id="btnSetup" type="button">Setup</button>
@@ -38,11 +38,12 @@
         let numbNextTimers = 1; // For nextTimer function. Number of the timer that follows the active timer 
         const saveTimers = {}; // Save the number of timers
         let fistStart = true; 
-        let nTimers;
+        let nTimers; // Saves the ammount of timers
+        let numCheck; // Keeps track of the status of the next check(continuous)
 
         // Set the ammount of timers so they can be manually set up
         btnSetup.addEventListener("click", function(e) {
-            nTimers = document.getElementById("num_timers").value;
+            nTimers = document.getElementById("numTimers").value;
             var HTML = "<table><tr><th>Número</th><th>Timer</th><th>Continuous</th></tr>";
                 for (let i = 0; i < nTimers; i++) {
                     HTML += "<tr><td>" + (i + 1) + "</td><td><input autocomplete='off' id='timerMin" + (i + 1) + 
@@ -56,7 +57,7 @@
 
         // Load the numbers of the timers in an array
         btnLoad.addEventListener("click", function(e) {
-            let nTimers = document.getElementById("num_timers").value;
+            let nTimers = document.getElementById("numTimers").value;
             for(let i = 0; i < nTimers; i++) {
                 const testMin = document.getElementById(`timerMin${(i + 1)}`).value;
                 const testSec = document.getElementById(`timerSec${(i + 1)}`).value;
@@ -82,7 +83,7 @@
                 '<p id="min' + i + '">' + padZero(saveTimers[`min${i}`]) + '</p>' +
                 '<p>:</p>' + 
                 '<p id="sec' + i + '">' + padZero(saveTimers[`sec${i}`]) + '</p>' 
-                 +'<input class="timerCheck id="check' + i + '" type="checkbox"><br>'
+                 +'<input class="timerCheck" id="check' + i + '" type="checkbox"><br>'
                 nextHTML += '</div>';
             };
             document.getElementById("secondDiv").innerHTML = nextHTML;
