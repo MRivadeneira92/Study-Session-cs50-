@@ -37,6 +37,7 @@
         let oneTimer = true; // Make sure that timer runs only once
         let numbNextTimers = 1; // For nextTimer function. Number of the timer that follows the active timer 
         const saveTimers = {}; // Save the number of timers
+        let fistStart = true; 
 
 
 
@@ -102,8 +103,6 @@
             let timerStart = setInterval(() => {
                 sec = Number(document.getElementById("timerSec").innerHTML);
                 min = Number(document.getElementById("timerMin").innerHTML);
-                // DEBUG: get stop button
-                const btnStop = document.getElementById("timerStop");
                 sec = sec - 1;
                 if (sec == -1) {
                     sec = 59;
