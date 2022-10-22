@@ -37,6 +37,7 @@
         let oneTimer = true; // Make sure that timer runs only once
         const saveTimers = {}; // Save the number of timers
         let fistStart = true; 
+        let timerFinish = false; // To check when the active timer is finished. Works with checkboxes
         let nTimers; // Saves the ammount of timers
         let delTimers = nTimers; // For nextTimer function. Keeps track of the number of the last element in the timers
         let numbNextTimers = 1; // For nextTimer function. Number of the timer that follows the active timer 
@@ -100,15 +101,11 @@
                 nextTimer();
             };
         });
-    
-        // When check is true call nextTimer 
-        check0 = document.getElementById("check0");
-        if (timerFinish = true && check0 == true) {
-            nextTimer();
-        }
+
         //FUNCTIONS 
 
         function downTimer () { // Timer mechanism
+            timerFinish = false;
             let timerStart = setInterval(() => {
                 sec = Number(document.getElementById("timerSec").innerHTML);
                 min = Number(document.getElementById("timerMin").innerHTML);
@@ -130,6 +127,10 @@
                     oneTimer = true;
                     timerFinish = true; 
                     clearInterval(timerStart);
+                    check0 = document.getElementById("check0");
+                    if (check0.checked == true) {
+                        nextTimer();
+                    };
                 };
             }, 1000);
         } 
@@ -138,7 +139,6 @@
         function nextTimer() {        
             let timerReplaceMin = document.getElementById("timerMin");
             let timerReplaceSec = document.getElementById("timerSec");
-            let check0 = document.getElementById("check0");
             timerReplaceMin.innerHTML = padZero(saveTimers[`min${numbNextTimers}`]);
             timerReplaceSec.innerHTML = padZero(saveTimers[`sec${numbNextTimers}`]);
             for (i = 1; i < delTimers - 1; i++) {
