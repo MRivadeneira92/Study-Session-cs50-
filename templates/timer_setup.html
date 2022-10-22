@@ -141,16 +141,18 @@
             let timerReplaceSec = document.getElementById("timerSec");
             timerReplaceMin.innerHTML = padZero(saveTimers[`min${numbNextTimers}`]);
             timerReplaceSec.innerHTML = padZero(saveTimers[`sec${numbNextTimers}`]);
+            document.getElementById("check0").checked = document.getElementById("check1").checked;
             for (i = 1; i < delTimers - 1; i++) {
                 document.getElementById("min" + i).innerHTML = padZero(saveTimers[`min${numbNextTimers + i}`]);
                 document.getElementById("sec" + i).innerHTML = padZero(saveTimers[`sec${numbNextTimers + i}`]);
+                document.getElementById("check" + i).checked = document.getElementById(`check${i + 1}`).checked;
             }
             delTimers = delTimers - 1;
             timerFinish = false;
             numbNextTimers = numbNextTimers + 1;
             let x = document.getElementById(`nextTimers${delTimers}`);
             x.remove();
-            }
+            };
 
         // Leading zero
         function padZero(num) {
