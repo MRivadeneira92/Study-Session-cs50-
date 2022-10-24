@@ -59,18 +59,13 @@ nav li {
     display: inline-block;
 }
 
-.test_activeTimer {
-    font-size: 30px;
-}
-
-.test_activeTimer p {
-    display: inline-block;
-}
-
-.test_nextTimers p {
-    display: inline-block;
-}
-
 .timerCheck {
     display: inline-block;
+}
+
+.TEST_textbox {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
 }

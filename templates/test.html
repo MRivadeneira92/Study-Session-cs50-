@@ -5,131 +5,13 @@
 {% endblock %}
 
 {% block body %}
-    <!--Active timer-->
-    <div id="activeTimer" class="test_activeTimer">   
+    <div class="TEST_textbox" contenteditable="true">
+        Take notes here
     </div>
-    <button id="btnStart" type="button">Start timers</button>
-
-    <!--Show the next timers -->
-    <div class="test_nextTimers" id="test_nextTimers">
-    </div>
-    <button id="load" type="button">Load page</button>
-    <button id="timerStop" type="button">Stop</button>
-
-    <!--DEBUG: Load next timer-->
-    <button id="btnNextTimer" type="button">Next</button>
+    <button id="textBold" type="button">Bold</button>
+    <button id="textItal" type="button">italics</button>
 
     <script>
-        // DEBUG: Array to test timer
-        testTimers = {
-            timerMin0: 0,
-            timerSec0: 7,
-            timerMin1: 0,
-            timerSec1: 4,
-            timerMin2: 1,
-            timerSec2: 0
-        };
-        // DEBUG: Number of timers
-        let nTimers = 3;
-        // DEBUG: Remove last timer
-        let delTimers = nTimers;
-
-        // DEBUG: Load next timer button
-        btnNextTimer = document.getElementById("btnNextTimer");
-        // Timer start
-        let timerFinish = false;
-        let fistStart = true; 
-        let numbNextTimers = 1;
-        let oneTimer = true;
-        let tMin = document.getElementById("timerMin");
-        let tSec = document.getElementById("timerSec");
-
-        // Render the next timers
-        const btnCreate = document.getElementById("load");
-        btnCreate.addEventListener("click", function(e) {
-            fistStart = false;
-            // Render first timer
-            var firstHTML ='<p id="timerHour">0</p>' + '<p>:</p>' +
-            '<p id="timerMin">' + padZero(testTimers["timerMin0"]) + '</p>' +
-            '<p>:</p>' + 
-            '<p id="timerSec">' + padZero(testTimers["timerSec0"]) + '</p>';
-            document.getElementById("activeTimer").innerHTML = firstHTML;
-            // Render second timer
-            var nextHTML = '';
-            for (let i = 1; i < nTimers; i++) {
-                nextHTML += '<div id="nextTimers' + i + '">';
-                nextHTML += '<p id="hour">0</p>' + '<p>:</p>' +
-                '<p id="min' + i + '">' + padZero(testTimers[`timerMin${i}`]) + '</p>' +
-                '<p>:</p>' + 
-                '<p id="sec' + i + '">' + padZero(testTimers[`timerSec${i}`]) + '</p>' 
-                 +'<input class="timerCheck id="check' + i + '" type="checkbox"><br>'
-                nextHTML += '</div>';
-            };
-            document.getElementById("test_nextTimers").innerHTML = nextHTML;
-        });
-
-        const timer_start = document.getElementById("btnStart");
-        timer_start.addEventListener("click", function(e) {
-            if (oneTimer == true) {
-                oneTimer = false;
-                downTimer();
-            };             
-        });
-
-        // Pass to next timer if completed
-        btnNextTimer.addEventListener("click", function(e) {
-            if (fistStart == false && timerFinish == true && numbNextTimers != nTimers) {
-                let timerReplaceMin = document.getElementById("timerMin");
-                let timerReplaceSec = document.getElementById("timerSec");
-                timerReplaceMin.innerHTML = padZero(testTimers[`timerMin${numbNextTimers}`]);
-                timerReplaceSec.innerHTML = padZero(testTimers[`timerSec${numbNextTimers}`]);
-                document.getElementById("min1").innerHTML = padZero(testTimers[`timerMin${numbNextTimers + 1}`]);
-                document.getElementById("sec1").innerHTML = padZero(testTimers[`timerSec${numbNextTimers + 1}`]);
-                delTimers = delTimers - 1;
-                let delMin = `nextTimers${delTimers}`;
-                let delSec = `nextTimers${delTimers}`;
-                timerFinish = false;
-                numbNextTimers = numbNextTimers + 1;
-                let x = document.getElementById(delMin);
-                let y = document.getElementById(delSec);
-                x.remove();
-                y.remove();
-            };  
-        });
-       
-        // Timer code
-        function downTimer () {
-            let timerStart = setInterval(() => {
-                sec = Number(document.getElementById("timerSec").innerHTML);
-                min = Number(document.getElementById("timerMin").innerHTML);
-                // DEBUG: get stop button
-                const stop = document.getElementById("timerStop");
-                sec = sec - 1;
-                if (sec == -1) {
-                    sec = 59;
-                    min = min - 1;
-                    if (min == -1) {
-                        min = 59;
-                    };
-                };
-                document.getElementById("timerSec").innerHTML = padZero(sec);
-                document.getElementById("timerMin").innerHTML = padZero(min);
-                // DEBUG: stop button
-                stop.addEventListener("click", function(e) {
-                    clearInterval(timerStart);
-                });
-
-                if (min == 0 && sec == 0) {
-                    oneTimer = true;
-                    timerFinish = true; 
-                    clearInterval(timerStart);
-                };
-            }, 1000);
-        };
-
-        // Leading zero function
-        function padZero(num) {
-            return String(num).padStart(2, '0');
-        };
+        
     </script>
 {% endblock %}

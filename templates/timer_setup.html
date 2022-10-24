@@ -8,7 +8,7 @@
     <div id="firstDiv">
         <form method ="post">
             <p class="tset_text">Number of timers: </p>
-            <input class="tset_num_timers" autocomplete="off" id="numTimers" name="num_timers" type="number">
+            <input class="tset_num_timers" autocomplete="off" id="numTimers" min=0 name="num_timers" type="text">
             <p class="tset_text">All continuous?: </p>
             <input autocomplete="off" id="continuous" name="continuous" type="checkbox">
             <button id="btnSetup" type="button">Setup</button>
@@ -47,7 +47,7 @@
 
         // Set the ammount of timers so they can be manually set up
         btnSetup.addEventListener("click", function(e) {
-            nTimers = document.getElementById("numTimers").value;
+            nTimers = Number(document.getElementById("numTimers").value);
             delTimers = nTimers;
             var HTML = "<table><tr><th>Número</th><th>Timer</th><th>Continuous</th></tr>";
                 for (let i = 0; i < nTimers; i++) {
@@ -146,7 +146,7 @@
                     ceroTimer = true; 
                     clearInterval(timerStart);
                     let check0 = document.getElementById("check0");
-                    if (check0.checked == true) {
+                    if (check0.checked == true && numbNextTimers != nTimers) {
                         nextTimer();
                         downTimer();
                     };
