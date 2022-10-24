@@ -36,6 +36,7 @@
         const btnNext = document.getElementById("btnNext"); // Pass to next timer
         let timerOn = false; // True only when timer is running
         const saveTimers = {}; // Save the number of timers
+        let contTimers = false; // true if all continuous timer is checked
         let fistStart = true; 
         let nTimers; // Saves the ammount of timers
         let ceroTimer = false; // Checks when the timer is at 00:00
@@ -66,14 +67,22 @@
                 const testSec = document.getElementById(`timerSec${(i + 1)}`).value;
                 saveTimers["min" + i] = Number(testMin);
                 saveTimers["sec" + i]= Number(testSec);
+                if (document.getElementById("continuous").checked == true) {
+                    contTimers = true;
+                }
             };
 
             // Render first timer
             var firstHTML ='<div class="timerFirstDiv"><p id="timerHour">0</p>' + '<p>:</p>' +
             '<p id="timerMin">' + padZero(saveTimers["min0"]) + '</p>' +
             '<p>:</p>' + 
-            '<p id="timerSec">' + padZero(saveTimers["sec0"]) + '</p>' + 
-            '<input class="timerCheck" id="check0" type="checkbox"></div>';
+            '<p id="timerSec">' + padZero(saveTimers["sec0"]) + '</p>'
+            if (contTimers == true) {
+                firstHTML += '<input class="timerCheck" id="check0" type="checkbox" checked></div>';
+            } 
+            else {
+                '<input class="timerCheck" id="check0" type="checkbox"></div>';
+            }
             document.getElementById("btnStart").style.display= "inline"; // Start timer
             document.getElementById("btnStop").style.display= "inline"; // Stop timer
             document.getElementById("btnNext").style.display= "inline"; // Pass to next timer
@@ -87,7 +96,10 @@
                 '<p id="min' + i + '">' + padZero(saveTimers[`min${i}`]) + '</p>' +
                 '<p>:</p>' + 
                 '<p id="sec' + i + '">' + padZero(saveTimers[`sec${i}`]) + '</p>' 
-                 +'<input class="timerCheck" id="check' + i + '" type="checkbox"><br>'
+                if (contTimers == true) {
+                    nextHTML += '<input class="timerCheck" id="check' + i + '" type="checkbox" checked><br>'
+                }
+                else {'<input class="timerCheck" id="check' + i + '" type="checkbox"><br>'}
                 nextHTML += '</div>';
             };
             document.getElementById("secondDiv").innerHTML = nextHTML;
