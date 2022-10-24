@@ -34,7 +34,7 @@
         const btnStart = document.getElementById("btnStart"); // Start timer
         const btnStop = document.getElementById("btnStop"); // Stop timer
         const btnNext = document.getElementById("btnNext"); // Pass to next timer
-        let oneTimer = true; // Make sure that timer runs only once
+        let timerOn = false; // True only when timer is running
         const saveTimers = {}; // Save the number of timers
         let fistStart = true; 
         let nTimers; // Saves the ammount of timers
@@ -94,7 +94,7 @@
         }); 
         
         btnStart.addEventListener("click", function(e) {
-            if (ceroTimer == false) {
+            if (ceroTimer == false && timerOn == false) {
                 downTimer();
             }
         });
@@ -109,7 +109,7 @@
 
         function downTimer () { // Timer mechanism
             timerFinish = false;
-            oneTimer = false; 
+            timerOn = true; 
             let timerStart = setInterval(() => {
                 sec = Number(document.getElementById("timerSec").innerHTML);
                 min = Number(document.getElementById("timerMin").innerHTML);
@@ -124,11 +124,12 @@
                 document.getElementById("timerSec").innerHTML = padZero(sec);
                 document.getElementById("timerMin").innerHTML = padZero(min);
                 btnStop.addEventListener("click", function(e) {
+                    timerOn = false;
                     clearInterval(timerStart);
                 });
 
                 if (min == 0 && sec == 0) {
-                    oneTimer = true;
+                    timerOn = false;
                     timerFinish = true;
                     ceroTimer = true; 
                     clearInterval(timerStart);
@@ -158,10 +159,6 @@
             let x = document.getElementById(`nextTimers${delTimers}`);
             x.remove();
             ceroTimer = false;
-            let checkNext = document.getElementById("check0");
-            if (checkNext.checked == true) {
-                nextTimer
-            }
             };
 
         function padZero(num) { // Leading zero
