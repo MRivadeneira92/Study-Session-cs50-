@@ -65,8 +65,19 @@ nav li {
 
 .textContainer {
     background-color: white;
+    border-radius: 8px;
     width: 90vmin;
-    padding: 50px 30px;
+    padding: 40px 20px;
     position: absolute;
-    
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+    border-radius: 10px;
+}
+
+.textInput {
+    margin-top: 10px;
+    border: 1px solid #38423B;
+    padding: 20px;
+    height: 50vh;
 }
