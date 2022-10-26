@@ -5,13 +5,57 @@
 {% endblock %}
 
 {% block body %}
-    <div class="TEST_textbox" contenteditable="true">
-        Take notes here
+    <div class="textContainer" id="textId">
+        <div class="textButtons" id="buttonBar">
+            <button id="textBold" type="button">Bold</button>
+            <button id="textItal" type="button">italics</button>
+        </div>
+        <p id="addText" contenteditable="true">Take notes here</p>
     </div>
-    <button id="textBold" type="button">Bold</button>
-    <button id="textItal" type="button">italics</button>
+
 
     <script>
-        
+        let btnBold = document.getElementById("textBold");
+        let btnItal = document.getElementById("textItal");
+        let bold = false // True when Bold text is on
+
+        btnBold.addEventListener("click", function(e){
+            boldText();
+            setCaret();
+        })
+
+        btnItal.addEventListener("click", function(e){
+            italText();
+            setCaret();
+        })
+        // FUNCTIONS 
+
+        function boldText() {
+            // let divHTML = document.getElementById("addText").innerHTML;
+            if (bold == false) {
+                let divHTML = "<span id='bold' style='font-weight: bold'> </span>";
+                document.getElementById("addText").innerHTML += divHTML;           
+            } 
+        };
+
+        function italText() {
+            // let divHTML = document.getElementById("addText").innerHTML;
+            if (bold == false) {
+                let divHTML = "<span id='bold' style='font-style: italic'> </span>";
+                document.getElementById("addText").innerHTML += divHTML;           
+            } 
+        };
+
+        function setCaret() {
+            var element = document.getElementById("addText");
+            var range = document.createRange();
+            var node = document.getElementById("bold");
+            range.setStart(node.childNodes[0], 0);
+            var sel = window.getSelection();
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
+            element.focus();
+        }
     </script>
 {% endblock %}

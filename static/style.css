@@ -63,9 +63,10 @@ nav li {
     display: inline-block;
 }
 
-.TEST_textbox {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+.textContainer {
     background-color: white;
+    width: 90vmin;
+    padding: 50px 30px;
+    position: absolute;
+    
 }
