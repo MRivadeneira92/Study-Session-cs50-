@@ -7,6 +7,10 @@ body {
 footer {
     float: center;
     color: #20FC8F;
+    position:absolute;
+    width: 100%;
+    bottom: 0;
+    left: 50%;
 }
 
 .logo {
@@ -64,21 +68,23 @@ nav li {
     display: inline-block;
 }
 
+.textButtons {
+    margin-top: 5px;
+}
 .textContainer {
     background-color: white;
     border-radius: 8px;
     width: 80%;
     padding: 4px 20px;
-    position: absolute;
+    position: relative;
     /* transform: translate(-50%,-50%); */
     left: 10%;
-    top: 30%;
+    top: 64px;
     border-radius: 10px;
 }
 
 .textInput {
     margin-top: 10px;
-    padding: 20px;
-    outline: none;
-    height: 50vh;
+    height: 100%;
+    outline: solid grey 1px;
 }
