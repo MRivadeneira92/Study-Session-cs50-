@@ -17,6 +17,8 @@ footer {
     background-color: #38423B;
     color: #20FC8F;
     overflow: hidden;
+    position: fixed;
+    width: 98%;
 }
 
 nav a {
@@ -27,8 +29,7 @@ nav a {
 nav ul {
     float: right;
     list-style: none;
-    margin-right: 70px;
-    padding: 0;
+    margin-right: 25px;
 }
 
 nav li {
@@ -66,18 +67,17 @@ nav li {
 .textContainer {
     background-color: white;
     border-radius: 8px;
-    width: 90vmin;
-    padding: 40px 20px;
+    width: 80%;
+    padding: 4px 20px;
     position: absolute;
-    transform: translate(-50%,-50%);
-    left: 50%;
-    top: 50%;
+    /* transform: translate(-50%,-50%); */
+    left: 10%;
+    top: 30%;
     border-radius: 10px;
 }
 
 .textInput {
     margin-top: 10px;
-    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
     padding: 20px;
     outline: none;
     height: 50vh;
