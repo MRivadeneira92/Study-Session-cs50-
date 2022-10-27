@@ -7,9 +7,9 @@
 {% block body %}
     <div class="textContainer" id="textId">
         <div class="textButtons" id="buttonBar">
-            <button class="obtionButton" id="bold" type="button">Bold</button>
-            <button class="obtionButton" id="ital" type="button">italics</button>
-            <button class="obtionButton" id="under" type="button">Underline</button>
+            <button class="optionButton" id="bold" type="button">Bold</button>
+            <button class="optionButton" id="italic" type="button">italics</button>
+            <button class="optionButton" id="underline" type="button">Underline</button>
 
         </div>
         <p class="textInput" contenteditable="true">Take notes here</p>
@@ -17,10 +17,16 @@
 
 
     <script>
-        boldBtn = document.getElementById("bold");
-        italBtn = document.getElementById("ital");
-        underBtn = document.getElementById("under");
+        optionButtons = document.querySelectorAll(".optionButton");
+        // boldBtn = document.getElementById("bold");
+        // italBtn = document.getElementById("ital");
+        // underBtn = document.getElementById("under");
 
+        optionButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                document.execCommand(button.id);
+            })
+        })
         boldBtn.addEventListener("click", () => {
             document.execCommand("bold");
         })
