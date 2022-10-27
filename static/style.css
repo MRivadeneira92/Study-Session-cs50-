@@ -77,7 +77,8 @@ nav li {
 
 .textInput {
     margin-top: 10px;
-    border: 1px solid #38423B;
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
     padding: 20px;
+    outline: none;
     height: 50vh;
 }

@@ -7,27 +7,31 @@
 {% block body %}
     <div class="textContainer" id="textId">
         <div class="textButtons" id="buttonBar">
-            <button id="textBold" type="button">Bold</button>
-            <button id="textItal" type="button">italics</button>
+            <button class="obtionButton" id="bold" type="button">Bold</button>
+            <button class="obtionButton" id="ital" type="button">italics</button>
+            <button class="obtionButton" id="under" type="button">Underline</button>
+
         </div>
         <p class="textInput" contenteditable="true">Take notes here</p>
     </div>
 
 
     <script>
-        let btnBold = document.getElementById("textBold");
-        let btnItal = document.getElementById("textItal");
-        let bold = false // True when Bold text is on
+        boldBtn = document.getElementById("bold");
+        italBtn = document.getElementById("ital");
+        underBtn = document.getElementById("under");
 
-        btnBold.addEventListener("click", function(e){
-            boldText();
-            setCaret();
+        boldBtn.addEventListener("click", () => {
+            document.execCommand("bold");
         })
 
-        btnItal.addEventListener("click", function(e){
-            italText();
-            setCaret();
+        italBtn.addEventListener("click", () => {
+            document.execCommand("italic");
         })
+        underBtn.addEventListener("click", () => {
+            document.execCommand("underline");
+        })
+
         // FUNCTIONS 
 
         function boldText() {
