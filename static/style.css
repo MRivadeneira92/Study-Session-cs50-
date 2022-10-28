@@ -5,12 +5,11 @@ body {
 }
 
 footer {
-    float: center;
     color: #20FC8F;
-    position:absolute;
-    width: 100%;
+    position: absolute;
     bottom: 0;
     left: 50%;
+    z-index: 3;
 }
 
 .logo {
@@ -20,9 +19,11 @@ footer {
 .navbar {
     background-color: #38423B;
     color: #20FC8F;
-    overflow: hidden;
+    overflow: visible;
     position: fixed;
+    top: 0px;
     width: 98%;
+    z-index: 3;
 }
 
 nav a {
@@ -55,6 +56,12 @@ nav li {
     display: inline-block;
 }
 
+.timer-firstdiv {
+    display: inline-block;
+    position: relative;
+    top: 25;
+
+}
 .timerFirstDiv p {
     display: inline-block;
     font-size: 30px;
@@ -80,11 +87,15 @@ nav li {
     /* transform: translate(-50%,-50%); */
     left: 10%;
     top: 64px;
-    border-radius: 10px;
+    z-index: 1;
 }
 
 .textInput {
     margin-top: 10px;
     height: 100%;
     outline: solid grey 1px;
+}
+
+.text-tags-div p {
+    display:inline-block;
 }
