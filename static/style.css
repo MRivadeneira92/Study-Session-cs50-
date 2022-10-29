@@ -59,7 +59,7 @@ nav li {
 .timer-firstdiv {
     display: inline-block;
     position: relative;
-    top: 25;
+    top: 30px;
 
 }
 .timerFirstDiv p {
@@ -67,6 +67,10 @@ nav li {
     font-size: 30px;
 }
 
+.timerSecondDiv {
+    position: relative;
+    top: 30px;
+}
 .timerSecondDiv p {
     display: inline-block;
 }
