@@ -26,8 +26,8 @@
         </table>
     <button id="btnLoad" type="button">Load</button>
     </div>
+    <audio id="walkman" src=""></audio>
 
-    
     <script>
         const btnSetup = document.getElementById("btnSetup");  // Load page button with number of timers    
         const btnLoad = document.getElementById("btnLoad"); // Load number of timers to array
@@ -81,7 +81,7 @@
                 firstHTML += '<input class="timerCheck" id="check0" type="checkbox" checked></div>';
             } 
             else {
-                '<input class="timerCheck" id="check0" type="checkbox"></div>';
+                firstHTML += '<input class="timerCheck" id="check0" type="checkbox"></div>';
             }
             document.getElementById("btnStart").style.display= "inline"; // Start timer
             document.getElementById("btnStop").style.display= "inline"; // Stop timer
@@ -99,7 +99,9 @@
                 if (contTimers == true) {
                     nextHTML += '<input class="timerCheck" id="check' + i + '" type="checkbox" checked><br>'
                 }
-                else {'<input class="timerCheck" id="check' + i + '" type="checkbox"><br>'}
+                else {  
+                    nextHTML += '<input class="timerCheck" id="check' + i + '" type="checkbox"><br>'
+                }
                 nextHTML += '</div>';
             };
             document.getElementById("secondDiv").innerHTML = nextHTML;
@@ -115,12 +117,6 @@
             if (numbNextTimers != nTimers) {
                 nextTimer();
             };
-        });
-
-        //SQL
-        const sqlite3 = require("sqlite3").verbose();
-        const db = new sqlite3.Database("./test.db", sqlite3.OPEN_READWRITE, (err) => {
-            if (err) return console.error(err.message);
         });
 
         //FUNCTIONS 
@@ -147,6 +143,7 @@
                 });
 
                 if (min == 0 && sec == 0) {
+                    play();
                     timerOn = false;
                     timerFinish = true;
                     ceroTimer = true; 
@@ -181,6 +178,12 @@
 
         function padZero(num) { // Leading zero
             return String(num).padStart(2, '0');
+        }
+
+        function play() {
+            let bell = new Audio("file:///C:/Users/maxri/Documents/Codigo/Proyecto_final/alarms/bell1.mp3");
+            bell.play();
+
         }
     </script>
 

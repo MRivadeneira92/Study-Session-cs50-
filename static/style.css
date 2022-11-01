@@ -43,6 +43,11 @@ nav li {
     padding-top: 16 px;
 }
 
+#buttons {
+    position: relative;
+    top: 5px;
+}
+
 .tset_text {
     display: inline-block;
     margin-right: 10px;

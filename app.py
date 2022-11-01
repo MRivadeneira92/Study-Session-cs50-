@@ -9,7 +9,6 @@ def home():
 
 @app.route("/timer_setup")
 def timer_setup():
-
     return render_template("timer_setup.html")
 
 @app.route("/timer")
