@@ -6,14 +6,12 @@
 
 {% block body %}
     <div class="timer-firstdiv" id="firstDiv">
-        <form method ="post">
-            <p class="tset_text">Number of timers: </p>
-            <input class="tset_num_timers" autocomplete="off" id="numTimers" min=0 name="num_timers" type="text">
-            <p class="tset_text">All continuous?: </p>
-            <input autocomplete="off" id="continuous" name="continuous" type="checkbox">
-            <button id="btnSetup" type="button">Setup</button>
-            <button id="btnLoadData" type="button">Load Timer</button>
-        </form>
+        <p class="tset_text">Number of timers: </p>
+        <input class="tset_num_timers" autocomplete="off" id="numTimers" min=0 name="num_timers" type="text">
+        <p class="tset_text">All continuous?: </p>
+        <input autocomplete="off" id="continuous" name="continuous" type="checkbox">
+        <button id="btnSetup" type="button">Setup</button>
+        <button id="btnLoadData" type="button">Load Timer</button>
     </div>
     <div id="buttons">
         <button style=display:none id="btnStart" type="button">Start</button>
@@ -145,9 +143,20 @@
                 console.log(localStorage.key(i));
                 timerNames.push(localStorage.key(i));
             }
-        })
+            let menuHTML = "<div class='timer-dropdown'><div id='user-selection' class='timer-user-dropdown'>";
+            for (i = 0; i < timerNames.length; i++) {
+                menuHTML += "<p id='select'>" + timerNames[i] + "</p>";
+            }
+            menuHTML += "</div></div>";
+            document.getElementById("firstDiv").innerHTML += menuHTML;
+            myFunction();
+        });
 
         //FUNCTIONS 
+
+        function myFunction() {
+                document.getElementById("user-selection").classList.toggle("show");
+            }
 
         function downTimer () { // Timer mechanism
             timerFinish = false;
