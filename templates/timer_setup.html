@@ -18,6 +18,7 @@
         <button style=display:none id="btnStart" type="button">Start</button>
         <button style=display:none id="btnStop" type="button">Stop</button>
         <button style=display:none id="btnNext" type="button">Next</button>
+        <button style=display:none id="btnSave" type="button">Save Timer</button>
     </div>
     <div id="secondDiv" class="timerSecondDiv">
         <table>
@@ -44,6 +45,7 @@
         let delTimers = nTimers; // For nextTimer function. Keeps track of the number of the last element in the timers
         let numbNextTimers = 1; // For nextTimer function. Number of the timer that follows the active timer 
         let numCheck; // Keeps track of the status of the next check(continuous)
+        let saveBtnFtn = false; // For saveButton. False creates save input. True saves content in input.
 
         // Set the ammount of timers so they can be manually set up
         btnSetup.addEventListener("click", function(e) {
@@ -86,6 +88,7 @@
             document.getElementById("btnStart").style.display= "inline"; // Start timer
             document.getElementById("btnStop").style.display= "inline"; // Stop timer
             document.getElementById("btnNext").style.display= "inline"; // Pass to next timer
+            document.getElementById("btnSave").style.display= "inline"; // Save timer
             document.getElementById("firstDiv").innerHTML = firstHTML;
 
             // Render second timer
@@ -118,6 +121,25 @@
                 nextTimer();
             };
         });
+
+        // Save data locally (DEBUG: at first)
+        btnSave.addEventListener("click", function(e) {
+            if (saveBtnFtn == false) {
+                if(typeof(Storage) != "undefined") {
+                    console.log(Storage);
+                    let intHTML = "<input id='timer-name' type='text'>name";
+                    document.getElementById("buttons").innerHTML += intHTML;
+                    saveBtnFtn = true;
+                }else {
+                    alert("Storage is not compatible in this browser");
+                };
+            } else {
+                let saveName = document.getElementById("timer-name");
+                localStorage.setItem(saveName, saveTimers);
+                saveBtnFtn = false;
+                window.alert("Timer saved");
+            };
+        })
 
         //FUNCTIONS 
 
@@ -181,7 +203,7 @@
         }
 
         function play() {
-            let bell = new Audio("file:///C:/Users/maxri/Documents/Codigo/Proyecto_final/alarms/bell1.mp3");
+            let bell = new Audio("https://github.com/MRivadeneira92/Proyecto_final/blob/main/alarms/bell1.mp3?raw=true");
             bell.play();
 
         }
