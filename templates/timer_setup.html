@@ -12,6 +12,7 @@
             <p class="tset_text">All continuous?: </p>
             <input autocomplete="off" id="continuous" name="continuous" type="checkbox">
             <button id="btnSetup" type="button">Setup</button>
+            <button id="btnLoadData" type="button">Load Timer</button>
         </form>
     </div>
     <div id="buttons">
@@ -36,6 +37,7 @@
         const btnStop = document.getElementById("btnStop"); // Stop timer
         const btnNext = document.getElementById("btnNext"); // Pass to next timer
         const btnSave = document.getElementById("btnSave"); // Save timer
+        const btnLoadData = document.getElementById("btnLoadData"); // Select timers loaded from memory
         let timerOn = false; // True only when timer is running
         const saveTimers = {}; // Save the number of timers
         let contTimers = false; // true if all continuous timer is checked
@@ -69,7 +71,7 @@
                 const testMin = document.getElementById(`timerMin${(i + 1)}`).value;
                 const testSec = document.getElementById(`timerSec${(i + 1)}`).value;
                 saveTimers["min" + i] = Number(testMin);
-                saveTimers["sec" + i]= Number(testSec);
+                saveTimers["sec" + i] = Number(testSec);
                 if (document.getElementById("continuous").checked == true) {
                     contTimers = true;
                 }
@@ -131,11 +133,19 @@
                     saveBtnFtn = true;
             } else {
                 let saveName = document.getElementById("timer-name").value;
-                sessionStorage.setItem(saveName, JSON.stringify(saveTimers));
+                localStorage.setItem(saveName, JSON.stringify(saveTimers));
                 saveBtnFtn = false;
                 alert("Timer saved");
             };
         });
+
+        let timerNames = [];
+        btnLoadData.addEventListener("click", function(e) {
+            for (i = 0; i < localStorage.length ; i++) {
+                console.log(localStorage.key(i));
+                timerNames.push(localStorage.key(i));
+            }
+        })
 
         //FUNCTIONS 
 
