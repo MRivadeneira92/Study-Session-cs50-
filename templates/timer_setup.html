@@ -35,6 +35,7 @@
         const btnStart = document.getElementById("btnStart"); // Start timer
         const btnStop = document.getElementById("btnStop"); // Stop timer
         const btnNext = document.getElementById("btnNext"); // Pass to next timer
+        const btnSave = document.getElementById("btnSave"); // Save timer
         let timerOn = false; // True only when timer is running
         const saveTimers = {}; // Save the number of timers
         let contTimers = false; // true if all continuous timer is checked
@@ -125,21 +126,16 @@
         // Save data locally (DEBUG: at first)
         btnSave.addEventListener("click", function(e) {
             if (saveBtnFtn == false) {
-                if(typeof(Storage) != "undefined") {
-                    console.log(Storage);
-                    let intHTML = "<input id='timer-name' type='text'>name";
-                    document.getElementById("buttons").innerHTML += intHTML;
+                let intHTML = "<input id='timer-name' type='text'>";
+                    document.getElementById("secondDiv").innerHTML += intHTML;
                     saveBtnFtn = true;
-                }else {
-                    alert("Storage is not compatible in this browser");
-                };
             } else {
-                let saveName = document.getElementById("timer-name");
-                localStorage.setItem(saveName, saveTimers);
+                let saveName = document.getElementById("timer-name").value;
+                sessionStorage.setItem(saveName, JSON.stringify(saveTimers));
                 saveBtnFtn = false;
-                window.alert("Timer saved");
+                alert("Timer saved");
             };
-        })
+        });
 
         //FUNCTIONS 
 
