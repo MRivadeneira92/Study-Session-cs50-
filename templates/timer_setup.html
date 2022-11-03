@@ -12,6 +12,11 @@
         <input autocomplete="off" id="continuous" name="continuous" type="checkbox">
         <button id="btnSetup" type="button">Setup</button>
         <button id="btnLoadData" type="button">Load Timer</button>
+        <div class="timer-dropdown">
+            <div id="user-selection" class="timer-user-dropdown">
+            </div>
+        </div>
+
     </div>
     <div id="buttons">
         <button style=display:none id="btnStart" type="button">Start</button>
@@ -47,6 +52,18 @@
         let numbNextTimers = 1; // For nextTimer function. Number of the timer that follows the active timer 
         let numCheck; // Keeps track of the status of the next check(continuous)
         let saveBtnFtn = false; // For saveButton. False creates save input. True saves content in input.
+
+        // Render dropdown menu with saved timer names
+        window.onload = function(){ 
+            for (i = 0; i < localStorage.length ; i++) {
+                timerNames.push(localStorage.key(i));
+            }
+            let menuHTML;
+            for (i = 0; i < timerNames.length; i++) {
+                menuHTML += "<p id='select'>" + timerNames[i] + "</p>";
+            }
+            document.getElementById("user-selection").innerHTML += menuHTML;
+        }; 
 
         // Set the ammount of timers so they can be manually set up
         btnSetup.addEventListener("click", function(e) {
@@ -135,22 +152,21 @@
                 saveBtnFtn = false;
                 alert("Timer saved");
             };
+        });  
+
+        let timerNames = []; // VARIABLE MOVE TO TOP
+        let dropdown; // VARIABLE MOVE TO TOP
+        btnLoadData.addEventListener("click", function(e) {
+            
+            myFunction();
+            dropdown = document.querySelector("#user-selection");
         });
 
-        let timerNames = [];
-        btnLoadData.addEventListener("click", function(e) {
-            for (i = 0; i < localStorage.length ; i++) {
-                console.log(localStorage.key(i));
-                timerNames.push(localStorage.key(i));
-            }
-            let menuHTML = "<div class='timer-dropdown'><div id='user-selection' class='timer-user-dropdown'>";
-            for (i = 0; i < timerNames.length; i++) {
-                menuHTML += "<p id='select'>" + timerNames[i] + "</p>";
-            }
-            menuHTML += "</div></div>";
-            document.getElementById("firstDiv").innerHTML += menuHTML;
-            myFunction();
-        });
+        let saveTimerName;
+        dropdown.addEventListener("click", (event) => {
+            saveTimerName = event.target.innerHTML;
+            console.log(saveTimerName); 
+        })
 
         //FUNCTIONS 
 
