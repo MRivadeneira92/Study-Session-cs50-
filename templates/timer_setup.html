@@ -52,17 +52,18 @@
         let numbNextTimers = 1; // For nextTimer function. Number of the timer that follows the active timer 
         let numCheck; // Keeps track of the status of the next check(continuous)
         let saveBtnFtn = false; // For saveButton. False creates save input. True saves content in input.
+        let dropdown; // Array with elements on dropdown
 
-        // Render dropdown menu with saved timer names
         window.onload = function(){ 
             for (i = 0; i < localStorage.length ; i++) {
                 timerNames.push(localStorage.key(i));
             }
             let menuHTML;
             for (i = 0; i < timerNames.length; i++) {
-                menuHTML += "<p id='select'>" + timerNames[i] + "</p>";
+                menuHTML += "<p id='select' onclick='dropdownSelect()'>" + timerNames[i] + "</p>";
             }
             document.getElementById("user-selection").innerHTML += menuHTML;
+            dropdown = document.querySelectorAll("#select");
         }; 
 
         // Set the ammount of timers so they can be manually set up
@@ -155,18 +156,10 @@
         });  
 
         let timerNames = []; // VARIABLE MOVE TO TOP
-        let dropdown; // VARIABLE MOVE TO TOP
+        let foo;
         btnLoadData.addEventListener("click", function(e) {
-            
             myFunction();
-            dropdown = document.querySelector("#user-selection");
         });
-
-        let saveTimerName;
-        dropdown.addEventListener("click", (event) => {
-            saveTimerName = event.target.innerHTML;
-            console.log(saveTimerName); 
-        })
 
         //FUNCTIONS 
 
@@ -237,6 +230,12 @@
             let bell = new Audio("https://github.com/MRivadeneira92/Proyecto_final/blob/main/alarms/bell1.mp3?raw=true");
             bell.play();
 
+        }
+        function dropdownSelect() {
+            window.onclick = e => {
+                console.log(e.target.innerHTML);
+                console.log(JSON.parse(localStorage.getItem(e.target.innerHTML)));
+            }
         }
     </script>
 
