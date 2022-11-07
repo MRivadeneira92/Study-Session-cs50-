@@ -51,20 +51,23 @@
         let delTimers = nTimers; // For nextTimer function. Keeps track of the number of the last element in the timers
         let numbNextTimers = 1; // For nextTimer function. Number of the timer that follows the active timer 
         let numCheck; // Keeps track of the status of the next check(continuous)
-        let saveBtnFtn = false; // For saveButton. False creates save input. True saves content in input.
-        let dropdown; // Array with elements on dropdown
+        let saveBtnFtn = false; // For saveButton. False creates save input. True saves content in input
+        let userTimerSelect; // Save the name of the timer selected by user. Gets result from function dropdownSelect
 
         window.onload = function(){ 
             for (i = 0; i < localStorage.length ; i++) {
                 timerNames.push(localStorage.key(i));
             }
-            let menuHTML;
-            for (i = 0; i < timerNames.length; i++) {
-                menuHTML += "<p id='select' onclick='dropdownSelect()'>" + timerNames[i] + "</p>";
+            let menuHTML = "";
+            if (timerNames.length > 0) {
+                for (i = 0; i < timerNames.length; i++) {
+                    menuHTML += "<p id='select' onclick='dropdownSelect()'>" + timerNames[i] + "</p>";
+                }
+            } else {
+                menuHTML += "<p>No timers saved</p>";
             }
             document.getElementById("user-selection").innerHTML += menuHTML;
-            dropdown = document.querySelectorAll("#select");
-        }; 
+        };
 
         // Set the ammount of timers so they can be manually set up
         btnSetup.addEventListener("click", function(e) {
@@ -231,10 +234,12 @@
             bell.play();
 
         }
-        function dropdownSelect() {
+
+        function dropdownSelect(e) {
             window.onclick = e => {
-                console.log(e.target.innerHTML);
-                console.log(JSON.parse(localStorage.getItem(e.target.innerHTML)));
+                let data = JSON.parse(localStorage.getItem(e.target.innerHTML));
+                console.log(data);
+                document.getElementById("btnLoad").click();
             }
         }
     </script>
