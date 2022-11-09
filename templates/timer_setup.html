@@ -31,7 +31,7 @@
         </table>
     <button id="btnLoad" type="button">Load</button>
     </div>
-    <audio id="walkman" src=""></audio>
+    
 
     <script>
         const btnSetup = document.getElementById("btnSetup");  // Load page button with number of timers    
@@ -101,7 +101,7 @@
                     }
                 };
             }
-            
+
             // Render first timer
             var firstHTML ='<div class="timerFirstDiv"><p id="timerHour">0</p>' + '<p>:</p>' +
             '<p id="timerMin">' + padZero(saveTimers["min0"]) + '</p>' +
@@ -237,7 +237,7 @@
         }
 
         function play() {
-            let bell = new Audio("https://github.com/MRivadeneira92/Proyecto_final/blob/main/alarms/bell1.mp3?raw=true");
+            let bell = new Audio("./static/bell1.mp3");
             bell.play();
         }
 
