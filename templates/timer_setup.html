@@ -23,13 +23,18 @@
         <button style=display:none id="btnStop" type="button">Stop</button>
         <button style=display:none id="btnNext" type="button">Next</button>
         <button style=display:none id="btnSave" type="button">Save Timer</button>
+        <button style="display:none" id="btnBack" type="button">Back</button>
     </div>
     <div id="secondDiv" class="timerSecondDiv">
         <table>
             <tbody id="userTimers">
             </tbody>
         </table>
-    <button id="btnLoad" type="button">Load</button>
+        <div class="bottom-buttons">
+            <button id="btnLoad" type="button">Load</button>
+            <p style="display:none" id="loop-text">Loop timers: </p>
+            <input style="display:none" id="loop-check" type="checkbox">
+        </div>
     </div>
     
 
@@ -41,6 +46,7 @@
         const btnNext = document.getElementById("btnNext"); // Pass to next timer
         const btnSave = document.getElementById("btnSave"); // Save timer
         const btnLoadData = document.getElementById("btnLoadData"); // Select timers loaded from memory
+        const btnBack = document.getElementById("btnBack"); // Go back to timer setup
         let timerOn = false; // True only when timer is running
         let saveTimers = {}; // Save the number of timers
         let contTimers = false; // true if all continuous timer is checked
@@ -54,6 +60,7 @@
         let saveBtnFtn = false; // For saveButton. False creates save input. True saves content in input
         let userTimerSelect; // Save the name of the timer selected by user. Gets result from function dropdownSelect
         let loadSkip = false; // When using dropdownSelect skips obtaining data from btnLoad
+        let loopTimers = false // Loops through timers if True
 
         window.onload = function(){ 
             for (i = 0; i < localStorage.length ; i++) {
@@ -72,6 +79,8 @@
 
         // Set the ammount of timers so they can be manually set up
         btnSetup.addEventListener("click", function(e) {
+            document.getElementById("loop-text").style.display ="inline";
+            document.getElementById("loop-check").style.display ="inline";
             nTimers = Number(document.getElementById("numTimers").value);
             delTimers = nTimers;
             var HTML = "<table><tr><th>Número</th><th>Timer</th><th>Continuous</th></tr>";
@@ -102,40 +111,15 @@
                 };
             }
 
-            // Render first timer
-            var firstHTML ='<div class="timerFirstDiv"><p id="timerHour">0</p>' + '<p>:</p>' +
-            '<p id="timerMin">' + padZero(saveTimers["min0"]) + '</p>' +
-            '<p>:</p>' + 
-            '<p id="timerSec">' + padZero(saveTimers["sec0"]) + '</p>'
-            if (contTimers == true || saveTimers["check0"] == true) {
-                firstHTML += '<input class="timerCheck" id="check0" type="checkbox" checked></div>';
-            } 
-            else {
-                firstHTML += '<input class="timerCheck" id="check0" type="checkbox"></div>';
+            if(document.getElementById("loop-check").checked == true) {
+                loopTimers = true;
             }
-            document.getElementById("firstDiv").innerHTML = firstHTML;
-            document.getElementById("btnStart").style.display= "inline"; // Start timer
-            document.getElementById("btnStop").style.display= "inline"; // Stop timer
-            document.getElementById("btnNext").style.display= "inline"; // Pass to next timer
-            document.getElementById("btnSave").style.display= "inline"; // Save timer
-
-            // Render second timer
-            var nextHTML = '';
-            for (let i = 1; i < nTimers; i++) {
-                nextHTML += '<div id="nextTimers' + i + '">';
-                nextHTML += '<p id="hour">0</p>' + '<p>:</p>' +
-                '<p id="min' + i + '">' + padZero(saveTimers[`min${i}`]) + '</p>' +
-                '<p>:</p>' + 
-                '<p id="sec' + i + '">' + padZero(saveTimers[`sec${i}`]) + '</p>' 
-                if (contTimers == true || saveTimers[`check${i}`] == true) {
-                    nextHTML += '<input class="timerCheck" id="check' + i + '" type="checkbox" checked><br>'
-                }
-                else {  
-                    nextHTML += '<input class="timerCheck" id="check' + i + '" type="checkbox"><br>'
-                }
-                nextHTML += '</div>';
-            };
-            document.getElementById("secondDiv").innerHTML = nextHTML;
+            renderTimers();
+            document.getElementById("btnStart").style.display = "inline"; // Start timer
+            document.getElementById("btnStop").style.display = "inline"; // Stop timer
+            document.getElementById("btnNext").style.display = "inline"; // Pass to next timer
+            document.getElementById("btnSave").style.display = "inline"; // Save timer
+            document.getElementById("btnBack").style.display = "inline"; // Go back to setup
         }); 
         
         btnStart.addEventListener("click", function(e) {
@@ -209,6 +193,13 @@
                         nextTimer();
                         downTimer();
                     };
+                    if (loopTimers == true) {
+                        loadSkip = true;
+                        ceroTimer = false;
+                        numbNextTimers = 1;
+                        delTimers = nTimers;
+                        renderTimers();
+                    }
                 };
             }, 1000);
         } 
@@ -249,6 +240,37 @@
                 loadSkip = true;
                 document.getElementById("btnLoad").click();
             }
+        }
+
+        function loop() {
+            document.getElementById("btnLoad").click();
+        }
+
+        function renderTimers() {
+            var firstHTML ='<div class="timerFirstDiv"><p id="timerMin">' +
+            '<p id="timerMin">' + padZero(saveTimers["min0"]) + '</p>' +
+            '<p>:</p><p id="timerSec">'+ padZero(saveTimers["sec0"]) + '</p>'
+            if (contTimers == true || saveTimers["check0"] == true) {
+                firstHTML += '<input class="timerCheck" id="check0" type="checkbox" checked></div>';
+            } 
+            else {
+                firstHTML += '<input class="timerCheck" id="check0" type="checkbox"></div>';
+            }
+            var nextHTML = '';
+            for (let i = 1; i < nTimers; i++) {
+                nextHTML += '<div id="nextTimers' + i + '">';
+                nextHTML += '<p id="min' + i + '">' + padZero(saveTimers[`min${i}`]) + '</p>' +
+                '<p>:</p><p id="sec' + i + '">' + padZero(saveTimers[`sec${i}`]) + '</p>' 
+                if (contTimers == true || saveTimers[`check${i}`] == true) {
+                    nextHTML += '<input class="timerCheck" id="check' + i + '" type="checkbox" checked><br>'
+                }
+                else {  
+                    nextHTML += '<input class="timerCheck" id="check' + i + '" type="checkbox"><br>'
+                }
+                nextHTML += '</div>';
+            };
+            document.getElementById("firstDiv").innerHTML = firstHTML;
+            document.getElementById("secondDiv").innerHTML = nextHTML;
         }
     </script>
 
