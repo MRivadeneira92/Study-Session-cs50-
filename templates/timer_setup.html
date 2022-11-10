@@ -5,15 +5,19 @@
 {% endblock %}
 
 {% block body %}
-    <div class="timer-firstdiv" id="firstDiv">
-        <p class="tset_text">Number of timers: </p>
-        <input class="tset_num_timers" autocomplete="off" id="numTimers" min=0 name="num_timers" type="text">
-        <p class="tset_text">All continuous?: </p>
-        <input autocomplete="off" id="continuous" name="continuous" type="checkbox">
-        <button id="btnSetup" type="button">Setup</button>
-        <button id="btnLoadData" type="button">Load Timer</button>
-        <div class="timer-dropdown">
-            <div id="user-selection" class="timer-user-dropdown">
+    <div id="timer-body">
+        <div class="timer-firstdiv" id="firstDiv">
+            <p class="tset_text">Number of timers: </p>
+            <input class="tset_num_timers" autocomplete="off" id="numTimers" min=0 name="num_timers" type="text">
+            <p class="tset_text">All continuous?: </p>
+            <input autocomplete="off" id="continuous" name="continuous" type="checkbox">
+        </div>
+        <div id="timer-load-buttons">
+            <button id="btnSetup" type="button">Setup</button>
+            <button id="btnLoadData" type="button">Load Timer</button>
+            <div class="timer-dropdown">
+                <div id="user-selection" class="timer-user-dropdown">
+                </div>
             </div>
         </div>
     </div>
@@ -60,6 +64,7 @@
         let userTimerSelect; // Save the name of the timer selected by user. Gets result from function dropdownSelect
         let loadSkip = false; // When using dropdownSelect skips obtaining data from btnLoad
         let loopTimers = false // Loops through timers if True
+        let backTimer = false // for btnBack. When back is pressed turns off timer and returns relevant variables to neutral position
 
         window.onload = function(){ 
             for (i = 0; i < localStorage.length ; i++) {
@@ -119,9 +124,12 @@
             document.getElementById("btnNext").style.display = "inline"; // Pass to next timer
             document.getElementById("btnSave").style.display = "inline"; // Save timer
             document.getElementById("btnBack").style.display = "inline"; // Go back to setup
+            document.getElementById("btnSetup").style.display = "none";
+            document.getElementById("btnLoadData").style.display = "none";
         }); 
         
         btnStart.addEventListener("click", function(e) {
+            backTimer = false;
             if (ceroTimer == false && timerOn == false) {
                 downTimer();
             }
@@ -155,6 +163,7 @@
         });
 
         btnBack.addEventListener("click", function(e) {
+            backTimer = true;
             let setupHTML = '<p class="tset_text">Number of timers: </p>' +
             '<input class="tset_num_timers" autocomplete="off" id="numTimers" min=0 name="num_timers" type="text">' +
             '<p class="tset_text">All continuous?: </p><input autocomplete="off" id="continuous" name="continuous" type="checkbox">' +
@@ -174,7 +183,8 @@
             ceroTimer = false;
             numbNextTimers = 1;
             delTimers = nTimers;
-            
+            document.getElementById("btnSetup").style.display = "inline";
+            document.getElementById("btnLoadData").style.display = "inline"
         })
 
         //FUNCTIONS 
@@ -203,6 +213,10 @@
                     timerOn = false;
                     clearInterval(timerStart);
                 });
+                
+                if (backTimer == true) {
+                    clearInterval(timerStart);
+                }
 
                 if (min == 0 && sec == 0) {
                     play();
@@ -264,14 +278,10 @@
             }
         }
 
-        function loop() {
-            document.getElementById("btnLoad").click();
-        }
-
         function renderTimers() {
             var firstHTML ='<div class="timerFirstDiv"><p id="timerMin">' +
-            '<p id="timerMin">' + padZero(saveTimers["min0"]) + '</p>' +
-            '<p>:</p><p id="timerSec">'+ padZero(saveTimers["sec0"]) + '</p>'
+            padZero(saveTimers["min0"]) + '</p><p>:</p><p id="timerSec">'+ 
+            padZero(saveTimers["sec0"]) + '</p>'
             if (contTimers == true || saveTimers["check0"] == true) {
                 firstHTML += '<input class="timerCheck" id="check0" type="checkbox" checked></div>';
             } 

@@ -57,6 +57,14 @@ nav li {
     display: inline-block;
 }
 
+#timer-body div:not([class="timer-user-dropdown"]) {
+    display: inline-block;
+}
+
+.timerCheck {
+    display: inline-block;
+}
+
 .timer_display_timer p {
     display: inline-block;
 }
@@ -85,8 +93,9 @@ nav li {
     display: inline-block;
 }
 
-.timerCheck {
-    display: inline-block;
+#timer-load-buttons {
+    position: relative;
+    top: 30px;
 }
 
 .timer-user-dropdown {
