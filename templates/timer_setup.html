@@ -16,7 +16,6 @@
             <div id="user-selection" class="timer-user-dropdown">
             </div>
         </div>
-
     </div>
     <div id="buttons">
         <button style=display:none id="btnStart" type="button">Start</button>
@@ -154,6 +153,29 @@
         btnLoadData.addEventListener("click", function(e) {
             myFunction();
         });
+
+        btnBack.addEventListener("click", function(e) {
+            let setupHTML = '<p class="tset_text">Number of timers: </p>' +
+            '<input class="tset_num_timers" autocomplete="off" id="numTimers" min=0 name="num_timers" type="text">' +
+            '<p class="tset_text">All continuous?: </p><input autocomplete="off" id="continuous" name="continuous" type="checkbox">' +
+            '<button id="btnSetup" type="button">Setup</button><button id="btnLoadData" type="button">Load Timer</button>' +
+            '<div class="timer-dropdown"><div id="user-selection" class="timer-user-dropdown"></div>';
+            document.getElementById("btnStart").style.display = "none"; // Start timer
+            document.getElementById("btnStop").style.display = "none"; // Stop timer
+            document.getElementById("btnNext").style.display = "none"; // Pass to next timer
+            document.getElementById("btnSave").style.display = "none"; // Save timer
+            document.getElementById("btnBack").style.display = "none"; // Go back to setup
+            document.getElementById("firstDiv").innerHTML = setupHTML;
+            let secondSetup = '<table><tbody id="userTimers"></tbody></table><div class="bottom-buttons">' +
+            '<button id="btnLoad" type="button">Load</button><p style="display:none" id="loop-text">Loop timers: </p>' +
+            '<input style="display:none" id="loop-check" type="checkbox"></div>';
+            document.getElementById("secondDiv").innerHTML = secondSetup;
+            loadSkip = true;
+            ceroTimer = false;
+            numbNextTimers = 1;
+            delTimers = nTimers;
+            
+        })
 
         //FUNCTIONS 
 
