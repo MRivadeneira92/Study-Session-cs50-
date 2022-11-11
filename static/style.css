@@ -69,6 +69,10 @@ nav li {
     display: inline-block;
 }
 
+#btnSetup {
+    display: inline;
+}
+
 .timer-dropdown {
     position: relative;
     display: inline-block;
