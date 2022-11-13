@@ -146,3 +146,7 @@ nav li {
 .text-tags-div p {
     display:inline-block;
 }
+
+#userTimers input {
+    width: 40px;
+}

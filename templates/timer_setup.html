@@ -8,7 +8,7 @@
     <div id="timer-body">
         <div class="timer-firstdiv" id="firstDiv">
             <p class="tset_text">Number of timers: </p>
-            <input class="tset_num_timers" autocomplete="off" id="numTimers" min=0 name="num_timers" type="text">
+            <input class="tset_num_timers" autocomplete="off" id="numTimers" maxlength="2" min=1 name="num_timers" type="text">
             <p class="tset_text">All continuous?: </p>
             <input autocomplete="off" id="continuous" name="continuous" type="checkbox">
         </div>
@@ -51,6 +51,7 @@
         const btnLoadData = document.getElementById("btnLoadData"); // Select timers loaded from memory
         const btnBack = document.getElementById("btnBack"); // Go back to timer setup
         let timerOn = false; // True only when timer is running
+        let pauseTimer = false // For btnStart. If true timer is running. Toggles button function.
         let saveTimers = {}; // Save the number of timers
         let contTimers = false; // true if all continuous timer is checked
         let fistStart = true; 
@@ -86,17 +87,23 @@
             document.getElementById("loop-text").style.display ="inline";
             document.getElementById("loop-check").style.display ="inline";
             nTimers = Number(document.getElementById("numTimers").value);
-            delTimers = nTimers;
-            var HTML = "<table><tr><th>Número</th><th>Timer</th><th>Continuous</th></tr>";
+            if (nTimers <= 0) {
+                alert("Number of timers must be bigger than 0");
+                return;
+            } else {
+                delTimers = nTimers;
+                var HTML = "<table><tr><th>Minutes</th><th>Seconds</th><th>Continuous</th></tr>";
                 for (let i = 0; i < nTimers; i++) {
-                    HTML += "<tr><td>" + (i + 1) + "</td><td><input autocomplete='off' id='timerMin" + (i + 1) + 
-                    "' min='0' max='60' maxlength='2' type='text'></td><td>:</td>" + 
+                    HTML += "<tr></td><td><input autocomplete='off' id='timerMin" + (i + 1) + 
+                    "' min='0' max='60' maxlength='2' type='text'> :</td>" + 
                     "<td><input autocomplete='off' id='timerSec" + (i + 1) + 
                     "' min='0' max='60' maxlength='2' type='text'>" + "</td><td><input id='set-check" + (i + 1) + 
                     "'type='checkbox'></td></tr>";
                 };
-            HTML += "</table>";
-             document.getElementById("userTimers").innerHTML = HTML;
+                HTML += "</table>";
+                document.getElementById("userTimers").innerHTML = HTML;
+            }
+
         });
 
         // Load the numbers of the timers in an array
@@ -129,6 +136,11 @@
         }); 
         
         btnStart.addEventListener("click", function(e) {
+            if (pauseTimer = false) {
+                pauseTimer = true;
+            } else {
+                pauseTimer = false;
+            }
             backTimer = false;
             if (ceroTimer == false && timerOn == false) {
                 downTimer();
@@ -214,7 +226,7 @@
                     clearInterval(timerStart);
                 });
                 
-                if (backTimer == true) {
+                if (backTimer == true || pauseTimer == true) {
                     clearInterval(timerStart);
                 }
 
