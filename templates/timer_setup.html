@@ -25,6 +25,7 @@
         <button style=display:none id="btnStart" type="button">Start</button>
         <button style=display:none id="btnStop" type="button">Stop</button>
         <button style=display:none id="btnNext" type="button">Next</button>
+        <button style=display:none id="btnReset" type="button">Reset</button>
         <button style=display:none id="btnSave" type="button">Save Timer</button>
         <button style="display:none" id="btnBack" type="button">Back</button>
     </div>
@@ -46,6 +47,7 @@
         const btnLoad = document.getElementById("btnLoad"); // Load number of timers to array
         const btnStart = document.getElementById("btnStart"); // Start timer
         const btnStop = document.getElementById("btnStop"); // Stop timer
+        const btnReset = document.getElementById("btnReset"); // Reset current timer
         const btnNext = document.getElementById("btnNext"); // Pass to next timer
         const btnSave = document.getElementById("btnSave"); // Save timer
         const btnLoadData = document.getElementById("btnLoadData"); // Select timers loaded from memory
@@ -58,7 +60,7 @@
         let nTimers; // Saves the ammount of timers
         let ceroTimer = false; // Checks when the timer is at 00:00
         let timerFinish = false; // To check when the active timer is finished. Works with checkboxes
-        let delTimers = nTimers; // For nextTimer function. Keeps track of the number of the last element in the timers
+        let delTimers = nTimers; // For nextTimer function. FIX TEXT Keeps track of the number of the last element in the timers
         let numbNextTimers = 1; // For nextTimer function. Number of the timer that follows the active timer 
         let numCheck; // Keeps track of the status of the next check(continuous)
         let saveBtnFtn = false; // For saveButton. False creates save input. True saves content in input
@@ -129,6 +131,7 @@
             document.getElementById("btnStart").style.display = "inline"; // Start timer
             document.getElementById("btnStop").style.display = "inline"; // Stop timer
             document.getElementById("btnNext").style.display = "inline"; // Pass to next timer
+            document.getElementById("btnReset").style.display = "inline"; // Reset current timer
             document.getElementById("btnSave").style.display = "inline"; // Save timer
             document.getElementById("btnBack").style.display = "inline"; // Go back to setup
             document.getElementById("btnSetup").style.display = "none";
@@ -145,6 +148,12 @@
             if (ceroTimer == false && timerOn == false) {
                 downTimer();
             }
+        });
+
+        btnReset.addEventListener("click", function(e) {
+            document.getElementById("timerMin").innerHTML = padZero(saveTimers["min" + (numbNextTimers - 1)]);
+            document.getElementById("timerSec").innerHTML = padZero(saveTimers["sec" + (numbNextTimers - 1)]);
+            document.getElementById("btnStop").click()
         });
 
         btnNext.addEventListener("click", function(e) {
@@ -263,9 +272,9 @@
                 document.getElementById("sec" + i).innerHTML = padZero(saveTimers[`sec${numbNextTimers + i}`]);
                 document.getElementById("check" + i).checked = document.getElementById(`check${i + 1}`).checked;
             }
-            delTimers = delTimers - 1;
+            delTimers -= 1;
             timerFinish = false;
-            numbNextTimers = numbNextTimers + 1;
+            numbNextTimers += 1;
             let x = document.getElementById(`nextTimers${delTimers}`);
             x.remove();
             ceroTimer = false;
