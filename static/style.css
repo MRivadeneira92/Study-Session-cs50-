@@ -43,6 +43,10 @@ nav li {
     padding-top: 16 px;
 }
 
+#bottom-buttons {
+    position: relative;
+    top: 20px
+}
 #buttons {
     position: relative;
     top: 5px;
