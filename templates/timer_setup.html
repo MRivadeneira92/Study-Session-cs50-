@@ -76,7 +76,8 @@
             let menuHTML = "";
             if (timerNames.length > 0) {
                 for (i = 0; i < timerNames.length; i++) {
-                    menuHTML += "<p id='select' onclick='dropdownSelect()'>" + timerNames[i] + "</p>";
+                    menuHTML += "<div style='display:inline-block'><p id='select" + i + "' onclick='dropdownSelect()'>" + timerNames[i] + "</p>" +
+                    "<p id='" + i + "' onclick='dropdownDelete()'>Delete</p></div>";
                 }
             } else {
                 menuHTML += "<p>No timers saved</p>";
@@ -297,6 +298,20 @@
                 loadSkip = true;
                 myFunction()
                 document.getElementById("btnLoad").click();
+            }
+        }
+        function dropdownDelete(e) {
+            window.onclick = e => {
+                let delName = e.explicitOriginalTarget.id;
+                delName = document.getElementById("select" + e.explicitOriginalTarget.id).innerHTML;
+                console.log(delName);
+                if (confirm("Delete '" + delName + "'timer?")) {
+                    localStorage.removeItem(delName);
+                    alert("Timer deleted")
+                    let foo = document.getElementById("select" + e.explicitOriginalTarget.id);
+                    foo.remove();
+                    e.explicitOriginalTarget.remove();
+                } 
             }
         }
 
