@@ -90,6 +90,11 @@
             document.getElementById("loop-text").style.display ="inline";
             document.getElementById("loop-check").style.display ="inline";
             nTimers = Number(document.getElementById("numTimers").value);
+            console.log(isNaN(nTimers));
+            if (isNaN(nTimers) == true) {
+                alert("Use a numeric value in input");
+                return;
+            }
             if (nTimers <= 0) {
                 alert("Number of timers must be bigger than 0");
                 return;
