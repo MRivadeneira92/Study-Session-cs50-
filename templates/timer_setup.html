@@ -40,6 +40,13 @@
         <p style="display:none" id="loop-text">Loop timers: </p>
         <input style="display:none" id="loop-check" type="checkbox">
     </div>
+    <div id="bottom-text">
+        <p id="timer-messages">·Cry baby cry</p>
+            <p>· Make your mother sigh</p>
+            <p>· She's old enough to know better</p>
+            <p>· So cry baby cry</p>
+        
+    </div>
     
 
     <script>
@@ -90,7 +97,6 @@
             document.getElementById("loop-text").style.display ="inline";
             document.getElementById("loop-check").style.display ="inline";
             nTimers = Number(document.getElementById("numTimers").value);
-            console.log(isNaN(nTimers));
             if (isNaN(nTimers) == true) {
                 alert("Use a numeric value in input");
                 return;
