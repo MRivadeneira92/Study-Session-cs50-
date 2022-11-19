@@ -41,8 +41,6 @@
         <input style="display:none" id="loop-check" type="checkbox">
     </div>
     <div id="bottom-text">
-        <p>· Cry baby cry</p>
-        <p>· Make your mother sigh</p>
     </div>
     
 
@@ -73,6 +71,7 @@
         let loopTimers = false // Loops through timers if True
         let backTimer = false // for btnBack. When back is pressed turns off timer and returns relevant variables to neutral position
         let arrayUndo = [];
+        let loadStatus = false // For dropDownSelect. True when timer is loaded from local memory.
 
         window.onload = function(){ 
             for (i = 0; i < localStorage.length ; i++) {
@@ -88,6 +87,7 @@
                 menuHTML += "<p>No timers saved</p>";
             }
             document.getElementById("user-selection").innerHTML += menuHTML;
+            addAlert("Welcome to Study Sessions");
         };
 
         // Set the ammount of timers so they can be manually set up
@@ -120,34 +120,7 @@
 
         // Load the numbers of the timers in an array
         btnLoad.addEventListener("click", function(e) {
-            if (loadSkip == false) {
-                for(let i = 0; i < nTimers; i++) {
-                    const testMin = document.getElementById(`timerMin${(i + 1)}`).value;
-                    const testSec = document.getElementById(`timerSec${(i + 1)}`).value;
-                    const textCheck = document.getElementById(`set-check${i + 1}`).checked;
-                    saveTimers["min" + i] = Number(testMin);
-                    saveTimers["sec" + i] = Number(testSec);
-                    saveTimers["check" + i] = textCheck;
-                     if (document.getElementById("continuous").checked == true) {
-                        contTimers = true;
-                    }
-                };
-            }
-
-            if(document.getElementById("loop-check").checked == true) {
-                loopTimers = true;
-                addAlert("Timer Loop: On");
-            }
-            renderTimers();
-            document.getElementById("btnStart").style.display = "inline"; // Start timer
-            document.getElementById("btnStop").style.display = "inline"; // Stop timer
-            document.getElementById("btnNext").style.display = "inline"; // Pass to next timer
-            document.getElementById("btnReset").style.display = "inline"; // Reset current timer
-            document.getElementById("btnSave").style.display = "inline"; // Save timer
-            document.getElementById("btnBack").style.display = "inline"; // Go back to setup
-            document.getElementById("btnSetup").style.display = "none";
-            document.getElementById("btnLoadData").style.display = "none";
-            document.getElementById("bottom-buttons").style.display = "none";
+            timerLoad();
         }); 
         
         btnStart.addEventListener("click", function(e) {
@@ -216,7 +189,7 @@
             delTimers = nTimers;
             document.getElementById("btnSetup").style.display = "inline";
             document.getElementById("btnLoadData").style.display = "inline";
-            console.log(btnSetup);
+            loadStatus = false;
         })
 
         //FUNCTIONS 
@@ -256,6 +229,7 @@
                     timerFinish = true;
                     ceroTimer = true; 
                     clearInterval(timerStart);
+                    addAlert("Timer finished");
                     let check0 = document.getElementById("check0");
                     if (check0.checked == true && numbNextTimers != nTimers) {
                         nextTimer();
@@ -302,12 +276,16 @@
 
         function dropdownSelect(e) {
             window.onclick = e => {
+                if (loadStatus == false) {
                 saveTimers = JSON.parse(localStorage.getItem(e.target.innerHTML));
                 nTimers = saveTimers.length;
+                delTimers = nTimers;
                 delete saveTimers.length;
                 loadSkip = true;
                 myFunction()
-                document.getElementById("btnLoad").click();
+                timerLoad();
+                loadStatus = true;
+                }
             }
         }
         function dropdownDelete(e) {
@@ -354,6 +332,37 @@
             };
             document.getElementById("firstDiv").innerHTML = firstHTML;
             document.getElementById("secondDiv").innerHTML = nextHTML;
+        }
+
+        function timerLoad() {
+            if (loadSkip == false) {
+                for(let i = 0; i < nTimers; i++) {
+                    const testMin = document.getElementById(`timerMin${(i + 1)}`).value;
+                    const testSec = document.getElementById(`timerSec${(i + 1)}`).value;
+                    const textCheck = document.getElementById(`set-check${i + 1}`).checked;
+                    saveTimers["min" + i] = Number(testMin);
+                    saveTimers["sec" + i] = Number(testSec);
+                    saveTimers["check" + i] = textCheck;
+                     if (document.getElementById("continuous").checked == true) {
+                        contTimers = true;
+                    }
+                };
+            }
+
+            if(document.getElementById("loop-check").checked == true) {
+                loopTimers = true;
+                addAlert("Timer Loop: On");
+            }
+            renderTimers();
+            document.getElementById("btnStart").style.display = "inline"; // Start timer
+            document.getElementById("btnStop").style.display = "inline"; // Stop timer
+            document.getElementById("btnNext").style.display = "inline"; // Pass to next timer
+            document.getElementById("btnReset").style.display = "inline"; // Reset current timer
+            document.getElementById("btnSave").style.display = "inline"; // Save timer
+            document.getElementById("btnBack").style.display = "inline"; // Go back to setup
+            document.getElementById("btnSetup").style.display = "none";
+            document.getElementById("btnLoadData").style.display = "none";
+            document.getElementById("bottom-buttons").style.display = "none";
         }
 
         function addAlert(text) {
