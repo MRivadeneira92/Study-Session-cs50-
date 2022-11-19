@@ -41,11 +41,8 @@
         <input style="display:none" id="loop-check" type="checkbox">
     </div>
     <div id="bottom-text">
-        <p id="timer-messages">·Cry baby cry</p>
-            <p>· Make your mother sigh</p>
-            <p>· She's old enough to know better</p>
-            <p>· So cry baby cry</p>
-        
+        <p>· Cry baby cry</p>
+        <p>· Make your mother sigh</p>
     </div>
     
 
@@ -75,6 +72,7 @@
         let loadSkip = false; // When using dropdownSelect skips obtaining data from btnLoad
         let loopTimers = false // Loops through timers if True
         let backTimer = false // for btnBack. When back is pressed turns off timer and returns relevant variables to neutral position
+        let arrayUndo = [];
 
         window.onload = function(){ 
             for (i = 0; i < localStorage.length ; i++) {
@@ -98,11 +96,11 @@
             document.getElementById("loop-check").style.display ="inline";
             nTimers = Number(document.getElementById("numTimers").value);
             if (isNaN(nTimers) == true) {
-                alert("Use a numeric value in input");
+                addAlert("Input error: Use a numeric value in input");
                 return;
             }
             if (nTimers <= 0) {
-                alert("Number of timers must be bigger than 0");
+                addAlert("Input Error: Number of timers must be bigger than 0");
                 return;
             } else {
                 delTimers = nTimers;
@@ -138,6 +136,7 @@
 
             if(document.getElementById("loop-check").checked == true) {
                 loopTimers = true;
+                addAlert("Timer Loop: On");
             }
             renderTimers();
             document.getElementById("btnStart").style.display = "inline"; // Start timer
@@ -187,7 +186,7 @@
                 localStorage.setItem(saveName, JSON.stringify(saveTimers));
                 delete saveTimers.length;
                 saveBtnFtn = false;
-                alert("Timer saved");
+                addAlert("Timer saved!");
             };
         });  
 
@@ -315,17 +314,21 @@
             window.onclick = e => {
                 let delName = e.explicitOriginalTarget.id;
                 delName = document.getElementById("select" + e.explicitOriginalTarget.id).innerHTML;
-                console.log(delName);
-                if (confirm("Delete '" + delName + "'timer?")) {
-                    localStorage.removeItem(delName);
-                    alert("Timer deleted")
-                    let foo = document.getElementById("select" + e.explicitOriginalTarget.id);
-                    foo.remove();
-                    e.explicitOriginalTarget.remove();
-                } 
+                addAlertUndo("Timer deleted", delName);
+                let tempData = JSON.parse(localStorage.getItem(delName));
+                sessionStorage.setItem(delName, JSON.stringify(tempData));
+                localStorage.removeItem(delName);
+                let foo = document.getElementById("select" + e.explicitOriginalTarget.id);
+                foo.remove();
+                e.explicitOriginalTarget.remove();
+                arrayUndo[delName] = tempData;
+                let tempKeys = Object.keys(arrayUndo);
+                console.log(tempKeys[0]);
+                console.log(arrayUndo[tempKeys[0]]);
+                btnUndo = document.getElementById("undo-button");
             }
         }
-
+        
         function renderTimers() {
             var firstHTML ='<div class="timerFirstDiv"><p id="timerMin">' +
             padZero(saveTimers["min0"]) + '</p><p>:</p><p id="timerSec">'+ 
@@ -351,6 +354,33 @@
             };
             document.getElementById("firstDiv").innerHTML = firstHTML;
             document.getElementById("secondDiv").innerHTML = nextHTML;
+        }
+
+        function addAlert(text) {
+            let textbox = document.getElementById("bottom-text");
+            let textHTML = "<p>· ";
+            textHTML += text;
+            textHTML += "</p>";
+            textbox.innerHTML += textHTML;
+            textbox.scrollTop = textbox.scrollHeight;
+        }
+
+        function addAlertUndo(text, name) {
+            let textbox = document.getElementById("bottom-text");
+            let textHTML = "<p>· " + name;
+            textHTML += " " + text + " <button id='undo-button' onclick='undoTimer()' style='border: none;text-decoration: underline; display: inline-block;'>undo</button>";
+            textHTML += "</p>";
+            textbox.innerHTML += textHTML;
+            textbox.scrollTop = textbox.scrollHeight;
+        }
+
+        function undoTimer() {
+            let tempKeys = Object.keys(arrayUndo);
+            localStorage.setItem(tempKeys[0], JSON.stringify(arrayUndo[tempKeys[0]]))
+            let tempDel = tempKeys[0];
+            delete arrayUndo.tempDel;
+            addAlert("timer restored");
+            sessionStorage.removeItem(tempDel);
         }
     </script>
 

@@ -102,7 +102,10 @@ nav li {
     background:white;
     bottom: 0;
     left: 50%;
-    position: fixed;
+    height: 150px;
+    max-height: 150px;
+    overflow-y: scroll;
+    position: absolute;
     outline: thick double #20FC8F;
     transform: translate(-50%, -50%);
     width: 800px;
