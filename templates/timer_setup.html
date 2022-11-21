@@ -80,10 +80,8 @@
             let menuHTML = "";
             if (timerNames.length > 0) {
                 for (i = 0; i < timerNames.length; i++) {
-                    //menuHTML += '<div style="display:inline-block"><button id="select' + i + '" onclick="dropdownSelect(Hello)" ' + 
-                    //'type="button">' + timerNames[i] + '</button><p id="' + i + '" onclick="dropdownDelete()">Delete</p></div>';
                     menuHTML += `<div style="display:inline-block"><button id="select${i}" onclick="dropdownSelect('${timerNames[i]}')"` +
-                        `type="button">${timerNames[i]}<button><p id="${i}" onclick="dropdownDelete()">Delete</p></div>`
+                        `type="button">${timerNames[i]}<button id="${i}" onclick="dropdownDelete('${timerNames[i]}',${i}')">Delete</button></div>`
                 }
             } else {
                 menuHTML += "<p>No timers saved</p>";
@@ -284,35 +282,32 @@
         }
 
         function dropdownSelect(name) {
-            console.log(name);
             if (loadStatus == false) {
-            saveTimers = JSON.parse(localStorage.getItem(name));
-            nTimers = saveTimers.length;
-            delTimers = nTimers;
-            delete saveTimers.length;
-            loadSkip = true;
-            myFunction()
-            timerLoad();
-            loadStatus = true;
+                saveTimers = JSON.parse(localStorage.getItem(name));
+                nTimers = saveTimers.length;
+                delTimers = nTimers;
+                delete saveTimers.length;
+                loadSkip = true;
+                myFunction()
+                timerLoad();
+                loadStatus = true;
             }
         }
-        function dropdownDelete(e) {
-            window.onclick = e => {
-                let delName = e.explicitOriginalTarget.id;
-                delName = document.getElementById("select" + e.explicitOriginalTarget.id).innerHTML;
-                addAlertUndo("Timer deleted", delName);
-                let tempData = JSON.parse(localStorage.getItem(delName));
-                sessionStorage.setItem(delName, JSON.stringify(tempData));
-                localStorage.removeItem(delName);
-                let foo = document.getElementById("select" + e.explicitOriginalTarget.id);
-                foo.remove();
-                e.explicitOriginalTarget.remove();
-                arrayUndo[delName] = tempData;
-                let tempKeys = Object.keys(arrayUndo);
-                console.log(tempKeys[0]);
-                console.log(arrayUndo[tempKeys[0]]);
-                btnUndo = document.getElementById("undo-button");
-            }
+
+        function dropdownDelete(name, number) {
+            addAlertUndo("Timer deleted", name);
+            console.log(number);
+            let tempData = JSON.parse(localStorage.getItem(name));
+            sessionStorage.setItem(name, JSON.stringify(tempData));
+            localStorage.removeItem(name);
+            let foo = document.getElementById("select" + number);
+            foo.remove();
+            document.getElementById(name).remove();
+            arrayUndo[name] = tempData;
+            let tempKeys = Object.keys(arrayUndo);
+            console.log(tempKeys[0]);
+            console.log(arrayUndo[tempKeys[0]]);
+            btnUndo = document.getElementById("undo-button");
         }
         
         function renderTimers() {
