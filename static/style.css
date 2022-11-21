@@ -52,6 +52,11 @@ nav li {
     top: 5px;
 }
 
+#option-first-div {
+    position: relative;
+    top: 40px;
+}
+
 .tset_text {
     display: inline-block;
     margin-right: 10px;

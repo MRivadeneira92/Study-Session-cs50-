@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title%}
+    Options
+{% endblock %}
+
+{% block body %}
+    <div id="option-first-div">
+        <p>Delete all saved timers?</p>
+        <button id="btn-opt-delete" type="button">Acept</button>
+    </div>
+    <script>
+        let btnDelete = document.getElementById("btn-opt-delete");
+        btnDelete.addEventListener("click", function(e) {
+            localStorage.clear();
+        })
+    </script>
+{% endblock %}

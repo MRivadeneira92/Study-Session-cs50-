@@ -160,6 +160,13 @@
                 delete saveTimers.length;
                 saveBtnFtn = false;
                 addAlert("Timer saved!");
+                for (i = 0; i < localStorage.length ; i++) {
+                    timerNames.push(localStorage.key(i));
+                }
+                let menuHTML = "<div style='display:inline-block'><p id='select" + timerNames.length + 
+                    "' onclick='dropdownSelect()'>" + timerNames.length + "</p>" +
+                    "<p id='" + i + "' onclick='dropdownDelete()'>Delete</p></div>";
+                    document.getElementById("user-selection").innerHTML += menuHTML;
             };
         });  
 
