@@ -81,7 +81,7 @@
             if (timerNames.length > 0) {
                 for (i = 0; i < timerNames.length; i++) {
                     menuHTML += `<div style="display:inline-block"><button id="select${i}" onclick="dropdownSelect('${timerNames[i]}')"` +
-                        `type="button">${timerNames[i]}<button id="${i}" onclick="dropdownDelete('${timerNames[i]}',${i}')">Delete</button></div>`
+                        `type="button">${timerNames[i]}<button id="${i}" onclick="dropdownDelete('${timerNames[i]}','${i}')">Delete</button></div>`
                 }
             } else {
                 menuHTML += "<p>No timers saved</p>";
@@ -300,9 +300,9 @@
             let tempData = JSON.parse(localStorage.getItem(name));
             sessionStorage.setItem(name, JSON.stringify(tempData));
             localStorage.removeItem(name);
-            let foo = document.getElementById("select" + number);
+            let foo = document.getElementById(number);
             foo.remove();
-            document.getElementById(name).remove();
+            document.getElementById("select" + number).remove();
             arrayUndo[name] = tempData;
             let tempKeys = Object.keys(arrayUndo);
             console.log(tempKeys[0]);
