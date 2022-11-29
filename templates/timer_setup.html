@@ -100,11 +100,15 @@
             nTimers = Number(document.getElementById("numTimers").value);
             if (isNaN(nTimers) == true) {
                 addAlert("Input error: Use a numeric value in input");
+                highlight(document.getElementById("numTimers"));
+                document.getElementById("numTimers").value = "";
                 return;
             }
             if (nTimers <= 0) {
                 addAlert("Input Error: Number of timers must be bigger than 0");
+                document.getElementById("numTimers").value = "";
                 return;
+
             } else {
                 delTimers = nTimers;
                 var HTML = "<table><tr><th>Minutes</th><th>Seconds</th><th>Continuous</th></tr>";
@@ -218,7 +222,8 @@
         function addAlertUndo(text, name) {
             let textbox = document.getElementById("bottom-text");
             let textHTML = `<p>· ` + name;
-            textHTML += ` ${text}<button id="undo-button" onclick="undoTimer('${name}')" style="border: none;text-decoration: underline; display: inline-block;">`;
+            textHTML += ` ${text}<button id="undo-button" onclick="undoTimer('${name}')" ` +
+            `style="border: none;text-decoration: underline; display: inline-block;">`;
             textHTML += `undo</button></p>` ;
             textbox.innerHTML += textHTML;
             textbox.scrollTop = textbox.scrollHeight;
@@ -303,10 +308,19 @@
             btnUndo = document.getElementById("undo-button");
         }
 
+        function highlight(obj) {
+            var orig = obj.style.border;
+            obj.style.border = "FF0000";
+            setTimeout(() => {
+                obj.style.color =orig;
+            }, (5000));
+        }
+
         function myFunction() {
                 document.getElementById("user-selection").classList.toggle("show");
             }
-            function nextTimer() {   // Pass to next timer     
+
+        function nextTimer() {   // Pass to next timer     
             let timerReplaceMin = document.getElementById("timerMin");
             let timerReplaceSec = document.getElementById("timerSec");
             timerReplaceMin.innerHTML = padZero(saveTimers[`min${numbNextTimers}`]);
@@ -323,7 +337,7 @@
             let x = document.getElementById(`nextTimers${delTimers}`);
             x.remove();
             ceroTimer = false;
-            };
+        };
 
         function padZero(num) { // Leading zero
             return String(num).padStart(2, '0');
@@ -369,6 +383,26 @@
                 for(let i = 0; i < nTimers; i++) {
                     const testMin = document.getElementById(`timerMin${(i + 1)}`).value;
                     const testSec = document.getElementById(`timerSec${(i + 1)}`).value;
+                    if (isNaN(testMin) == true) {
+                        addAlert("Input error: Use a numeric value in input");
+                        document.getElementById(`timerMin${i + 1}`).value = "";
+                        return;
+                    }
+                    if (isNaN(testSec) == true) {
+                        addAlert("Input error: Use a numeric value in input");
+                        document.getElementById(`timerSec${i + 1}`).value = "";
+                        return;
+                    }
+                    if (testMin <= 0) {
+                        addAlert("Input Error: Number of timers must be bigger than 0");
+                        document.getElementById(`timerMin${i + 1}`).value = "";
+                        return;
+                    }
+                    if (testSec <= 0) {
+                        addAlert("Input Error: Number of timers must be bigger than 0");
+                        document.getElementById(`timerSec${i + 1}`).value = "";
+                        return;
+                    }
                     const textCheck = document.getElementById(`set-check${i + 1}`).checked;
                     saveTimers["min" + i] = Number(testMin);
                     saveTimers["sec" + i] = Number(testSec);
