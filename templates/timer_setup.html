@@ -56,10 +56,11 @@
         const btnBack = document.getElementById("btnBack"); // Go back to timer setup
         let timerOn = false; // True only when timer is running
         let pauseTimer = false // For btnStart. If true timer is running. Toggles button function.
-        let saveTimers = {}; // Save the number of timers
-        let contTimers = false; // true if all continuous timer is checked
+        let saveTimers = {}; // Save the content of the timers
+        let contTimers = false; // true if all continuous is checked
         let fistStart = true; 
-        let nTimers; // Saves the ammount of timers
+        let nTimers = 0; // Saves the ammount of timers
+        let timerPass = 0; // In which timer the clock is currently. Used of loop function
         let ceroTimer = false; // Checks when the timer is at 00:00
         let timerFinish = false; // To check when the active timer is finished. Works with checkboxes
         let delTimers = nTimers; // For nextTimer function. FIX TEXT Keeps track of the number of the last element in the timers
@@ -70,7 +71,7 @@
         let loadSkip = false; // When using dropdownSelect skips obtaining data from btnLoad
         let loopTimers = false // Loops through timers if True
         let backTimer = false // for btnBack. When back is pressed turns off timer and returns relevant variables to neutral position
-        let arrayUndo = [];
+        let arrayUndo = []; // Stores temporally local data for use of undo button when timer is deleted from memory
         let loadStatus = false // For dropDownSelect. True when timer is loaded from local memory.
 
         window.onload = function(){ 
@@ -160,18 +161,18 @@
                 saveTimers.length = nTimers;
                 saveTimers.id = localStorage.length + 1;
                 localStorage.setItem(saveName, JSON.stringify(saveTimers));
-                delete saveTimers.length;
-                delete saveTimers.id;
                 saveBtnFtn = false;
                 addAlert("Timer saved!");
                 document.getElementById("timer-name").remove();
                 for (i = 0; i < localStorage.length ; i++) {
                     timerNames.push(localStorage.key(i));
                 }
-                let menuHTML = `<div style="display:inline-block"><button id="select${localStorage.length}"` + 
+                let menuHTML = `<div id="drop-div${saveTimers.id}" style="display:inline-block"><button id="select${saveTimers.id}"` + 
                 `onclick="dropdownSelect('${saveName}')"type="button">${saveName}<button id="${timerNames.length}"` +
-                `onclick="dropdownDelete('${saveName}','${localStorage.length}')">Delete</button></div>`;
+                `onclick="dropdownDelete('${saveName}','${saveTimers.id}')">Delete</button></div>`;
                 document.getElementById("user-selection").innerHTML += menuHTML;
+                delete saveTimers.length;
+                delete saveTimers.id;
             };
         });  
 
@@ -245,11 +246,13 @@
                 });
                 
                 if (backTimer == true || pauseTimer == true) {
+                    timerPass += 1;
                     clearInterval(timerStart);
                 }
 
                 if (min == 0 && sec == 0) {
                     play();
+                    timerPass += 1;
                     timerOn = false;
                     timerFinish = true;
                     ceroTimer = true; 
@@ -260,11 +263,12 @@
                         nextTimer();
                         downTimer();
                     };
-                    if (loopTimers == true) {
+                    if (loopTimers == true && timerPass == nTimers) {
                         loadSkip = true;
                         ceroTimer = false;
                         numbNextTimers = 1;
                         delTimers = nTimers;
+                        timerPass = 0;
                         renderTimers();
                     }
                 };
@@ -355,6 +359,9 @@
             };
             document.getElementById("firstDiv").innerHTML = firstHTML;
             document.getElementById("secondDiv").innerHTML = nextHTML;
+            if (loopTimers == true) {
+                downTimer();
+            }
         }
 
         function timerLoad() {
