@@ -8,7 +8,7 @@
     <div id="timer-body">
         <div class="timer-firstdiv" id="firstDiv">
             <p class="tset_text">Number of timers: </p>
-            <input class="tset_num_timers" autocomplete="off" id="numTimers" maxlength="2" min=1 name="num_timers" type="text">
+            <input class="tset_num_timers" autocomplete="off" id="numTimers" maxlength="2" min=1 name="num_timers" placeholder ="1" type="text">
             <p class="tset_text">All continuous?: </p>
             <input autocomplete="off" id="continuous" name="continuous" type="checkbox">
         </div>
@@ -114,9 +114,9 @@
                 var HTML = "<table><tr><th>Minutes</th><th>Seconds</th><th>Continuous</th></tr>";
                 for (let i = 0; i < nTimers; i++) {
                     HTML += "<tr></td><td><input autocomplete='off' id='timerMin" + (i + 1) + 
-                    "' min='0' max='60' maxlength='2' type='text'> :</td>" + 
+                    "' min='0' max='60' maxlength='2' placeholder='00' type='text'> :</td>" + 
                     "<td><input autocomplete='off' id='timerSec" + (i + 1) + 
-                    "' min='0' max='60' maxlength='2' type='text'>" + "</td><td><input id='set-check" + (i + 1) + 
+                    "' min='0' max='60' maxlength='2' placeholder='00' type='text'>" + "</td><td><input id='set-check" + (i + 1) + 
                     "'type='checkbox'></td></tr>";
                 };
                 HTML += "</table>";
@@ -309,11 +309,11 @@
         }
 
         function highlight(obj) {
-            var orig = obj.style.border;
-            obj.style.border = "FF0000";
+            orig = obj.style.borderColor;
+            obj.style.borderColor = "red";
             setTimeout(() => {
-                obj.style.color =orig;
-            }, (5000));
+                obj.style.borderColor = orig;
+            }, (4000));
         }
 
         function myFunction() {
@@ -379,29 +379,34 @@
         }
 
         function timerLoad() {
+            let errorLoad = false // true if any error in the following for loop is found
             if (loadSkip == false) {
                 for(let i = 0; i < nTimers; i++) {
                     const testMin = document.getElementById(`timerMin${(i + 1)}`).value;
                     const testSec = document.getElementById(`timerSec${(i + 1)}`).value;
                     if (isNaN(testMin) == true) {
-                        addAlert("Input error: Use a numeric value in input");
+                        addAlert(`Input error in Minute ${i + 1}: Use a numeric value in minutes`);
                         document.getElementById(`timerMin${i + 1}`).value = "";
-                        return;
+                        highlight(document.getElementById(`timerMin${(i + 1)}`));
+                        errorLoad = true;
                     }
                     if (isNaN(testSec) == true) {
-                        addAlert("Input error: Use a numeric value in input");
+                        addAlert(`Input error in Second ${i + 1 }: Use a numeric value in seconds`);
                         document.getElementById(`timerSec${i + 1}`).value = "";
-                        return;
+                        highlight(document.getElementById(`timerSec${(i + 1)}`));
+                        errorLoad = true;
                     }
-                    if (testMin <= 0) {
-                        addAlert("Input Error: Number of timers must be bigger than 0");
+                    if (testMin < 0) {
+                        addAlert(`Input error in Minute ${i + 1}: Value must be a positive number`);
                         document.getElementById(`timerMin${i + 1}`).value = "";
-                        return;
+                        highlight(document.getElementById(`timerMin${(i + 1)}`));
+                        errorLoad = true;
                     }
-                    if (testSec <= 0) {
-                        addAlert("Input Error: Number of timers must be bigger than 0");
+                    if (testSec < 0) {
+                        addAlert(`Input Error in Second ${i + 1}: Seconds must be a positive number`);
                         document.getElementById(`timerSec${i + 1}`).value = "";
-                        return;
+                        highlight(document.getElementById(`timerSec${(i + 1)}`));
+                        errorLoad = true;
                     }
                     const textCheck = document.getElementById(`set-check${i + 1}`).checked;
                     saveTimers["min" + i] = Number(testMin);
@@ -411,6 +416,10 @@
                         contTimers = true;
                     }
                 };
+                if (errorLoad == true){
+                        errorLoad = false;
+                        return;
+                    }
             }
 
             if(document.getElementById("loop-check").checked == true) {
