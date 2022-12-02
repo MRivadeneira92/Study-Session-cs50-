@@ -73,6 +73,7 @@
         let backTimer = false // for btnBack. When back is pressed turns off timer and returns relevant variables to neutral position
         let arrayUndo = []; // Stores temporally local data for use of undo button when timer is deleted from memory
         let loadStatus = false // For dropDownSelect. True when timer is loaded from local memory.
+        let timerNames = []; 
 
         window.onload = function(){ 
             for (i = 0; i < localStorage.length ; i++) {
@@ -113,11 +114,9 @@
                 delTimers = nTimers;
                 var HTML = "<table><tr><th>Minutes</th><th>Seconds</th><th>Continuous</th></tr>";
                 for (let i = 0; i < nTimers; i++) {
-                    HTML += "<tr></td><td><input autocomplete='off' id='timerMin" + (i + 1) + 
-                    "' min='0' max='60' maxlength='2' placeholder='00' type='text'> :</td>" + 
-                    "<td><input autocomplete='off' id='timerSec" + (i + 1) + 
-                    "' min='0' max='60' maxlength='2' placeholder='00' type='text'>" + "</td><td><input id='set-check" + (i + 1) + 
-                    "'type='checkbox'></td></tr>";
+                    HTML += `<tr></td><td><input autocomplete="off" id="timerMin${i}" min="0" max="60" maxlength="2" ` +
+                    `placeholder="00" type="text"> :</td><td><input autocomplete="off" id="timerSec${i}" min="0" max="60"` + 
+                    `maxlength="2" placeholder="00" type="text"></td><td><input id="set-check${i}" type="checkbox"></td></tr>`;
                 };
                 HTML += "</table>";
                 document.getElementById("userTimers").innerHTML = HTML;
@@ -180,7 +179,6 @@
             };
         });  
 
-        let timerNames = []; // VARIABLE MOVE TO TOP
         btnLoadData.addEventListener("click", function(e) {
             myFunction();
         });
@@ -188,7 +186,7 @@
         btnBack.addEventListener("click", function(e) {
             backTimer = true;
             let setupHTML = '<p class="tset_text">Number of timers: </p>' +
-            '<input class="tset_num_timers" autocomplete="off" id="numTimers" min=0 name="num_timers" type="text">' +
+            '<input class="tset_num_timers" autocomplete="off" id="numTimers" min=0 name="num_timers" placeholder="1" type="text">' +
             '<p class="tset_text">All continuous?: </p><input autocomplete="off" id="continuous" name="continuous" type="checkbox">';
             document.getElementById("btnStart").style.display = "none"; 
             document.getElementById("btnStop").style.display = "none"; 
@@ -249,6 +247,10 @@
                     timerOn = false;
                     clearInterval(timerStart);
                 });
+                btnBack.onclick = function() {
+                    timerOn = false;
+                    clearInterval(timerStart);
+                }
                 
                 if (backTimer == true || pauseTimer == true) {
                     timerPass += 1;
@@ -382,8 +384,8 @@
             let errorLoad = false // true if any error in the following for loop is found
             if (loadSkip == false) {
                 for(let i = 0; i < nTimers; i++) {
-                    const testMin = document.getElementById(`timerMin${(i + 1)}`).value;
-                    const testSec = document.getElementById(`timerSec${(i + 1)}`).value;
+                    const testMin = document.getElementById(`timerMin${(i)}`).value;
+                    const testSec = document.getElementById(`timerSec${(i)}`).value;
                     if (isNaN(testMin) == true) {
                         addAlert(`Input error in Minute ${i + 1}: Use a numeric value in minutes`);
                         document.getElementById(`timerMin${i + 1}`).value = "";
@@ -408,7 +410,7 @@
                         highlight(document.getElementById(`timerSec${(i + 1)}`));
                         errorLoad = true;
                     }
-                    const textCheck = document.getElementById(`set-check${i + 1}`).checked;
+                    const textCheck = document.getElementById(`set-check${i}`).checked;
                     saveTimers["min" + i] = Number(testMin);
                     saveTimers["sec" + i] = Number(testSec);
                     saveTimers["check" + i] = textCheck;
