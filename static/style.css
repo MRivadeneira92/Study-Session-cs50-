@@ -1,7 +1,24 @@
 body {
-    background-color: #3F5E5A;
-    font: Arial(san-serif);
+    background-image: linear-gradient(to right,#54BAB9, #9ED2C6);
+    font-family: figtree;
     font-weight: 400;
+}
+
+@font-face {
+    font-family: 'figtree';
+    src: url("/fonts/Figtree-ExtraBold.ttf");
+}
+
+#circle-numb-timers{
+    background: #1D5C63;
+    width: 200px;
+    height: 200px;
+    position: relative;
+    border-radius: 50%;
+    border: solid #BFE4E1 8px;
+    top: 50px;
+    left: 70px;
+    text-align: center;
 }
 
 footer {
@@ -52,6 +69,7 @@ nav li {
     top: 5px;
 }
 
+
 #option-first-div {
     position: relative;
     top: 40px;
@@ -62,8 +80,10 @@ nav li {
     margin-right: 10px;
 }
 
-.tset_num_timer {
+.tset_num_timers {
     display: inline-block;
+    position: relative;
+    top: 20%;
 }
 
 #timer-body div:not([class="timer-user-dropdown"]) {

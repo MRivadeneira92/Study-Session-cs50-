@@ -7,8 +7,11 @@
 {% block body %}
     <div id="timer-body">
         <div class="timer-firstdiv" id="firstDiv">
-            <p class="tset_text">Number of timers: </p>
-            <input class="tset_num_timers" autocomplete="off" id="numTimers" maxlength="2" min=1 name="num_timers" placeholder ="1" type="text">
+            <div id="circle-numb-timers">
+                <p class="tset_text">Number of timers: </p>
+                <input class="tset_num_timers" autocomplete="off" id="numTimers" maxlength="2" min=1 name="num_timers" placeholder ="Number of timers" type="text">
+            </div>
+            
             <p class="tset_text">All continuous?: </p>
             <input autocomplete="off" id="continuous" name="continuous" type="checkbox">
         </div>
@@ -185,6 +188,7 @@
 
         btnBack.addEventListener("click", function(e) {
             backTimer = true;
+            saveTimers = {};
             let setupHTML = '<p class="tset_text">Number of timers: </p>' +
             '<input class="tset_num_timers" autocomplete="off" id="numTimers" min=0 name="num_timers" placeholder="1" type="text">' +
             '<p class="tset_text">All continuous?: </p><input autocomplete="off" id="continuous" name="continuous" type="checkbox">';
@@ -198,7 +202,7 @@
             document.getElementById("firstDiv").innerHTML = setupHTML;
             let secondSetup = '<table><tbody id="userTimers"></tbody></table>';
             document.getElementById("secondDiv").innerHTML = secondSetup;
-            loadSkip = true;
+            loadSkip = false;
             ceroTimer = false;
             numbNextTimers = 1;
             delTimers = nTimers;
@@ -208,6 +212,7 @@
         })
 
         //FUNCTIONS     
+
         function addAlert(text) {
             let textbox = document.getElementById("bottom-text");
             let textHTML = "<p>· ";
@@ -226,7 +231,7 @@
             textbox.innerHTML += textHTML;
             textbox.scrollTop = textbox.scrollHeight;
         }
-
+        
         function downTimer () { // Timer mechanism
             timerFinish = false;
             timerOn = true; 
