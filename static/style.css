@@ -1,7 +1,7 @@
 body {
     background-image: linear-gradient(to right,#54BAB9, #9ED2C6);
     font-family: figtree;
-    font-weight: 400;
+    text-align: center;
 }
 
 @font-face {
@@ -11,13 +11,11 @@ body {
 
 #circle-numb-timers{
     background: #1D5C63;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     position: relative;
     border-radius: 50%;
     border: solid #BFE4E1 8px;
-    top: 50px;
-    left: 70px;
     text-align: center;
 }
 
@@ -62,13 +60,12 @@ nav li {
 
 #bottom-buttons {
     position: relative;
-    top: 30px
+    top: 292px;
 }
 
 #bottom-text {
     background:white;
     bottom: 0;
-    left: 25%;
     height: 150px;
     max-height: 150px;
     overflow-y: scroll;
@@ -78,46 +75,34 @@ nav li {
 }
 
 #btnSetup {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+    background-color: #54BAB9;
+    border-radius: 30%;
+    display: inline;
+    font-weight: bold;
+    width: 67px;
 }
+
 #buttons {
     position: relative;
-    top: 5px;
+    top: 160px;
 }
 
-#option-first-div {
-    position: relative;
-    top: 40px;
-}
-
-#timer-body {
-    position: absolute;
-}
-
-.timerCheck {
-    display: inline-block;
-}
-
-.timer_display_timer p {
-    display: inline-block;
-}
-/*#timer-body div:not([class="timer-user-dropdown"]) {
-    display: inline-block;
-}*/
-
-
-.tset-cont-container {
-    display:block;
-    position: relative;
-    top: 40px;
-}
-
-.tset-cont {
-    color:#BFE4E1;
-    display:inline-block;
+.button-play {
+    background-color: #54BAB9;
     font-weight: bold;
+    border: none;
+    border-radius: 14%;
+    color:#1D5C63;
+    padding: 5px 30px;
+}
+
+.button-play:hover {
+    background-color:#20FC8F;
+}
+.button-play:active{
+    background-color: #1D5C63;
+}
+#option-first-div {
     position: relative;
     top: 40px;
 }
@@ -126,30 +111,29 @@ nav li {
     display: inline-block;
 }
 
-.tset_text {
-    color:#BFE4E1;
-    display: inline-block;
-    margin-right: 10px;
-    font-size:25px;
-    font-weight: bold;
+.textButtons {
+    margin-top: 5px;
+}
+.textContainer {
+    background-color: white;
+    border-radius: 8px;
+    width: 80%;
+    padding: 4px 20px;
     position: relative;
-    top: 20px;
+    left: 10%;
+    top: 64px;
+    z-index: 1;
+    display: none;
 }
 
-.tset_num_timers {
-    background: transparent;
-    border: none; 
-    display: inline-block;
-    position: relative;
+.textInput {
+    margin-top: 10px;
+    height: 100%;
+    outline: solid grey 1px;
 }
 
-.tset_num_timers::placeholder{
-    font-weight: bold;
-    color: #BFE4E1;
-}
-
-#btnSetup {
-    display: inline;
+.text-tags-div p {
+    display:inline-block;
 }
 
 .timer-dropdown {
@@ -160,8 +144,7 @@ nav li {
 .timer-firstdiv {
     display: inline-block;
     position: relative;
-    top: 86px;
-    left: 25%;
+    top: 50px;
 
 }
 .timerFirstDiv p {
@@ -176,8 +159,14 @@ nav li {
 
 .timerSecondDiv {
     position: relative;
-    top: 30px;
+    top: 260px;
+    width: 100%;
 }
+
+.timerSecondDiv table {
+    position: relative;
+}
+
 .timerSecondDiv p {
     display: inline-block;
 }
@@ -202,32 +191,55 @@ nav li {
     background-color: #ddd;
 }
 
+#timer-body {
+    position: absolute;
+    width: 100%;
+}
+
+.timerCheck {
+    display: inline-block;
+}
+
+.timer_display_timer p {
+    display: inline-block;
+}
+
+#tset-cont-container {
+    display:block;
+    position: relative;
+    right: 30%;
+}
+
+.tset-cont {
+    color:#1D5C63;
+    display:inline-block;
+    font-weight: bold;
+    position: relative;
+}
+
+.tset_text {
+    color:#BFE4E1;
+    display: inline-block;
+    margin-right: 10px;
+    font-size:20px;
+    font-weight: bold;
+    position: relative;
+    top: 20px;
+}
+
+.tset_num_timers {
+    background: transparent;
+    border: none; 
+    display: inline-block;
+    position: relative;
+}
+
+.tset_num_timers::placeholder{
+    font-weight: bold;
+    color: #BFE4E1;
+}
 .show {
     display: block;
-}
-.textButtons {
-    margin-top: 5px;
-}
-.textContainer {
-    background-color: white;
-    border-radius: 8px;
-    width: 80%;
-    padding: 4px 20px;
-    position: relative;
-    left: 10%;
-    top: 64px;
-    z-index: 1;
-    display: none;
-}
-
-.textInput {
-    margin-top: 10px;
-    height: 100%;
-    outline: solid grey 1px;
-}
-
-.text-tags-div p {
-    display:inline-block;
 }
 
 #userTimers input {
