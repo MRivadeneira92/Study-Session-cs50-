@@ -1,13 +1,9 @@
 body {
     background-image: linear-gradient(to right,#54BAB9, #9ED2C6);
-    font-family: figtree;
-    text-align: center;
+    font-family: 'Figtree', sans-serif;
 }
 
-@font-face {
-    font-family: 'figtree';
-    src: url("/fonts/Figtree-ExtraBold.ttf");
-}
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;800&display=swap');
 
 #circle-numb-timers{
     background: #1D5C63;
@@ -17,6 +13,7 @@ body {
     border-radius: 50%;
     border: solid #BFE4E1 8px;
     text-align: center;
+    margin: auto;
 }
 
 footer {
@@ -60,40 +57,53 @@ nav li {
 
 #bottom-buttons {
     position: relative;
-    top: 292px;
+    top: 264px;
+    width: 100%;
+    text-align: center;
 }
 
 #bottom-text {
     background:white;
-    bottom: 0;
+    bottom: 6%;
+    left:0;
+    right: 0;
     height: 150px;
     max-height: 150px;
     overflow-y: scroll;
     position: absolute;
     outline: thick double #20FC8F;
     width: 800px;
-}
-
-#btnSetup {
-    background-color: #54BAB9;
-    border-radius: 30%;
-    display: inline;
-    font-weight: bold;
-    width: 67px;
+    margin: auto;
 }
 
 #buttons {
     position: relative;
     top: 160px;
+    text-align: center;
 }
 
 .button-play {
     background-color: #54BAB9;
     font-weight: bold;
     border: none;
-    border-radius: 14%;
+    border-radius: 17px;
     color:#1D5C63;
     padding: 5px 30px;
+}
+
+.bkgrn-menu {
+    background-color: #BFE4E1;
+    font-weight: bold;
+    border: none;
+    border-radius: 17px;
+    color:#1D5C63;
+    padding: 5px 30px;
+}
+
+.bkgrn-check {
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px;
 }
 
 .button-play:hover {
@@ -145,6 +155,8 @@ nav li {
     display: inline-block;
     position: relative;
     top: 50px;
+    width: 100%;
+    text-align: center;
 
 }
 .timerFirstDiv p {
@@ -154,17 +166,19 @@ nav li {
 
 #timer-load-buttons {
     position: relative;
-    top: 30px;
+    display: inline-block;
 }
 
 .timerSecondDiv {
     position: relative;
     top: 260px;
     width: 100%;
+    text-align: center;
 }
 
 .timerSecondDiv table {
     position: relative;
+    margin: auto;
 }
 
 .timerSecondDiv p {
@@ -207,7 +221,6 @@ nav li {
 #tset-cont-container {
     display:block;
     position: relative;
-    right: 30%;
 }
 
 .tset-cont {
