@@ -9,7 +9,7 @@
         <div class="timer-firstdiv" id="firstDiv">
             <div id="circle-numb-timers">
                 <p class="tset_text">Number of timers: </p>
-                <input class="tset_num_timers" autocomplete="off" id="numTimers" maxlength="2" min=1 name="num_timers" placeholder ="Number of timers" type="text">
+                <input class="tset_num_timers" autocomplete="off" id="numTimers" maxlength="2" min=1 name="num_timers" type="text">
             </div>
             <div id="tset-cont-container">
                 <p class="tset-cont">All continuous?: </p>
@@ -121,9 +121,10 @@
                 var HTML = "<table><tr><th class='bkgrn-menu'>MINUTES</th><th class='bkgrn-menu'>SECONDS</th>" +
                     "<th class='bkgrn-menu'>CONTINUOUS</th></tr>";
                 for (let i = 0; i < nTimers; i++) {
-                    HTML += `<tr></td><td><input autocomplete="off" class="bkgrn-menu" id="timerMin${i}" min="0" max="60" maxlength="2" ` +
-                    `placeholder="00" type="text"> :</td><td><input autocomplete="off" class="bkgrn-menu" id="timerSec${i}" min="0" max="60"` + 
-                    `maxlength="2" placeholder="00" type="text"></td><td><input class="bkgrn-check" id="set-check${i}" type="checkbox"></td></tr>`;
+                    HTML += `<tr></td><td><input autocomplete="off" class="bkgrn-table" id="timerMin${i}" min="0" max="60" maxlength="2" ` +
+                    `placeholder="00" type="text"> <p class="bkgrn-dot">:</p></td><td><input autocomplete="off" class="bkgrn-table" `+ 
+                    `id="timerSec${i}" min="0" max="60" maxlength="2" placeholder="00" type="text"></td><td><input class="bkgrn-check" id="set-check${i}" ` + 
+                    `type="checkbox"></td></tr>`;
                 };
                 HTML += "</table>";
                 document.getElementById("userTimers").innerHTML = HTML;
@@ -445,7 +446,7 @@
             document.getElementById("btnSave").style.display = "inline"; // Save timer
             document.getElementById("btnBack").style.display = "inline"; // Go back to setup
             document.getElementById("bottom-buttons").style.display = "none";
-            document.getElementById("secondDiv").style.top = "162px";
+            //document.getElementById("secondDiv").style.top = "162px";
             document.getElementById("secondDiv").style.fontWeight = "bold";
             document.getElementById("secondDiv").style.fontSize = "140%";
             document.getElementById("btnSetup").style.display = "none";

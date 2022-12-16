@@ -37,9 +37,14 @@ body {
     text-shadow: 1px 1px 1px black;
 }
 
+#continuous {
+    display: inline-block;
+}
+
 .current-timer {
     margin-top: 15px;
 }
+
 footer {
     color: #20FC8F;
     position: absolute;
@@ -79,6 +84,44 @@ nav li {
     padding-top: 16 px;
 }
 
+.bkgrn-menu {
+    background-color: #BFE4E1;
+    border: none;
+    border-radius: 17px;
+    color:#1D5C63;
+    font-weight: bold;
+    padding: 5px 30px;
+    text-align: center;
+}
+
+.bkgrn-menu p {
+    margin: 0;
+}
+.bkgrn-table {
+    background-color: #BFE4E1;
+    border: none;
+    border-radius: 17px;
+    color:#1D5C63;
+    font-weight: bold;
+    padding: 5px 30px;
+    text-align: center;   
+}
+
+.bkgrn-dot{
+    color: #1D5C63;
+    font-size: 103%;
+    font-weight: bolder;
+    left: 29.6% !important;
+    margin: 0;
+    position: absolute;
+}
+
+.bkgrn-check {
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px;
+}
+
 #bottom-buttons {
     position: relative;
     top: 264px;
@@ -108,35 +151,20 @@ nav li {
 
 .button-play {
     background-color: #54BAB9;
-    font-weight: bold;
     border: none;
     border-radius: 17px;
     color:#1D5C63;
+    font-weight: bold;
     padding: 5px 30px;
 }
 
 .button-timers {
     background-color: #1D5C63;
-    font-weight: bold;
     border: none;
     border-radius: 17px;
     color:#BFE4E1;
-    padding: 5px 30px;
-}
-
-.bkgrn-menu {
-    background-color: #BFE4E1;
     font-weight: bold;
-    border: none;
-    border-radius: 17px;
-    color:#1D5C63;
     padding: 5px 30px;
-}
-
-.bkgrn-check {
-    border: none;
-    border-radius: 50%;
-    box-shadow: 0 1px 2px;
 }
 
 .button-play:hover {
@@ -145,13 +173,10 @@ nav li {
 .button-play:active{
     background-color: #1D5C63;
 }
+
 #option-first-div {
     position: relative;
     top: 40px;
-}
-
-#continuous {
-    display: inline-block;
 }
 
 .textButtons {
@@ -202,11 +227,26 @@ nav li {
     display: inline-block;
 }
 
+
+#timer-body {
+    position: absolute;
+    width: 100%;
+}
+
+.timerCheck {
+    display: inline-block;
+}
+
+.timer_display_timer p {
+    display: inline-block;
+}
+
 .timerSecondDiv {
     position: relative;
     top: 260px;
-    /*width: 100%; */
     text-align: center;
+    display: inline-block;
+    width: 100%;
 }
 
 .timerSecondDiv table {
@@ -238,19 +278,6 @@ nav li {
     background-color: #ddd;
 }
 
-#timer-body {
-    position: absolute;
-    width: 100%;
-}
-
-.timerCheck {
-    display: inline-block;
-}
-
-.timer_display_timer p {
-    display: inline-block;
-}
-
 #tset-cont-container {
     display:block;
     position: relative;
@@ -271,6 +298,7 @@ nav li {
     font-weight: bold;
     position: relative;
     top: 20px;
+    text-shadow: 1px 1px 1px black;
 }
 
 .tset_num_timers {
@@ -278,6 +306,11 @@ nav li {
     border: none; 
     display: inline-block;
     position: relative;
+    font-weight: bolder;
+    font-size: 200%;
+    color: #BFE4E1;
+    width: 48px;
+    text-shadow: 1px 1px 1px black;
 }
 
 .tset_num_timers::placeholder{
