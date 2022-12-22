@@ -37,10 +37,6 @@ body {
     text-shadow: 1px 1px 1px black;
 }
 
-#continuous {
-    display: inline-block;
-}
-
 .current-timer {
     margin-top: 15px;
 }
@@ -92,6 +88,7 @@ nav li {
     font-weight: bold;
     padding: 5px 30px;
     text-align: center;
+    margin-bottom: 8px;
 }
 
 .bkgrn-menu p {
@@ -143,6 +140,29 @@ nav li {
     margin: auto;
 }
 
+.btn-dropdown {
+    background-color: #BFE4E1;
+    border: none;
+    border-radius: 17px;
+    color:#1D5C63;
+    font-weight: bold;
+    margin: 3px;
+    padding: 5px 30px;
+    width: 110px;
+}
+
+.btn-dropdown:hover {
+    background-color: #1D5C63;
+    border: none;
+    border-radius: 17px;
+    color:#BFE4E1;
+    margin: 3px;
+    font-weight: bold;
+    padding: 5px 30px;
+    width: 110px;
+}
+
+
 #buttons {
     position: relative;
     top: 224px;
@@ -167,11 +187,60 @@ nav li {
     padding: 5px 30px;
 }
 
+.button-timers:hover{
+    background-color: #20FC8F;
+}
+.button-timers:active{
+    background-color: #54BAB9;
+    color:#9ED2C6;
+    transition: .2s;
+}
+
 .button-play:hover {
     background-color:#20FC8F;
 }
 .button-play:active{
     background-color: #1D5C63;
+}
+
+
+.checkbox-label {
+    font-family: system-ui, sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1.1;
+    display: inline-block;
+    grid-template-columns: 1em auto;
+    gap: 0.5em;
+}
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+    /*font: inherit;*/
+    color: currentColor;
+    width: 1.15em;
+    height: 1.15em;
+    border-radius: 50%;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+}
+
+input[type="checkbox"]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em var(--form-control-color);
+    border-radius: 50%;
+}
+
+input[type="checkbox"]:checked::before{
+    background-color: #1D5C63;
+    transform: scale(1);
 }
 
 #option-first-div {
@@ -242,11 +311,11 @@ nav li {
 }
 
 .timerSecondDiv {
+    margin: auto;
     position: relative;
     top: 260px;
     text-align: center;
-    display: inline-block;
-    width: 100%;
+    width: max-content;
 }
 
 .timerSecondDiv table {
@@ -262,9 +331,12 @@ nav li {
     display: none;
     position: absolute;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+}
 
+.timer-user-dropdown div{
+    margin:auto;
+    width: max-content;
 }
 .timer-user-dropdown p {
     background-color: #38423B;
@@ -321,6 +393,11 @@ nav li {
     display: block;
 }
 
-#userTimers input {
+#userTimers input{
     width: 40px;
+}
+
+#userTimers input[type="checkbox"] {
+    width: 1.15em;
+    height: 1.15em;
 }
