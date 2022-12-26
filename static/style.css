@@ -127,7 +127,7 @@ nav li {
 }
 
 #bottom-text {
-    background:white;
+    background:none;
     bottom: 6%;
     left:0;
     right: 0;
@@ -135,7 +135,7 @@ nav li {
     max-height: 150px;
     overflow-y: scroll;
     position: absolute;
-    outline: thick double #20FC8F;
+    /*outline: thick double #20FC8F; */
     width: 800px;
     margin: auto;
 }
@@ -213,6 +213,14 @@ nav li {
     grid-template-columns: 1em auto;
     gap: 0.5em;
 }
+
+#current-timer-cont{
+    position: relative;
+    left: 4.2em;
+    bottom: 1.5em;
+    box-shadow: 1px 1px blackS;
+}
+
 input[type="checkbox"] {
     -webkit-appearance: none;
     appearance: none;

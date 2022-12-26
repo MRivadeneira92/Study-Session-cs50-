@@ -54,8 +54,12 @@
         </div>
         <div id="bottom-buttons">
             <button style=display:none class="button-play" id="btnLoad" type="button">Load</button>
-            <p style=display:none id="loop-text">Loop timers: </p>
-            <input style="display:none" id="loop-check" type="checkbox">
+            <p class="tset-cont" id="loop-text">Loop timers: </p>
+            <div id="loop-check-container">
+                <label for="loop-ckeck">
+                    <input style="display:none" id="loop-check" type="checkbox">
+                </label>
+            </div>
         </div>
         <div id="bottom-text">
         </div>    
@@ -113,9 +117,6 @@
 
         // Set the ammount of timers so they can be manually set up
         btnSetup.addEventListener("click", function(e) {
-            document.getElementById("loop-text").style.display = "inline";
-            document.getElementById("loop-check").style.display = "inline";
-            document.getElementById("btnLoad").style.display = "inline";
             nTimers = Number(document.getElementById("numTimers").value);
             if (isNaN(nTimers) == true) {
                 addAlert("Input error: Use a numeric value in input");
@@ -129,6 +130,10 @@
                 return;
 
             } else {
+                document.getElementById("loop-text").style.display = "inline";
+                document.getElementById("loop-check-container").style.display = "inline-block";
+                document.getElementById("loop-check").style.display = "grid";
+                document.getElementById("btnLoad").style.display = "inline";
                 delTimers = nTimers;
                 var HTML = "<table><tr><th class='bkgrn-menu'>MINUTES</th><th class='bkgrn-menu'>SECONDS</th>" +
                     "<th class='bkgrn-menu'>CONTINUOUS</th></tr>";
@@ -142,7 +147,6 @@
                 HTML += "</table>";
                 document.getElementById("userTimers").innerHTML = HTML;
             }
-
         });
 
         // Load the numbers of the timers in an array
@@ -177,7 +181,7 @@
         // Save data locally 
         btnSave.addEventListener("click", function(e) {
             if (saveBtnFtn == false) {
-                let intHTML = "<input id='timer-name' type='text'>";
+                let intHTML = `<input class="bkgrn-table" id="timer-name" placeholder="Write name here" type="text">`;
                     document.getElementById("secondDiv").innerHTML += intHTML;
                     saveBtnFtn = true;
             } else {
@@ -233,18 +237,23 @@
 
         function addAlert(text) {
             let textbox = document.getElementById("bottom-text");
-            let textHTML = "<p>· ";
+            let textHTML = `<p class="bkgrn-menu" id="text${textbox.childElementCount}">· `;
             textHTML += text;
             textHTML += "</p>";
             textbox.innerHTML += textHTML;
             textbox.scrollTop = textbox.scrollHeight;
+            setTimeout(delText, 5000);
+            function delText(){
+                const del = document.getElementById(`text${textbox.childElementCount}`);
+                del.remove();
+            }
         }
 
         function addAlertUndo(text, name) {
             let textbox = document.getElementById("bottom-text");
-            let textHTML = `<p>· ` + name;
+            let textHTML = `<p class="bkgrn-menu">· ` + name;
             textHTML += ` ${text}<button id="undo-button" onclick="undoTimer('${name}')" ` +
-            `style="border: none;text-decoration: underline; display: inline-block;">`;
+            `style="background-color:transparent;border:none;cursor:pointer;font-family:figtree;font-weight:bolder;text-decoration:underline;display:inline-block;">`;
             textHTML += `undo</button></p>` ;
             textbox.innerHTML += textHTML;
             textbox.scrollTop = textbox.scrollHeight;
@@ -376,12 +385,12 @@
         function renderTimers() {
             var firstHTML ='<div class="circle-timers"><div class="current-timer"><p id="timerMin">' +
             padZero(saveTimers["min0"]) + '</p><p>:</p><p id="timerSec">'+ 
-            padZero(saveTimers["sec0"]) + '</p>'
+            padZero(saveTimers["sec0"]) + '</p><p>Continuous</p>'
             if (contTimers == true || saveTimers["check0"] == true) {
-                firstHTML += '<input class="timerCheck" id="check0" type="checkbox" checked></div></div>';
+                firstHTML += '<div id="current-timer-cont"><label for="check0"><input class="timerCheck" id="check0" type="checkbox" checked></label</div></div></div>';
             } 
             else {
-                firstHTML += '<input class="timerCheck" id="check0" type="checkbox"></div></div>';
+                firstHTML += '<div id="current-timer-cont"><label for="check0"><input class="timerCheck" id="check0" type="checkbox"></label</div></div></div>';
             }
             var nextHTML = '';
             for (let i = 1; i < nTimers; i++) {
@@ -389,16 +398,19 @@
                 nextHTML += '<p id="min' + i + '">' + padZero(saveTimers[`min${i}`]) + '</p>' +
                 '<p>:</p><p id="sec' + i + '">' + padZero(saveTimers[`sec${i}`]) + '</p>' 
                 if (contTimers == true || saveTimers[`check${i}`] == true) {
-                    nextHTML += '<input class="timerCheck" id="check' + i + '" type="checkbox" checked><br>'
+                    nextHTML += `<div style="display:inline-block;margin-left:6px">` +
+                    `<input class="timerCheck" id="check${i}" type="checkbox" checked></div><br>`
                 }
                 else {  
-                    nextHTML += '<input class="timerCheck" id="check' + i + '" type="checkbox"><br>'
+                    nextHTML += `<div style="display:inline-block;margin-left:6px"">` +
+                    `<input class="timerCheck" id="check${i}" type="checkbox"></div><br>`
                 }
                 nextHTML += '</div>';
             };
             document.getElementById("firstDiv").innerHTML = firstHTML;
             document.getElementById("secondDiv").innerHTML = nextHTML;
             if (loopTimers == true) {
+                document.getElementById("secondDiv").innerHTML += "<div class='button-timers'>Timer Loop: On</div>"
                 downTimer();
             }
         }
@@ -461,6 +473,7 @@
             document.getElementById("bottom-buttons").style.display = "none";
             document.getElementById("secondDiv").style.fontWeight = "bold";
             document.getElementById("secondDiv").style.fontSize = "140%";
+            document.getElementById("secondDiv").style.width = "226px";
             document.getElementById("btnSetup").style.display = "none";
             document.getElementById("btnLoadData").style.display = "none";
         }
@@ -470,8 +483,9 @@
             addAlert("timer restored");
             sessionStorage.removeItem(name);
             let menuHTML = `<div id="drop-div${arrayUndo[name].id}"style="display:inline-block">` +
-            `<button id="select${arrayUndo[name].id}" onclick="dropdownSelect('${name}')"type="button">${name}`+
-            `<button id="${arrayUndo[name].id}" onclick="dropdownDelete('${name}','${arrayUndo[name].id}')">Delete</button></div>`;
+            `<button id="select${arrayUndo[name].id}" class="btn-dropdown" onclick="dropdownSelect('${name}')"type="button">${name}`+
+            `<button id="${arrayUndo[name].id}" class="btn-dropdown" onclick="dropdownDelete('${name}','${arrayUndo[name].id}')">` + 
+            `Delete</button></div>`;
             document.getElementById("user-selection").innerHTML += menuHTML;
             delete arrayUndo[name];
         }
