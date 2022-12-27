@@ -37,10 +37,6 @@ body {
     text-shadow: 1px 1px 1px black;
 }
 
-.current-timer {
-    margin-top: 15px;
-}
-
 footer {
     color: #20FC8F;
     position: absolute;
@@ -203,7 +199,6 @@ nav li {
     background-color: #1D5C63;
 }
 
-
 .checkbox-label {
     font-family: system-ui, sans-serif;
     font-size: 2rem;
@@ -214,10 +209,17 @@ nav li {
     gap: 0.5em;
 }
 
+#current-timer-text-cont {
+    font-size:130%;
+    position: relative;
+    bottom: 1.9em;
+    display: inline;
+}
+
 #current-timer-cont{
     position: relative;
     left: 4.2em;
-    bottom: 1.5em;
+    bottom: 2.1em;
     box-shadow: 1px 1px blackS;
 }
 
