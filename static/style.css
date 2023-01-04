@@ -5,81 +5,10 @@ body {
 
 @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;800&display=swap');
 
-#circle-numb-timers{
-    background: #1D5C63;
-    width: 150px;
-    height: 150px;
-    position: relative;
-    border-radius: 50%;
-    border: solid #BFE4E1 8px;
-    text-align: center;
-    margin: auto;
-    box-shadow: 1px 1px 1px black;
-}
-
-.circle-timers{
-    background: #1D5C63;
-    width: 150px;
-    height: 150px;
-    position: relative;
-    border-radius: 50%;
-    border: solid #BFE4E1 8px;
-    text-align: center;
-    margin: auto;
-}
-
-.circle-timers p {
-    display:inline-block;
-    position: relative;
-    font-weight: bold;
-    font-size: 238%;
-    color:#BFE4E1;
-    text-shadow: 1px 1px 1px black;
-}
-
-footer {
-    color: #20FC8F;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    z-index: 3;
-}
-
-.logo {
-    float: left;
-    margin-left: 25px;
-}
-.navbar {
-    background-color: #38423B;
-    color: #20FC8F;
-    overflow: visible;
-    position: fixed;
-    top: 0px;
-    width: 98%;
-    z-index: 3;
-}
-
-nav a {
-    color: #20FC8F;
-    text-decoration: none;
-    text-transform: uppercase;
-}
-nav ul {
-    float: right;
-    list-style: none;
-    margin-right: 25px;
-}
-
-nav li {
-    display: inline-block;
-    margin-left: 70px;
-    padding-top: 16 px;
-}
-
 .bkgrn-menu {
     background-color: #BFE4E1;
     border: none;
-    border-radius: 17px;
+    border-radius: 9px;
     color:#1D5C63;
     font-weight: bold;
     padding: 5px 30px;
@@ -87,13 +16,45 @@ nav li {
     margin-bottom: 8px;
 }
 
+.bkgrn-menu-message {
+    animation-name: fadeOut;
+    animation-duration: 5s;
+    background-color: #BFE4E1;
+    border: none;
+    border-radius: 9px;
+    color:#1D5C63;
+    font-weight: bold;
+    padding: 5px 30px;
+    text-align: center;
+    margin-bottom: 8px;
+    opacity: 1;
+}
+
+.bkgrn-menu-undo {
+    animation-name: fadeOut;
+    animation-duration: 10s;
+    background-color: #BFE4E1;
+    border: none;
+    border-radius: 9px;
+    color:#1D5C63;
+    font-weight: bold;
+    padding: 5px 30px;
+    text-align: center;
+    margin-bottom: 8px;
+    opacity: 1;
+}
+
+@keyframes fadeOut {
+    60% {opacity:1}
+    100% {opacity: 0;}
+}
 .bkgrn-menu p {
     margin: 0;
 }
 .bkgrn-table {
     background-color: #BFE4E1;
     border: none;
-    border-radius: 17px;
+    border-radius: 9px;
     color:#1D5C63;
     font-weight: bold;
     padding: 5px 30px;
@@ -117,7 +78,7 @@ nav li {
 
 #bottom-buttons {
     position: relative;
-    top: 264px;
+    top: 14.3em;
     width: 100%;
     text-align: center;
 }
@@ -128,11 +89,11 @@ nav li {
     left:0;
     right: 0;
     height: 150px;
-    max-height: 150px;
-    overflow-y: scroll;
+    max-height: 58em;
+    overflow-y: auto;
     position: absolute;
-    /*outline: thick double #20FC8F; */
-    width: 800px;
+    width: 72%;
+    max-width: 983px;
     margin: auto;
 }
 
@@ -168,10 +129,19 @@ nav li {
 .button-play {
     background-color: #54BAB9;
     border: none;
-    border-radius: 17px;
+    border-radius: 9px;
     color:#1D5C63;
     font-weight: bold;
     padding: 5px 30px;
+    box-shadow: 1px 1px 1px black;
+}
+
+.button-play:hover {
+    background-color:#20FC8F;
+}
+
+.button-play:active{
+    background-color: #1D5C63;
 }
 
 .button-timers {
@@ -181,22 +151,17 @@ nav li {
     color:#BFE4E1;
     font-weight: bold;
     padding: 5px 30px;
+    margin-bottom: 0.3em;
 }
 
 .button-timers:hover{
     background-color: #20FC8F;
 }
+
 .button-timers:active{
     background-color: #54BAB9;
     color:#9ED2C6;
     transition: .2s;
-}
-
-.button-play:hover {
-    background-color:#20FC8F;
-}
-.button-play:active{
-    background-color: #1D5C63;
 }
 
 .checkbox-label {
@@ -207,6 +172,39 @@ nav li {
     display: inline-block;
     grid-template-columns: 1em auto;
     gap: 0.5em;
+}
+
+#circle-numb-timers{
+    background: #1D5C63;
+    width: 150px;
+    height: 150px;
+    position: relative;
+    border-radius: 50%;
+    border: solid #BFE4E1 8px;
+    text-align: center;
+    margin: auto;
+    box-shadow: 1px 1px 1px black;
+}
+
+.circle-timers{
+    background: #1D5C63;
+    border: solid #BFE4E1 8px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 1px black;
+    width: 150px;
+    height: 150px;
+    position: relative;
+    margin: auto;
+    text-align: center;
+}
+
+.circle-timers p {
+    display:inline-block;
+    position: relative;
+    font-weight: bold;
+    font-size: 238%;
+    color:#BFE4E1;
+    text-shadow: 1px 1px 1px black;
 }
 
 #current-timer-text-cont {
@@ -221,6 +219,14 @@ nav li {
     left: 4.2em;
     bottom: 2.1em;
     box-shadow: 1px 1px blackS;
+}
+
+footer {
+    color: #20FC8F;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    z-index: 3;
 }
 
 input[type="checkbox"] {
@@ -253,6 +259,55 @@ input[type="checkbox"]:checked::before{
     transform: scale(1);
 }
 
+.logo {
+    float: left;
+    margin-left: 25px;
+}
+
+@media screen and (max-width: 800px) {
+    #secondDiv {
+        top: 14.5em;
+    }
+    .bkgrn-menu{
+        padding: 5px 15px;
+    }
+
+    #bottom-buttons {
+        top:14.8em;
+    }
+}
+
+.navbar {
+    overflow: visible;
+    position: fixed;
+    top: 1em;
+    width: 98%;
+    z-index: 3;
+}
+
+nav a {
+    color: #20FC8F;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+nav ul {
+    float: right;
+    list-style: none;
+    margin-right: 25px;
+}
+
+nav li {
+    display: inline-block;
+    margin-left: 70px;
+    padding-top: 16 px;
+}
+
+#next-text{
+    color:#1D5C63;
+    margin-top: 0;
+    margin-bottom: 0.3em;
+}
+
 #option-first-div {
     position: relative;
     top: 40px;
@@ -283,9 +338,30 @@ input[type="checkbox"]:checked::before{
     display:inline-block;
 }
 
+#timer-body {
+    position: absolute;
+    width: 100%;
+}
+
+.timerCheck {
+    display: inline-block;
+}
+
+.timer_display_timer p {
+    display: inline-block;
+}
+
 .timer-dropdown {
     position: relative;
-    display: inline-block;
+    display: block;
+    top: 0.5em;
+    z-index: 3;
+}
+
+.timer-dropdown div {
+    backdrop-filter: blur(10px);
+    padding: 0.1em;
+    border-radius: 5px;
 }
 
 .timer-firstdiv {
@@ -306,24 +382,10 @@ input[type="checkbox"]:checked::before{
     display: inline-block;
 }
 
-
-#timer-body {
-    position: absolute;
-    width: 100%;
-}
-
-.timerCheck {
-    display: inline-block;
-}
-
-.timer_display_timer p {
-    display: inline-block;
-}
-
 .timerSecondDiv {
     margin: auto;
     position: relative;
-    top: 260px;
+    top: 13.9em;
     text-align: center;
     width: max-content;
 }
@@ -393,12 +455,14 @@ input[type="checkbox"]:checked::before{
     color: #BFE4E1;
     width: 48px;
     text-shadow: 1px 1px 1px black;
+    text-align: center;
 }
 
 .tset_num_timers::placeholder{
     font-weight: bold;
     color: #BFE4E1;
 }
+
 .show {
     display: block;
 }
