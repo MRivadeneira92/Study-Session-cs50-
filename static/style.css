@@ -78,7 +78,7 @@ body {
 
 #bottom-buttons {
     position: relative;
-    top: 14.3em;
+    top: 4.3em;
     width: 100%;
     text-align: center;
 }
@@ -119,10 +119,9 @@ body {
     width: 110px;
 }
 
-
 #buttons {
     position: relative;
-    top: 224px;
+    top: 4em;
     text-align: center;
 }
 
@@ -282,7 +281,6 @@ input[type="checkbox"]:checked::before{
     position: fixed;
     top: 1em;
     width: 98%;
-    z-index: 3;
 }
 
 nav a {
@@ -338,11 +336,6 @@ nav li {
     display:inline-block;
 }
 
-#timer-body {
-    position: absolute;
-    width: 100%;
-}
-
 .timerCheck {
     display: inline-block;
 }
@@ -367,7 +360,7 @@ nav li {
 .timer-firstdiv {
     display: inline-block;
     position: relative;
-    top: 50px;
+    top: 4em;
     width: 100%;
     text-align: center;
 
@@ -385,7 +378,7 @@ nav li {
 .timerSecondDiv {
     margin: auto;
     position: relative;
-    top: 13.9em;
+    top: 3.9em;
     text-align: center;
     width: max-content;
 }

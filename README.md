@@ -45,7 +45,9 @@ On the bottom of the page are displayed in order all the following timers with a
 
 ## Code breakdown
 
-Study Sessions is buildt around an object: *saveTimers*. This object is used for rendering, and saving, the users input. I'll divide this section in two: how data is stored in *saveTimers* and how is read.
+Study Sessions is buildt around an object: *saveTimers*. Its an global object that stores the value of every timer, its respective *continuous* and *loop* value and, when **btnSave** is pressed, a name and unique ID used to save and load the session. This object is used for rendering, and saving, the users input. I'll divide this section in two: how data is stored in *saveTimers* and how is read.
 
 ### Getting data in
+
+The body of the program is divided into five sections. 
 
