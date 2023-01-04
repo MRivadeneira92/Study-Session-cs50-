@@ -14,6 +14,7 @@ body {
     padding: 5px 30px;
     text-align: center;
     margin-bottom: 8px;
+    width: 110px;
 }
 
 .bkgrn-menu-message {
@@ -51,6 +52,7 @@ body {
 .bkgrn-menu p {
     margin: 0;
 }
+
 .bkgrn-table {
     background-color: #BFE4E1;
     border: none;
@@ -58,7 +60,19 @@ body {
     color:#1D5C63;
     font-weight: bold;
     padding: 5px 30px;
-    text-align: center;   
+    text-align: center;  
+    width: 40px;
+}
+
+.bkgrn-table-check {
+    background-color: #BFE4E1;
+    border: none;
+    border-radius: 9px;
+    color:#1D5C63;
+    font-weight: bold;
+    padding: 5px 30px;
+    text-align: center;  
+    
 }
 
 .bkgrn-dot{
@@ -117,12 +131,6 @@ body {
     font-weight: bold;
     padding: 5px 30px;
     width: 110px;
-}
-
-#buttons {
-    position: relative;
-    top: 4em;
-    text-align: center;
 }
 
 .button-play {
@@ -220,6 +228,12 @@ body {
     box-shadow: 1px 1px blackS;
 }
 
+#first-buttons {
+    position: relative;
+    top: 4em;
+    text-align: center;
+}
+
 footer {
     color: #20FC8F;
     position: absolute;
@@ -311,36 +325,7 @@ nav li {
     top: 40px;
 }
 
-.textButtons {
-    margin-top: 5px;
-}
-.textContainer {
-    background-color: white;
-    border-radius: 8px;
-    width: 80%;
-    padding: 4px 20px;
-    position: relative;
-    left: 10%;
-    top: 64px;
-    z-index: 1;
-    display: none;
-}
-
-.textInput {
-    margin-top: 10px;
-    height: 100%;
-    outline: solid grey 1px;
-}
-
-.text-tags-div p {
-    display:inline-block;
-}
-
-.timerCheck {
-    display: inline-block;
-}
-
-.timer_display_timer p {
+.timer-check {
     display: inline-block;
 }
 
@@ -357,7 +342,7 @@ nav li {
     border-radius: 5px;
 }
 
-.timer-firstdiv {
+.timer-first-div {
     display: inline-block;
     position: relative;
     top: 4em;
@@ -365,17 +350,13 @@ nav li {
     text-align: center;
 
 }
-.timerFirstDiv p {
-    display: inline-block;
-    font-size: 30px;
-}
 
 #timer-load-buttons {
     position: relative;
     display: inline-block;
 }
 
-.timerSecondDiv {
+.timer-second-div {
     margin: auto;
     position: relative;
     top: 3.9em;
@@ -383,12 +364,12 @@ nav li {
     width: max-content;
 }
 
-.timerSecondDiv table {
+.timer-second-div table {
     position: relative;
     margin: auto;
 }
 
-.timerSecondDiv p {
+.timer-second-div p {
     display: inline-block;
 }
 
@@ -427,18 +408,7 @@ nav li {
     position: relative;
 }
 
-.tset_text {
-    color:#BFE4E1;
-    display: inline-block;
-    margin-right: 10px;
-    font-size:20px;
-    font-weight: bold;
-    position: relative;
-    top: 20px;
-    text-shadow: 1px 1px 1px black;
-}
-
-.tset_num_timers {
+.tset-num-timers {
     background: transparent;
     border: none; 
     display: inline-block;
@@ -451,9 +421,20 @@ nav li {
     text-align: center;
 }
 
-.tset_num_timers::placeholder{
+.tset-num-timers::placeholder{
     font-weight: bold;
     color: #BFE4E1;
+}
+
+.tset-text {
+    color:#BFE4E1;
+    display: inline-block;
+    margin-right: 10px;
+    font-size:20px;
+    font-weight: bold;
+    position: relative;
+    top: 20px;
+    text-shadow: 1px 1px 1px black;
 }
 
 .show {

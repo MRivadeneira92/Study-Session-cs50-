@@ -49,5 +49,6 @@ Study Sessions is buildt around an object: *saveTimers*. Its an global object th
 
 ### Getting data in
 
-The body of the program is divided into five sections. 
+The body of the program is made from five divs, a navbar and a footer. The divs acts as containers are organised into two sections, the top one that includes *first-div* and *first-button, and the second one made of *second-div*, *bottom-buttons* and *bottom-text*.
 
+*first-div* contains the input *num-timers* that 
