@@ -8,37 +8,31 @@
     </head>
     <body>
         <nav class="navbar">
-            <p class="logo">Studio Sessions</p>
-            <ul>
-                <li>Notes</li>
-                <li><a href="/timer_setup">Timer</a></li>
-                <li><a href="/options">Options</a></li>
-                <li><a href="/test">TEST</a></li>
-            </ul> 
+            <img src="/images/Logo verde.png" alt="title" width="100em">
         </nav>
         <div id="timer-body">
             <div class="timer-firstdiv" id="firstDiv">
                 <div id="circle-numb-timers">
-                    <p class="tset_text">Number of timers: </p>
+                    <p class="tset_text">NUMBER OF TIMERS</p>
                     <input class="tset_num_timers" autocomplete="off" id="numTimers" maxlength="2" min=1 name="num_timers" type="text">
-                </div>
-                <div id="tset-cont-container">
-                    <p class="tset-cont">All continuous?: </p>
-                    <label for="continuous" class="checkbox-label">
-                        <input id="continuous" name="continuous" type="checkbox">
-                    </label>
-                    <button class="button-play" id="btnSetup" type="button">Setup</button>
-                    <div id="timer-load-buttons">
-                        <button class="button-play" id="btnLoadData" type="button">Load Timer</button>
-                        <div class="timer-dropdown">
-                            <div id="user-selection" class="timer-user-dropdown">
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
         <div id="buttons">
+            <div id="tset-cont-container">
+                <p class="tset-cont">All continuous?: </p>
+                <label for="continuous" class="checkbox-label">
+                    <input id="continuous" name="continuous" type="checkbox">
+                </label>
+                <button class="button-play" id="btnSetup" type="button">Setup</button>
+                <div id="timer-load-buttons">
+                    <button class="button-play" id="btnLoadData" type="button">Load Saved Timers</button>
+                    <div class="timer-dropdown">
+                        <div id="user-selection" class="timer-user-dropdown">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <button class="button-timers" style=display:none id="btnStart" type="button">Start</button>
             <button class="button-timers" style=display:none id="btnStop" type="button">Stop</button>
             <button class="button-timers" style=display:none id="btnNext" type="button">Next</button>
@@ -54,7 +48,7 @@
         </div>
         <div id="bottom-buttons">
             <button style=display:none class="button-play" id="btnLoad" type="button">Load</button>
-            <p class="tset-cont" id="loop-text">Loop timers: </p>
+            <p class="tset-cont" id="loop-text" style="display:none">Loop timers: </p>
             <div id="loop-check-container">
                 <label for="loop-ckeck">
                     <input style="display:none" id="loop-check" type="checkbox">
@@ -115,6 +109,45 @@
             addAlert("Welcome to Study Sessions");
         };
 
+        btnBack.addEventListener("click", function(e) {
+            backTimer = true;
+            saveTimers = {};
+            let setupHTML = `<div id="circle-numb-timers"><p class="tset_text">NUMBER OF TIMERS</p><input class="tset_num_timers"
+                autocomplete="off" id="numTimers" maxlength="2" min=1 name="num_timers" type="text"></div>`;
+            document.getElementById("btnStart").style.display = "none"; 
+            document.getElementById("btnStop").style.display = "none"; 
+            document.getElementById("btnNext").style.display = "none"; 
+            document.getElementById("btnReset").style.display = "none"; 
+            document.getElementById("btnSave").style.display = "none"; 
+            document.getElementById("btnBack").style.display = "none";
+            document.getElementById("bottom-buttons").style.display = "none";
+            document.getElementById("secondDiv").style.width ="max-content";
+            document.getElementById("secondDiv").style.top ="13.9em";
+            document.getElementById("secondDiv").style.removeProperty("font-size");
+            document.getElementById("secondDiv").style.removeProperty("font-weight");
+            document.getElementById("firstDiv").innerHTML = setupHTML;
+            let secondSetup = '<table><tbody id="userTimers"></tbody></table>';
+            document.getElementById("secondDiv").innerHTML = secondSetup;
+            loadSkip = false;
+            ceroTimer = false;
+            numbNextTimers = 1;
+            delTimers = nTimers;
+            document.getElementById("btnSetup").style.display = "inline";
+            document.getElementById("btnLoadData").style.display = "inline";
+            loadStatus = false;
+        })
+
+        // Load the numbers of the timers in an array
+        btnLoad.addEventListener("click", function(e) {
+            timerLoad();
+        }); 
+        
+        btnNext.addEventListener("click", function(e) {
+            if (numbNextTimers != nTimers) {
+                nextTimer();
+            };
+        });
+
         // Set the ammount of timers so they can be manually set up
         btnSetup.addEventListener("click", function(e) {
             nTimers = Number(document.getElementById("numTimers").value);
@@ -134,6 +167,7 @@
                 document.getElementById("loop-check-container").style.display = "inline-block";
                 document.getElementById("loop-check").style.display = "grid";
                 document.getElementById("btnLoad").style.display = "inline";
+                document.getElementById("bottom-buttons").style.display = "block";
                 delTimers = nTimers;
                 var HTML = "<table><tr><th class='bkgrn-menu'>MINUTES</th><th class='bkgrn-menu'>SECONDS</th>" +
                     "<th class='bkgrn-menu'>CONTINUOUS</th></tr>";
@@ -149,11 +183,6 @@
             }
         });
 
-        // Load the numbers of the timers in an array
-        btnLoad.addEventListener("click", function(e) {
-            timerLoad();
-        }); 
-        
         btnStart.addEventListener("click", function(e) {
             if (pauseTimer = false) {
                 pauseTimer = true;
@@ -172,13 +201,6 @@
             document.getElementById("btnStop").click()
         });
 
-        btnNext.addEventListener("click", function(e) {
-            if (numbNextTimers != nTimers) {
-                nextTimer();
-            };
-        });
-
-        // Save data locally 
         btnSave.addEventListener("click", function(e) {
             if (saveBtnFtn == false) {
                 let intHTML = `<input class="bkgrn-table" id="timer-name" placeholder="Write name here" type="text">`;
@@ -196,7 +218,7 @@
                     timerNames.push(localStorage.key(i));
                 }
                 let menuHTML = `<div id="drop-div${saveTimers.id}" style="display:inline-block"><button id="select${saveTimers.id}"` + 
-                `onclick="dropdownSelect('${saveName}')"type="button">${saveName}<button id="${timerNames.length}"` +
+                `onclick="dropdownSelect('${saveName}')" class="btn-dropdown" type="button">${saveName}<button id="${timerNames.length}" class="btn-dropdown"` +
                 `onclick="dropdownDelete('${saveName}','${saveTimers.id}')">Delete</button></div>`;
                 document.getElementById("user-selection").innerHTML += menuHTML;
                 delete saveTimers.length;
@@ -208,55 +230,37 @@
             myFunction();
         });
 
-        btnBack.addEventListener("click", function(e) {
-            backTimer = true;
-            saveTimers = {};
-            let setupHTML = '<p class="tset_text">Number of timers: </p>' +
-            '<input class="tset_num_timers" autocomplete="off" id="numTimers" min=0 name="num_timers" placeholder="1" type="text">' +
-            '<p class="tset_text">All continuous?: </p><input autocomplete="off" id="continuous" name="continuous" type="checkbox">';
-            document.getElementById("btnStart").style.display = "none"; 
-            document.getElementById("btnStop").style.display = "none"; 
-            document.getElementById("btnNext").style.display = "none"; 
-            document.getElementById("btnReset").style.display = "none"; 
-            document.getElementById("btnSave").style.display = "none"; 
-            document.getElementById("btnBack").style.display = "none";
-            document.getElementById("bottom-buttons").style.display = "inline-block";
-            document.getElementById("firstDiv").innerHTML = setupHTML;
-            let secondSetup = '<table><tbody id="userTimers"></tbody></table>';
-            document.getElementById("secondDiv").innerHTML = secondSetup;
-            loadSkip = false;
-            ceroTimer = false;
-            numbNextTimers = 1;
-            delTimers = nTimers;
-            document.getElementById("btnSetup").style.display = "inline";
-            document.getElementById("btnLoadData").style.display = "inline";
-            loadStatus = false;
-        })
-
         //FUNCTIONS     
 
         function addAlert(text) {
             let textbox = document.getElementById("bottom-text");
-            let textHTML = `<p class="bkgrn-menu" id="text${textbox.childElementCount}">· `;
+            let numbCount = textbox.childElementCount;
+            let textHTML = `<p class="bkgrn-menu-message" id="text${numbCount}">· `;
             textHTML += text;
             textHTML += "</p>";
             textbox.innerHTML += textHTML;
             textbox.scrollTop = textbox.scrollHeight;
             setTimeout(delText, 5000);
             function delText(){
-                const del = document.getElementById(`text${textbox.childElementCount}`);
+                const del = document.getElementById(`text${numbCount}`);
                 del.remove();
             }
         }
 
         function addAlertUndo(text, name) {
             let textbox = document.getElementById("bottom-text");
-            let textHTML = `<p class="bkgrn-menu">· ` + name;
+            let numbCount = textbox.childElementCount;
+            let textHTML = `<p class="bkgrn-menu-undo" id="text${numbCount}">· ` + name;
             textHTML += ` ${text}<button id="undo-button" onclick="undoTimer('${name}')" ` +
             `style="background-color:transparent;border:none;cursor:pointer;font-family:figtree;font-weight:bolder;text-decoration:underline;display:inline-block;">`;
             textHTML += `undo</button></p>` ;
             textbox.innerHTML += textHTML;
             textbox.scrollTop = textbox.scrollHeight;
+            setTimeout(delText, 10000);
+            function delText(){
+                const del = document.getElementById(`text${numbCount}`);
+                del.remove();
+            }
         }
         
         function downTimer () { // Timer mechanism
@@ -342,14 +346,6 @@
             btnUndo = document.getElementById("undo-button");
         }
 
-        function highlight(obj) {
-            orig = obj.style.borderColor;
-            obj.style.borderColor = "red";
-            setTimeout(() => {
-                obj.style.borderColor = orig;
-            }, (4000));
-        }
-
         function myFunction() {
                 document.getElementById("user-selection").classList.toggle("show");
             }
@@ -385,14 +381,14 @@
         function renderTimers() {
             var firstHTML ='<div class="circle-timers"><div class="current-timer"><p id="timerMin">' +
             padZero(saveTimers["min0"]) + '</p><p>:</p><p id="timerSec">'+ 
-            padZero(saveTimers["sec0"]) + '</p><p>Continuous</p>'
+            padZero(saveTimers["sec0"]) + '</p><p id="current-timer-text-cont">Continuous</p>'
             if (contTimers == true || saveTimers["check0"] == true) {
                 firstHTML += '<div id="current-timer-cont"><label for="check0"><input class="timerCheck" id="check0" type="checkbox" checked></label</div></div></div>';
             } 
             else {
                 firstHTML += '<div id="current-timer-cont"><label for="check0"><input class="timerCheck" id="check0" type="checkbox"></label</div></div></div>';
             }
-            var nextHTML = '';
+            var nextHTML = '<p id="next-text">Next timers: </p>';
             for (let i = 1; i < nTimers; i++) {
                 nextHTML += '<div class="bkgrn-menu" id="nextTimers' + i + '">';
                 nextHTML += '<p id="min' + i + '">' + padZero(saveTimers[`min${i}`]) + '</p>' +
@@ -402,7 +398,7 @@
                     `<input class="timerCheck" id="check${i}" type="checkbox" checked></div><br>`
                 }
                 else {  
-                    nextHTML += `<div style="display:inline-block;margin-left:6px"">` +
+                    nextHTML += `<div style="display:inline-block;margin-left:6px">` +
                     `<input class="timerCheck" id="check${i}" type="checkbox"></div><br>`
                 }
                 nextHTML += '</div>';
@@ -445,6 +441,12 @@
                         highlight(document.getElementById(`timerSec${(i + 1)}`));
                         errorLoad = true;
                     }
+                    if (testSec > 60) {
+                        addAlert(`Input Error in Second ${i + 1}: Seconds cannot be more than 60`);
+                        document.getElementById(`timerSec${i + 1}`).value = "";
+                        highlight(document.getElementById(`timerSec${(i + 1)}`));
+                        errorLoad = true;
+                    }
                     const textCheck = document.getElementById(`set-check${i}`).checked;
                     saveTimers["min" + i] = Number(testMin);
                     saveTimers["sec" + i] = Number(testSec);
@@ -461,7 +463,7 @@
 
             if(document.getElementById("loop-check").checked == true) {
                 loopTimers = true;
-                addAlert("Timer Loop: On");
+                //addAlert("Timer Loop: On");
             }
             renderTimers();
             document.getElementById("btnStart").style.display = "inline"; // Start timer
@@ -472,6 +474,9 @@
             document.getElementById("btnBack").style.display = "inline"; // Go back to setup
             document.getElementById("bottom-buttons").style.display = "none";
             document.getElementById("secondDiv").style.fontWeight = "bold";
+            document.getElementById("secondDiv").style.fontSize = "140%";
+            document.getElementById("secondDiv").style.width = "226px";
+            document.getElementById("secondDiv").style.top = "10em";
             document.getElementById("secondDiv").style.fontSize = "140%";
             document.getElementById("secondDiv").style.width = "226px";
             document.getElementById("btnSetup").style.display = "none";
