@@ -1,6 +1,7 @@
 body {
     background-image: linear-gradient(to right,#54BAB9, #9ED2C6);
     font-family: 'Figtree', sans-serif;
+    margin-top: 60px;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;800&display=swap');
@@ -94,11 +95,11 @@ body {
 }
 
 #bottom-buttons {
+    margin-top: 10px;
     position: relative;
-    top: 4.3em;
     width: 100%;
     text-align: center;
-    z-index: 3;
+    z-index: 2;
 }
 
 #bottom-text {
@@ -108,11 +109,11 @@ body {
     max-height: 58em;
     max-width: fit-content; 
     /*overflow-y: auto; */
-    position: relative;
+    position: absolute;
     width: 69%;
     margin: auto;
-    top: 5em;
-    z-index: 2;
+    top: clamp(50px, 75%, 600px);
+    z-index: 3;
 }
 
 .btn-dropdown {
@@ -233,8 +234,6 @@ body {
 }
 
 #first-buttons {
-    position: relative;
-    top: 4em;
     text-align: center;
 }
 
@@ -348,8 +347,6 @@ nav li {
 
 .timer-first-div {
     display: inline-block;
-    position: relative;
-    top: 4em;
     width: 100%;
     text-align: center;
 
@@ -363,7 +360,6 @@ nav li {
 .timer-second-div {
     margin: auto;
     position: relative;
-    top: 3.9em;
     text-align: center;
     width: max-content;
 }
