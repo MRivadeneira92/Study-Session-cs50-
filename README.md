@@ -73,15 +73,29 @@ Finally. The HTML is injected into the corresponding div, if *loopTimers* is set
 
 ### How it works
 
-The mechanism behind Study Sessions lies in the function *downTimer*. ... 
+#### Main function
+
+The mechanism behind Study Sessions lies in the function *downTimer*. Inside this function is the countdown mechanism itself called *timerStart*, a function that triggers a setInterval() method that runs every second. It first stores the two values on the current timer at separate variables that second. The value for the second is substracted 1, if the result is -1 means that a minute has passed so 1 is substracted from *min*. After the values are calculated ...  
+
+The rest of the function has triggers for **btnStop** and **btnBack**, both stops the timer by calling clearInterval on *timerStart* and setting *timerOn* to false. 
+
+The last part of *timerStart* is reserved for what happens when the current timer reaches 00:00. Play() is called which reproduces an sound when the timer is completed, clearInterval(timerStart) stops the timer and an alert is created. Then the continuous status of the current timer is checked by first creating a variable (*check0*) that stores the value on the current timer check, after that an if statement is used to pass onto the next timer: If the continuous value is checked and if there is another timer after the current one, then load the next timer calling the function *nextTimer* and start the new timer by calling *downTimer*. The final part is the looping functionality. An if statement listen for *loopTimers* and if *timerPass* has the same value as *nTimers*, meaning that there a no more timers after the current one. If the conditions are met then all timers are reset by rendering the page again (by calling *renderTimers*) and setting returning the values from *ceroTimer*, *numbNextTimers*, *delTimers* and *timerPass* to their default values. 
 
 There a number of global variables inside that keep track of the state of the timer. They are designed so other functions and buttons don't trigger *downTimer* when it shouldn't. Ej: The counter running twice. 
 
 - *timerOn*: Boolean. Set to true when the timer is running. It's used with **btnStart** to make sure only one instance of *downTimer* is running. Is set to false by stopping the timer either with **btnStop**, **btnBack** or when the timer runs out.
 
-- *timerPass*: Numeric. Keeps track of the current timer running. It begins at 0 and adds 1 whenever the current timer ends 
+- *timerPass*: Numeric. Keeps track of the current timer running. It begins at 0 and adds 1 whenever the current timer ends. It's only used for looping the session. If *loopTimers* is true and *timerPass* is the same number as *ntimers* then the session is looped. 
 
+- *backTimer*: Boolean. False by default. It's changed to true when **btnBack** is pressed. When it's true triggers *clearInterval(timerStart)* stopping the timer and then is returned to false by the code in the button. 
 
+- *ceroTimer*: Boolean. False by default. Changes to true when the current timer is at 00:00. It was created for making sure *downTimer* only is called when the current timer has values that it can count down from. 
+
+- *numbNextTimer* : Numeric. Used for function *nextTimer* ...
+
+#### Next button 
+
+**btnNext** has an if statement that makes sure that there is a timer to replace the current one. It checks if *numbNextTimer* is not the same as *nTimers* 
 ...
 ## Functions
 

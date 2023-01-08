@@ -118,7 +118,6 @@
             document.getElementById("btn-save").style.display = "none"; 
             document.getElementById("btn-back").style.display = "none";
             document.getElementById("bottom-buttons").style.display = "none";
-            document.getElementById("second-div").style.width ="max-content";
             document.getElementById("second-div").style.removeProperty("font-size");
             document.getElementById("second-div").style.removeProperty("font-weight");
             document.getElementById("first-div").innerHTML = setupHTML;
@@ -267,7 +266,7 @@
                 if (sec == -1) {
                     sec = 59;
                     min = min - 1;
-                    if (min == -1) {
+                    if (min == -1) { //maybe this will not be used 
                         min = 59;
                     };
                 };
