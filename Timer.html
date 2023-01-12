@@ -84,8 +84,7 @@
         let loopTimers = false // Loops through timers if True
         let backTimer = false // for btnBack. When back is pressed turns off timer and returns relevant variables to neutral position
         let arrayUndo = []; // Stores temporally local data for use of undo button when timer is deleted from memory
-        let loadStatus = false // For dropDownSelect. True when timer is loaded from local memory.
-        let timerNames = []; 
+        let timerNames = []; // Used on window.onload. Store the names of the sessions saved locally.
 
         window.onload = function(){ 
             for (i = 0; i < localStorage.length ; i++) {
@@ -120,16 +119,15 @@
             document.getElementById("bottom-buttons").style.display = "none";
             document.getElementById("second-div").style.removeProperty("font-size");
             document.getElementById("second-div").style.removeProperty("font-weight");
-            document.getElementById("first-div").innerHTML = setupHTML;
-            let secondSetup = '<table><tbody id="user-timers"></tbody></table>';
-            document.getElementById("second-div").innerHTML = secondSetup;
             loadSkip = false;
             ceroTimer = false;
             numbNextTimers = 1;
             delTimers = nTimers;
+            document.getElementById("first-div").innerHTML = setupHTML;
+            let secondSetup = '<table><tbody id="user-timers"></tbody></table>';
+            document.getElementById("second-div").innerHTML = secondSetup;
             document.getElementById("btn-setup").style.display = "inline";
             document.getElementById("btn-load-data").style.display = "inline";
-            loadStatus = false;
         })
 
         // Load the numbers of the timers in an array
@@ -218,9 +216,8 @@
         });
 
         btnReset.addEventListener("click", function(e) {
-            document.getElementById("timerMin").innerHTML = padZero(saveTimers["min" + (numbNextTimers - 1)]);
-            document.getElementById("timerSec").innerHTML = padZero(saveTimers["sec" + (numbNextTimers - 1)]);
-            document.getElementById("btn-stop").click()
+            document.getElementById("timerMin").innerHTML = padZero(saveTimers["min" + (timerPass)]);
+            document.getElementById("timerSec").innerHTML = padZero(saveTimers["sec" + (timerPass)]);
         });
 
         //FUNCTIONS     
@@ -312,16 +309,13 @@
         } 
 
         function dropdownSelect(name) {
-            if (loadStatus == false) {
-                saveTimers = JSON.parse(localStorage.getItem(name));
-                nTimers = saveTimers.length;
-                delTimers = nTimers;
-                delete saveTimers.length;
-                loadSkip = true;
-                myFunction()
-                timerLoad();
-                loadStatus = true;
-            }
+            saveTimers = JSON.parse(localStorage.getItem(name));
+            nTimers = saveTimers.length;
+            delTimers = nTimers;
+            delete saveTimers.length;
+            loadSkip = true;
+            myFunction()
+            timerLoad();
         }
 
         function dropdownDelete(name, number) {
@@ -357,7 +351,8 @@
             delTimers -= 1;
             timerFinish = false;
             numbNextTimers += 1;
-            let x = document.getElementById(`nextTimers${delTimers}`);
+            timerPass += 1;
+            let x = document.getElementById(`next-timers${delTimers}`);
             x.remove();
             ceroTimer = false;
         };
