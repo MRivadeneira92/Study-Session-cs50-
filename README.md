@@ -7,10 +7,11 @@ Study Sessions is a web app designed to help manage your time. It's written in H
 ## Files breakdown
 
 Study Sessions is made of the following files: 
-- **Timer.html**: This stores the code of the program. It's written both in HTML and JavaScript. 
-- **Style.css**: The CSS used in Timer.html.
-- **bell1.mp3**: online bell sound designed by user cdrk. From freesounds.org
+- **index.html**: This stores the code of the program. It's written both in HTML and JavaScript. 
+- **style.css**: The CSS used in Timer.html.
+- **bell1.mp3**: online bell sound designed by user cdrk. From freesounds.org.
 - **Figtree-ExtraBold.tff**: By Erik Kennedy. Font used on the page.
+- **greenlogo.pgn**: By Andrea Morillo. Logo of the page. 
 
 The design of the page was made by Andrea Morillo. I turned it into CSS and made some modifications to make it more user friendly.
 
