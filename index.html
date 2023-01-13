@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html lan="en">
+    <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link href="/static/style.css" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;800&display=swap" rel="stylesheet">    
+    </head>
+    <body>
+        <nav class="navbar">
+            <img src="/images/Logo verde.png" alt="title" width="100em">
+        </nav>
+        <div class="timer-first-div" id="first-div">
+            <div id="circle-numb-timers">
+                <p class="tset-text">NUMBER OF TIMERS</p>
+                <input class="tset-num-timers" autocomplete="off" id="num-timers" maxlength="2" min="1" name="num-timers" type="text">
+            </div>
+        </div>
+        <div id="first-buttons">
+            <div id="tset-cont-container">
+                <p class="tset-cont">All continuous?: </p>
+                <label for="continuous" class="checkbox-label">
+                    <input id="continuous" name="continuous" type="checkbox">
+                </label>
+                <button class="button-play" id="btn-setup" type="button">Setup</button>
+                <div id="timer-load-buttons">
+                    <button class="button-play" id="btn-load-data" type="button">Load Saved Timers</button>
+                    <div class="timer-dropdown">
+                        <div id="user-selection" class="timer-user-dropdown">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="button-timers" style=display:none id="btn-start" type="button">Start</button>
+            <button class="button-timers" style=display:none id="btn-stop" type="button">Stop</button>
+            <button class="button-timers" style=display:none id="btn-next" type="button">Next</button>
+            <button class="button-timers" style=display:none id="btn-reset" type="button">Reset</button>
+            <button class="button-timers" style=display:none id="btn-save" type="button">Save Timer</button>
+            <button class="button-timers" style=display:none id="btn-back" type="button">Back</button>
+        </div>
+        <div id="second-div" class="timer-second-div">
+            <table>
+                <tbody id="user-timers">
+                </tbody>
+            </table>
+        </div>
+        <div id="bottom-buttons">
+            <button style="display:none" class="button-play" id="btn-load" type="button">Load</button>
+            <p class="tset-cont" id="loop-text" style="display:none">Loop timers: </p>
+            <div id="loop-check-container">
+                <label for="loop-ckeck">
+                    <input style="display:none" id="loop-check" type="checkbox">
+                </label>
+            </div>
+        </div>
+        <div id="bottom-text"></div>    
+        <footer>Made by Max</footer>
+    </body>
+    <script>
+        const btnSetup = document.getElementById("btn-setup");  // Load page button with number of timers    
+        const btnLoad = document.getElementById("btn-load"); // Load number of timers to array
+        const btnStart = document.getElementById("btn-start"); // Start timer
+        const btnStop = document.getElementById("btn-stop"); // Stop timer
+        const btnReset = document.getElementById("btn-reset"); // Reset current timer
+        const btnNext = document.getElementById("btn-next"); // Pass to next timer
+        const btnSave = document.getElementById("btn-save"); // Save timer
+        const btnLoadData = document.getElementById("btn-load-data"); // Select timers loaded from memory
+        const btnBack = document.getElementById("btn-back"); // Go back to timer setup
+        let timerOn = false; // True only when timer is running
+        let pauseTimer = false // For btnStart. If true timer is running. Toggles button function.
+        let saveTimers = {}; // Save the content of the timers
+        let contTimers = false; // true if all continuous is checked
+        let fistStart = true; 
+        let nTimers = 0; // Saves the ammount of timers
+        let timerPass = 0; // In which timer the clock is currently. Used of loop function
+        let ceroTimer = false; // Checks when the timer is at 00:00
+        let timerFinish = false; // To check when the active timer is finished. Works with checkboxes
+        let delTimers = nTimers; // For nextTimer function. FIX TEXT Keeps track of the number of the last element in the timers
+        let numbNextTimers = 1; // For nextTimer function. Number of the timer that follows the active timer 
+        let numCheck; // Keeps track of the status of the next check(continuous)
+        let saveBtnFtn = false; // For saveButton. False creates save input. True saves content in input
+        let userTimerSelect; // Save the name of the timer selected by user. Gets result from function dropdownSelect
+        let loadSkip = false; // When using dropdownSelect skips obtaining data from btn-load
+        let loopTimers = false // Loops through timers if True
+        let backTimer = false // for btnBack. When back is pressed turns off timer and returns relevant variables to neutral position
+        let arrayUndo = []; // Stores temporally local data for use of undo button when timer is deleted from memory
+        let timerNames = []; // Used on window.onload. Store the names of the sessions saved locally.
+
+        window.onload = function(){ 
+            for (i = 0; i < localStorage.length ; i++) {
+                timerNames.push(localStorage.key(i));
+            }
+            let menuHTML = "";
+            if (timerNames.length > 0) {
+                for (i = 0; i < timerNames.length; i++) {
+                    let idName = JSON.parse(localStorage.getItem(timerNames[i]));
+                    menuHTML += `<div id="drop-div${idName.id}" style="display:inline-block"><button class="btn-dropdown" id="select${idName.id}"` +
+                    `onclick="dropdownSelect('${timerNames[i]}')"type="button">${timerNames[i]}<button id="${idName.id}" class="btn-dropdown"` + 
+                    `onclick="dropdownDelete('${timerNames[i]}','${idName.id}')">Delete</button></div>`;
+                }
+            } else {
+                menuHTML += "<p>No timers saved</p>";
+            }
+            document.getElementById("user-selection").innerHTML += menuHTML;
+            addAlert("Welcome to Study Sessions");
+        };
+
+        btnBack.addEventListener("click", function(e) {
+            backTimer = true;
+            saveTimers = {};
+            let setupHTML = `<div id="circle-numb-timers"><p class="tset-text">NUMBER OF TIMERS</p><input class="tset-num-timers"
+            autocomplete="off" id="num-timers" maxlength="2" min="1" name="num-timers" type="text"></div>`;
+            document.getElementById("btn-start").style.display = "none"; 
+            document.getElementById("btn-stop").style.display = "none"; 
+            document.getElementById("btn-next").style.display = "none"; 
+            document.getElementById("btn-reset").style.display = "none"; 
+            document.getElementById("btn-save").style.display = "none"; 
+            document.getElementById("btn-back").style.display = "none";
+            document.getElementById("bottom-buttons").style.display = "none";
+            document.getElementById("second-div").style.removeProperty("font-size");
+            document.getElementById("second-div").style.removeProperty("font-weight");
+            loadSkip = false;
+            ceroTimer = false;
+            numbNextTimers = 1;
+            delTimers = nTimers;
+            document.getElementById("first-div").innerHTML = setupHTML;
+            let secondSetup = '<table><tbody id="user-timers"></tbody></table>';
+            document.getElementById("second-div").innerHTML = secondSetup;
+            document.getElementById("btn-setup").style.display = "inline";
+            document.getElementById("btn-load-data").style.display = "inline";
+        })
+
+        // Load the numbers of the timers in an array
+        btnLoad.addEventListener("click", function(e) {
+            timerLoad();
+        }); 
+        
+        btnLoadData.addEventListener("click", function(e) {
+            myFunction();
+        });
+
+        btnNext.addEventListener("click", function(e) {
+            if (numbNextTimers != nTimers) {
+                nextTimer();
+            };
+        });
+
+        btnSave.addEventListener("click", function(e) {
+            if (saveBtnFtn == false) {
+                let intHTML = `<input class="bkgrn-table" id="timer-name" placeholder="Write name here" type="text">`;
+                    document.getElementById("second-div").innerHTML += intHTML;
+                    saveBtnFtn = true;
+            } else {
+                let saveName = document.getElementById("timer-name").value;
+                saveTimers.length = nTimers;
+                saveTimers.id = localStorage.length + 1;
+                localStorage.setItem(saveName, JSON.stringify(saveTimers));
+                saveBtnFtn = false;
+                addAlert("Timer saved!");
+                document.getElementById("timer-name").remove();
+                for (i = 0; i < localStorage.length ; i++) {
+                    timerNames.push(localStorage.key(i));
+                }
+                let menuHTML = `<div id="drop-div${saveTimers.id}" style="display:inline-block"><button id="select${saveTimers.id}"` + 
+                `onclick="dropdownSelect('${saveName}')" class="btn-dropdown" type="button">${saveName}<button id="${timerNames.length}" class="btn-dropdown"` +
+                `onclick="dropdownDelete('${saveName}','${saveTimers.id}')">Delete</button></div>`;
+                document.getElementById("user-selection").innerHTML += menuHTML;
+                delete saveTimers.length;
+                delete saveTimers.id;
+            };
+        });  
+
+        // Set the ammount of timers so they can be manually set up
+        btnSetup.addEventListener("click", function(e) {
+            nTimers = Number(document.getElementById("num-timers").value);
+            if (isNaN(nTimers) == true) {
+                addAlert("Input error: Use a numeric value in input");
+                document.getElementById("num-timers").value = "";
+                return;
+            }
+            if (nTimers <= 0) {
+                addAlert("Input Error: Number of timers must be bigger than 0");
+                document.getElementById("num-timers").value = "";
+                return;
+            } else {
+                document.getElementById("loop-text").style.display = "inline";
+                document.getElementById("loop-check-container").style.display = "inline-block";
+                document.getElementById("loop-check").style.display = "grid";
+                document.getElementById("btn-load").style.display = "inline";
+                document.getElementById("bottom-buttons").style.display = "block";
+                delTimers = nTimers;
+                var HTML = "<table><tr><th class='bkgrn-menu'>MINUTES</th><th class='bkgrn-menu'>SECONDS</th>" +
+                    "<th class='bkgrn-menu'>CONTINUOUS</th></tr>";
+                for (let i = 0; i < nTimers; i++) {
+                    HTML += `<tr></td><td><input autocomplete="off" class="bkgrn-table" id="timerMin${i}" min="0" max="60" maxlength="2" ` +
+                    `placeholder="00" type="text"> <p class="bkgrn-dot">:</p></td><td><input autocomplete="off" class="bkgrn-table" `+ 
+                    `id="timerSec${i}" min="0" max="60" maxlength="2" placeholder="00" type="text"></td><td>` +
+                    `<div class="bkgrn-table-check" style="display:inline-block"><input id="set-check${i}" type="checkbox">` + 
+                    `<label for="set-check${i}"></label></div></td></tr>`
+                };
+                HTML += "</table>";
+                document.getElementById("user-timers").innerHTML = HTML;
+            }
+        });
+
+        btnStart.addEventListener("click", function(e) {
+            if (pauseTimer = false) {
+                pauseTimer = true;
+            } else {
+                pauseTimer = false;
+            }
+            backTimer = false;
+            if (ceroTimer == false && timerOn == false) {
+                downTimer();
+            }
+        });
+
+        btnReset.addEventListener("click", function(e) {
+            document.getElementById("timerMin").innerHTML = padZero(saveTimers["min" + (timerPass)]);
+            document.getElementById("timerSec").innerHTML = padZero(saveTimers["sec" + (timerPass)]);
+        });
+
+        //FUNCTIONS     
+
+        function addAlert(text) {
+            let textbox = document.getElementById("bottom-text");
+            let numbCount = textbox.childElementCount;
+            let textHTML = `<p class="bkgrn-menu-message" id="text${numbCount}">· `;
+            textHTML += text;
+            textHTML += "</p>";
+            textbox.innerHTML += textHTML;
+            textbox.scrollTop = textbox.scrollHeight;
+            setTimeout(delText, 5000);
+            function delText(){
+                const del = document.getElementById(`text${numbCount}`);
+                del.remove();
+            }
+        }
+
+        function addAlertUndo(text, name) {
+            let textbox = document.getElementById("bottom-text");
+            let numbCount = textbox.childElementCount;
+            let textHTML = `<p class="bkgrn-menu-undo" id="text${numbCount}">· ` + name;
+            textHTML += ` ${text}<button id="undo-button" onclick="undoTimer('${name}')" ` +
+            `style="background-color:transparent;border:none;cursor:pointer;font-family:figtree;font-weight:bolder;text-decoration:underline;display:inline-block;">`;
+            textHTML += `undo</button></p>` ;
+            textbox.innerHTML += textHTML;
+            textbox.scrollTop = textbox.scrollHeight;
+            setTimeout(delText, 10000);
+            function delText(){
+                const del = document.getElementById(`text${numbCount}`);
+                del.remove();
+            }
+        }
+        
+        function downTimer () { // Timer mechanism
+            timerFinish = false; // It seems it's not used
+            timerOn = true; 
+            let timerStart = setInterval(() => {
+                sec = Number(document.getElementById("timerSec").innerHTML);
+                min = Number(document.getElementById("timerMin").innerHTML);
+                sec = sec - 1;
+                if (sec == -1) {
+                    sec = 59;
+                    min = min - 1;
+                    if (min == -1) { //maybe this will not be used 
+                        min = 59;
+                    };
+                };
+                document.getElementById("timerSec").innerHTML = padZero(sec);
+                document.getElementById("timerMin").innerHTML = padZero(min);
+                btnStop.addEventListener("click", function(e) {
+                    timerOn = false;
+                    clearInterval(timerStart);
+                });
+                btnBack.onclick = function() {
+                    timerOn = false;
+                    clearInterval(timerStart);
+                }
+                
+                if (backTimer == true || pauseTimer == true) {
+                    timerPass += 1;
+                    clearInterval(timerStart);
+                }
+
+                if (min == 0 && sec == 0) {
+                    play();
+                    timerPass += 1;
+                    timerOn = false;
+                    timerFinish = true;
+                    ceroTimer = true; 
+                    clearInterval(timerStart);
+                    addAlert("Timer finished");
+                    let check0 = document.getElementById("check0");
+                    if (check0.checked == true && numbNextTimers != nTimers) {
+                        nextTimer();
+                        downTimer();
+                    };
+                    if (loopTimers == true && timerPass == nTimers) {
+                        loadSkip = true;
+                        ceroTimer = false;
+                        numbNextTimers = 1;
+                        delTimers = nTimers;
+                        timerPass = 0;
+                        renderTimers();
+                    }
+                };
+            }, 1000);
+        } 
+
+        function dropdownSelect(name) {
+            saveTimers = JSON.parse(localStorage.getItem(name));
+            nTimers = saveTimers.length;
+            delTimers = nTimers;
+            delete saveTimers.length;
+            loadSkip = true;
+            myFunction()
+            timerLoad();
+        }
+
+        function dropdownDelete(name, number) {
+            addAlertUndo("Timer deleted", name);
+            let tempData = JSON.parse(localStorage.getItem(name));
+            sessionStorage.setItem(name, JSON.stringify(tempData));
+            localStorage.removeItem(name);
+            let foo = document.getElementById(number);
+            foo.remove();
+            document.getElementById("select" + number).remove();
+            document.getElementById("drop-div" + number).remove();
+            arrayUndo[name] = tempData;
+            let tempKeys = Object.keys(arrayUndo);
+            btnUndo = document.getElementById("undo-button");
+        }
+
+        function myFunction() {
+                document.getElementById("user-selection").classList.toggle("show");
+            }
+
+        function nextTimer() {   // Pass to next timer     
+            let timerReplaceMin = document.getElementById("timerMin");
+            let timerReplaceSec = document.getElementById("timerSec");
+            timerReplaceMin.innerHTML = padZero(saveTimers[`min${numbNextTimers}`]);
+            timerReplaceSec.innerHTML = padZero(saveTimers[`sec${numbNextTimers}`]);
+            document.getElementById("check0").checked = document.getElementById("check1").checked;
+            for (i = 1; i < delTimers - 1; i++) {
+                document.getElementById("min" + i).innerHTML = padZero(saveTimers[`min${numbNextTimers + i}`]);
+                document.getElementById("sec" + i).innerHTML = padZero(saveTimers[`sec${numbNextTimers + i}`]);
+                document.getElementById("check" + i).checked = document.getElementById(`check${i + 1}`).checked;
+            }
+            delTimers -= 1;
+            timerFinish = false;
+            numbNextTimers += 1;
+            timerPass += 1;
+            let x = document.getElementById(`next-timers${delTimers}`);
+            x.remove();
+            ceroTimer = false;
+        };
+
+        function padZero(num) { // Leading zero
+            return String(num).padStart(2, '0');
+        }
+
+        function play() {
+            let bell = new Audio("./static/bell1.mp3");
+            bell.play();
+        }
+        
+        function renderTimers() {
+            var firstHTML = `<div class="circle-timers"><div class="current-timer"><p id="timerMin">
+            ${padZero(saveTimers["min0"])}</p><p>:</p><p id="timerSec">${padZero(saveTimers["sec0"])}
+            </p><p id="current-timer-text-cont">Continuous</p>`
+            if (contTimers == true || saveTimers["check0"] == true) {
+                firstHTML += `<div id="current-timer-cont"><label for="check0"><input class="timer-check" id="check0" type="checkbox" checked>
+                    </label></div></div></div>`;
+            } 
+            else {
+                firstHTML += `<div id="current-timer-cont"><label for="check0"><input class="timer-check" id="check0" type="checkbox">
+                    </label></div></div></div>`;
+            }
+            var nextHTML = '<p id="next-text">Next timers: </p>';
+            for (let i = 1; i < nTimers; i++) {
+                nextHTML += `<div class="bkgrn-menu" id="next-timers${i}">`;
+                nextHTML += `<p id="min${i}">${padZero(saveTimers[`min${i}`])}</p><p>:</p><p id="sec${i}">
+                    ${padZero(saveTimers[`sec${i}`])}</p>`
+                if (contTimers == true || saveTimers[`check${i}`] == true) {
+                    nextHTML += `<div style="display:inline-block;margin-left:6px">
+                    <input class="timer-check" id="check${i}" type="checkbox" checked></div><br>`
+                }
+                else {  
+                    nextHTML += `<div style="display:inline-block;margin-left:6px">
+                    <input class="timer-check" id="check${i}" type="checkbox"></div><br>`
+                }
+                nextHTML += '</div>';
+            };
+            document.getElementById("first-div").innerHTML = firstHTML;
+            document.getElementById("second-div").innerHTML = nextHTML;
+            if (loopTimers == true) {
+                document.getElementById("second-div").innerHTML += "<div class='button-timers'>Timer Loop: On</div>"
+                downTimer();
+            }
+        }
+
+        function timerLoad() {
+            let errorLoad = false // true if any error in the following for loop is found
+            if (loadSkip == false) {
+                for(let i = 0; i < nTimers; i++) {
+                    const testMin = document.getElementById(`timerMin${(i)}`).value;
+                    const testSec = document.getElementById(`timerSec${(i)}`).value;
+                    if (isNaN(testMin) == true) {
+                        addAlert(`Input error in Minute ${i + 1}: Use a numeric value in minutes`);
+                        document.getElementById(`timerMin${i + 1}`).value = "";
+                        errorLoad = true;
+                    }
+                    if (isNaN(testSec) == true) {
+                        addAlert(`Input error in Second ${i + 1 }: Use a numeric value in seconds`);
+                        document.getElementById(`timerSec${i + 1}`).value = "";
+                        errorLoad = true;
+                    }
+                    if (testMin < 0) {
+                        addAlert(`Input error in Minute ${i + 1}: Value must be a positive number`);
+                        document.getElementById(`timerMin${i + 1}`).value = "";
+                        errorLoad = true;
+                    }
+                    if (testSec < 0) {
+                        addAlert(`Input Error in Second ${i + 1}: Seconds must be a positive number`);
+                        document.getElementById(`timerSec${i + 1}`).value = "";
+                        errorLoad = true;
+                    }
+                    if (testSec > 60) {
+                        addAlert(`Input Error in Second ${i + 1}: Seconds cannot be more than 60`);
+                        document.getElementById(`timerSec${i + 1}`).value = "";
+                        errorLoad = true;
+                    }
+                    const textCheck = document.getElementById(`set-check${i}`).checked;
+                    saveTimers["min" + i] = Number(testMin);
+                    saveTimers["sec" + i] = Number(testSec);
+                    saveTimers["check" + i] = textCheck;
+                     if (document.getElementById("continuous").checked == true) {
+                        contTimers = true;
+                    }
+                };
+                if (errorLoad == true){
+                        errorLoad = false;
+                        return;
+                    }
+            }
+
+            if(document.getElementById("loop-check").checked == true) {
+                loopTimers = true;
+            }
+            renderTimers();
+            document.getElementById("btn-start").style.display = "inline"; // Start timer
+            document.getElementById("btn-stop").style.display = "inline"; // Stop timer
+            document.getElementById("btn-next").style.display = "inline"; // Pass to next timer
+            document.getElementById("btn-reset").style.display = "inline"; // Reset current timer
+            document.getElementById("btn-save").style.display = "inline"; // Save timer
+            document.getElementById("btn-back").style.display = "inline"; // Go back to setup
+            document.getElementById("bottom-buttons").style.display = "none";
+            document.getElementById("second-div").style.fontWeight = "bold";
+            document.getElementById("second-div").style.fontSize = "140%";
+            document.getElementById("second-div").style.fontSize = "140%";
+            document.getElementById("btn-setup").style.display = "none";
+            document.getElementById("btn-load-data").style.display = "none";
+        }
+
+        function undoTimer(name) {
+            localStorage.setItem(name, JSON.stringify(arrayUndo[name]))
+            addAlert("timer restored");
+            sessionStorage.removeItem(name);
+            let menuHTML = `<div id="drop-div${arrayUndo[name].id}"style="display:inline-block">` +
+            `<button id="select${arrayUndo[name].id}" class="btn-dropdown" onclick="dropdownSelect('${name}')"type="button">${name}`+
+            `<button id="${arrayUndo[name].id}" class="btn-dropdown" onclick="dropdownDelete('${name}','${arrayUndo[name].id}')">` + 
+            `Delete</button></div>`;
+            document.getElementById("user-selection").innerHTML += menuHTML;
+            delete arrayUndo[name];
+        }
+    </script>
+</html>

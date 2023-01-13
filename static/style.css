@@ -24,6 +24,7 @@ body {
     background-color: #BFE4E1;
     border: none;
     border-radius: 9px;
+    box-shadow: 1px 1px 1px black;
     color:#1D5C63;
     font-weight: bold;
     margin-bottom: 8px;
@@ -31,8 +32,8 @@ body {
     opacity: 1;
     padding: 5px 30px;
     text-align: center;
-    z-index: 4;
     width: 100%; 
+    z-index: 4;
 }
 
 .bkgrn-menu-undo {
@@ -41,6 +42,7 @@ body {
     background-color: #BFE4E1;
     border: none;
     border-radius: 9px;
+    box-shadow: 1px 1px 1px black;
     color:#1D5C63;
     font-weight: bold;
     padding: 5px 30px;
