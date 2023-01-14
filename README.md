@@ -103,7 +103,7 @@ There a number of global variables inside that keep track of the state of the ti
 
 #### Reset button
 
-**btnReset** replaces the values on the current timer with the corresponding one on *saveTimers*.
+**btnReset** replaces the values on the current timer with the corresponding one on *saveTimers*. It changes the value of *pauseTimer* to true triggering *clearInterval()* on *downTimer* stopping the mechanism.
 
 #### Saving sessions
 
