@@ -15,7 +15,7 @@ body {
     padding: 5px 30px;
     text-align: center;
     margin-bottom: 8px;
-    width: 110px;
+    width: 166px;
 }
 
 .bkgrn-menu-message {
@@ -283,23 +283,29 @@ input[type="checkbox"]:checked::before{
 }
 
 @media screen and (max-width: 800px) {
-    #secondDiv {
+    /*#secondDiv {
         top: 14.5em;
-    }
+    } */
     .bkgrn-menu{
         padding: 5px 15px;
     }
+}
 
-    #bottom-buttons {
-        top:14.8em;
-    }
+.name-input {
+    background-color: #BFE4E1;
+    border: none;
+    border-radius: 9px;
+    color:#1D5C63;
+    font-weight: bold;
+    padding: 5px 30px;
+    text-align: center;  
+    width: max-content;
 }
 
 .navbar {
     overflow: visible;
     position: fixed;
     top: 1em;
-    width: 98%;
 }
 
 nav a {

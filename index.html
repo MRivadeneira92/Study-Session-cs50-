@@ -147,7 +147,7 @@
 
         btnSave.addEventListener("click", function(e) {
             if (saveBtnFtn == false) {
-                let intHTML = `<input class="bkgrn-table" id="timer-name" placeholder="Write name here" type="text">`;
+                let intHTML = `<input class="name-input" id="timer-name" placeholder="Write name here" type="text">`;
                     document.getElementById("second-div").innerHTML += intHTML;
                     saveBtnFtn = true;
             } else {
@@ -188,6 +188,7 @@
                 document.getElementById("loop-check").style.display = "grid";
                 document.getElementById("btn-load").style.display = "inline";
                 document.getElementById("bottom-buttons").style.display = "block";
+                document.getElementById("second-div").style.width = "auto";
                 delTimers = nTimers;
                 var HTML = "<table><tr><th class='bkgrn-menu'>MINUTES</th><th class='bkgrn-menu'>SECONDS</th>" +
                     "<th class='bkgrn-menu'>CONTINUOUS</th></tr>";
@@ -465,6 +466,7 @@
             document.getElementById("second-div").style.fontWeight = "bold";
             document.getElementById("second-div").style.fontSize = "140%";
             document.getElementById("second-div").style.fontSize = "140%";
+            document.getElementById("second-div").style.width = "max-content";
             document.getElementById("btn-setup").style.display = "none";
             document.getElementById("btn-load-data").style.display = "none";
         }
