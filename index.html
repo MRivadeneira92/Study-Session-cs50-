@@ -124,6 +124,7 @@
             ceroTimer = false;
             numbNextTimers = 1;
             delTimers = nTimers;
+            loopTimers = false;
             document.getElementById("first-div").innerHTML = setupHTML;
             let secondSetup = '<table><tbody id="user-timers"></tbody></table>';
             document.getElementById("second-div").innerHTML = secondSetup;
@@ -404,7 +405,6 @@
             document.getElementById("second-div").innerHTML = nextHTML;
             if (loopTimers == true) {
                 document.getElementById("second-div").innerHTML += "<div class='button-timers'>Timer Loop: On</div>"
-                downTimer();
             }
         }
 
