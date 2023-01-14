@@ -70,11 +70,11 @@
         let backTimer = false // for btnBack. When back is pressed turns off timer and returns relevant variables to neutral position
         let ceroTimer = false; // Checks when the timer is at 00:00
         let contTimers = false; // true if all continuous is checked
-        let delTimers = nTimers; // For nextTimer function. Counts down until 0
         let fistStart = true; 
         let loadSkip = false; // When using dropdownSelect skips obtaining data from btn-load
         let loopTimers = false // Loops through timers if True
         let nTimers = 0; // Saves the ammount of timers
+        let delTimers = nTimers; // For nextTimer function. Counts down until 0
         let numbNextTimers = 1; // For nextTimer function. Number of the timer that follows the active timer 
         let numCheck; // Keeps track of the status of the next check(continuous)
         let pauseTimer = false // For btnStart. If true timer is running. Toggles button function.
@@ -218,6 +218,7 @@
         btnReset.addEventListener("click", function(e) {
             document.getElementById("timerMin").innerHTML = padZero(saveTimers["min" + (timerPass)]);
             document.getElementById("timerSec").innerHTML = padZero(saveTimers["sec" + (timerPass)]);
+            pauseTimer = true;
         });
 
         //FUNCTIONS     
@@ -262,6 +263,13 @@
                 if (sec == 0 && min == 00) {
                     nextTimer();
                 }
+                if (backTimer == true || pauseTimer == true) {
+                    pauseTimer = false;
+                    timerOn = false;
+                    clearInterval(timerStart);
+                    return;
+                }
+
                 sec = sec - 1;
                 if (sec == -1) {
                     sec = 59;
@@ -281,11 +289,6 @@
                     clearInterval(timerStart);
                 }
                 
-                if (backTimer == true || pauseTimer == true) {
-                    timerPass += 1;
-                    clearInterval(timerStart);
-                }
-
                 if (min == 0 && sec == 0) {
                     play();
                     timerPass += 1;
