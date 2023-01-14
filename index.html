@@ -8,7 +8,7 @@
     </head>
     <body>
         <nav class="navbar">
-            <img src="/images/logoverde.png" alt="title" width="100em">
+            <img src="/images/greenlogo.png" alt="title" width="100em">
         </nav>
         <div class="timer-first-div" id="first-div">
             <div id="circle-numb-timers">
@@ -57,34 +57,34 @@
         <footer>Made by Max</footer>
     </body>
     <script>
-        const btnSetup = document.getElementById("btn-setup");  // Load page button with number of timers    
+        const btnBack = document.getElementById("btn-back"); // Go back to timer setup
         const btnLoad = document.getElementById("btn-load"); // Load number of timers to array
+        const btnLoadData = document.getElementById("btn-load-data"); // Select timers loaded from memory
+        const btnNext = document.getElementById("btn-next"); // Pass to next timer
+        const btnSave = document.getElementById("btn-save"); // Save timer
+        const btnSetup = document.getElementById("btn-setup");  // Load page button with number of timers    
         const btnStart = document.getElementById("btn-start"); // Start timer
         const btnStop = document.getElementById("btn-stop"); // Stop timer
         const btnReset = document.getElementById("btn-reset"); // Reset current timer
-        const btnNext = document.getElementById("btn-next"); // Pass to next timer
-        const btnSave = document.getElementById("btn-save"); // Save timer
-        const btnLoadData = document.getElementById("btn-load-data"); // Select timers loaded from memory
-        const btnBack = document.getElementById("btn-back"); // Go back to timer setup
-        let timerOn = false; // True only when timer is running
-        let pauseTimer = false // For btnStart. If true timer is running. Toggles button function.
-        let saveTimers = {}; // Save the content of the timers
-        let contTimers = false; // true if all continuous is checked
-        let fistStart = true; 
-        let nTimers = 0; // Saves the ammount of timers
-        let timerPass = 0; // In which timer the clock is currently. Used of loop function
+        let arrayUndo = []; // Stores temporally local data for use of undo button when timer is deleted from memory
+        let backTimer = false // for btnBack. When back is pressed turns off timer and returns relevant variables to neutral position
         let ceroTimer = false; // Checks when the timer is at 00:00
-        let timerFinish = false; // To check when the active timer is finished. Works with checkboxes
-        let delTimers = nTimers; // For nextTimer function. FIX TEXT Keeps track of the number of the last element in the timers
-        let numbNextTimers = 1; // For nextTimer function. Number of the timer that follows the active timer 
-        let numCheck; // Keeps track of the status of the next check(continuous)
-        let saveBtnFtn = false; // For saveButton. False creates save input. True saves content in input
-        let userTimerSelect; // Save the name of the timer selected by user. Gets result from function dropdownSelect
+        let contTimers = false; // true if all continuous is checked
+        let delTimers = nTimers; // For nextTimer function. Counts down until 0
+        let fistStart = true; 
         let loadSkip = false; // When using dropdownSelect skips obtaining data from btn-load
         let loopTimers = false // Loops through timers if True
-        let backTimer = false // for btnBack. When back is pressed turns off timer and returns relevant variables to neutral position
-        let arrayUndo = []; // Stores temporally local data for use of undo button when timer is deleted from memory
+        let nTimers = 0; // Saves the ammount of timers
+        let numbNextTimers = 1; // For nextTimer function. Number of the timer that follows the active timer 
+        let numCheck; // Keeps track of the status of the next check(continuous)
+        let pauseTimer = false // For btnStart. If true timer is running. Toggles button function.
+        let saveBtnFtn = false; // For saveButton. False creates save input. True saves content in input
+        let saveTimers = {}; // Save the content of the timers
+        let timerFinish = false; // To check when the active timer is finished. Works with checkboxes
         let timerNames = []; // Used on window.onload. Store the names of the sessions saved locally.
+        let timerOn = false; // True only when timer is running
+        let timerPass = 0; // In which timer the clock is currently. Used of loop function
+        let userTimerSelect; // Save the name of the timer selected by user. Gets result from function dropdownSelect
 
         window.onload = function(){ 
             for (i = 0; i < localStorage.length ; i++) {
@@ -259,12 +259,15 @@
             let timerStart = setInterval(() => {
                 sec = Number(document.getElementById("timerSec").innerHTML);
                 min = Number(document.getElementById("timerMin").innerHTML);
+                if (sec == 0 && min == 00) {
+                    nextTimer();
+                }
                 sec = sec - 1;
                 if (sec == -1) {
                     sec = 59;
                     min = min - 1;
                     if (min == -1) { //maybe this will not be used 
-                        min = 59;
+                        min = 0;
                     };
                 };
                 document.getElementById("timerSec").innerHTML = padZero(sec);
