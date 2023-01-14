@@ -15,7 +15,7 @@ body {
     padding: 5px 30px;
     text-align: center;
     margin-bottom: 8px;
-    width: 166px;
+    width: 110px;
 }
 
 .bkgrn-menu-message {
@@ -299,7 +299,6 @@ input[type="checkbox"]:checked::before{
     font-weight: bold;
     padding: 5px 30px;
     text-align: center;  
-    width: max-content;
 }
 
 .navbar {
@@ -329,6 +328,22 @@ nav li {
     color:#1D5C63;
     margin-top: 0;
     margin-bottom: 0.3em;
+}
+
+.next-timer {
+    background-color: #BFE4E1;
+    border: none;
+    border-radius: 9px;
+    color:#1D5C63;
+    font-weight: bold;
+    padding: 5px 30px;
+    text-align: center;
+    margin-bottom: 8px;
+    width: 166px;
+}
+
+.next-timer p {
+    margin: 0;
 }
 
 #option-first-div {

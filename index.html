@@ -386,7 +386,7 @@
             }
             var nextHTML = '<p id="next-text">Next timers: </p>';
             for (let i = 1; i < nTimers; i++) {
-                nextHTML += `<div class="bkgrn-menu" id="next-timers${i}">`;
+                nextHTML += `<div class="next-timer" id="next-timers${i}">`;
                 nextHTML += `<p id="min${i}">${padZero(saveTimers[`min${i}`])}</p><p>:</p><p id="sec${i}">
                     ${padZero(saveTimers[`sec${i}`])}</p>`
                 if (contTimers == true || saveTimers[`check${i}`] == true) {
