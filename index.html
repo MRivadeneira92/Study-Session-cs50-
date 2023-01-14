@@ -163,7 +163,9 @@
                 for (i = 0; i < localStorage.length ; i++) {
                     timerNames.push(localStorage.key(i));
                 }
-                let menuHTML = `<div id="drop-div${saveTimers.id}" style="display:inline-block"><button id="select${saveTimers.id}"` + 
+                let menuHTML = "";
+                document.getElementById("user-selection").innerHTML = menuHTML;
+                menuHTML = `<div id="drop-div${saveTimers.id}" style="display:inline-block"><button id="select${saveTimers.id}"` + 
                 `onclick="dropdownSelect('${saveName}')" class="btn-dropdown" type="button">${saveName}<button id="${timerNames.length}" class="btn-dropdown"` +
                 `onclick="dropdownDelete('${saveName}','${saveTimers.id}')">Delete</button></div>`;
                 document.getElementById("user-selection").innerHTML += menuHTML;
@@ -328,10 +330,14 @@
         }
 
         function dropdownDelete(name, number) {
-            addAlertUndo("Timer deleted", name);
+            addAlertUndo("session deleted", name);
             let tempData = JSON.parse(localStorage.getItem(name));
             sessionStorage.setItem(name, JSON.stringify(tempData));
             localStorage.removeItem(name);
+            if (localStorage.length == 0) {
+                let menuHTML = "<p>No sessions saved</p>";
+                document.getElementById("user-selection").innerHTML += menuHTML;
+            }
             let foo = document.getElementById(number);
             foo.remove();
             document.getElementById("select" + number).remove();

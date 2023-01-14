@@ -20,7 +20,7 @@ body {
 
 .bkgrn-menu-message {
     animation-name: fadeOut;
-    animation-duration: 5s;
+    animation-duration: 6s;
     background-color: #BFE4E1;
     border: none;
     border-radius: 9px;
@@ -32,13 +32,12 @@ body {
     opacity: 1;
     padding: 5px 30px;
     text-align: center;
-    width: 100%; 
     z-index: 4;
 }
 
 .bkgrn-menu-undo {
     animation-name: fadeOut;
-    animation-duration: 10s;
+    animation-duration: 11s;
     background-color: #BFE4E1;
     border: none;
     border-radius: 9px;
@@ -109,10 +108,8 @@ body {
     left:0;
     right: 0;
     max-height: 58em;
-    max-width: fit-content; 
-    /*overflow-y: auto; */
     position: absolute;
-    width: 69%;
+    width: max-content;
     margin: auto;
     top: clamp(50px, 75%, 600px);
     z-index: 3;
