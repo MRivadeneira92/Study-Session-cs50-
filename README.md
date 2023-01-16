@@ -125,13 +125,33 @@ These two functions are used to interact with the information in *localStorage*.
 *dropdownDelete*: Takes a name and a number. It moves the corresponding saved session from local storage into session storage so it can be recalled later if the user wants to recover it but, once the browser is closed, the session is deleted. This function calls a second function named *addAlertUndo* which generates a message similar to *addAlert* but with a undo button inside. The input data from localStorage is saved into a variable called *tempData* and then saved into session storage. The original data is deleted from local storage. Using the number input the containers that hold the buttons for loading the information are removed. Finally a copy of the session is saved into an object called *arrayUndo* using the name as key. This object is used when multiple sessions are deleted, with this object the undo function can restore any individual session.  
 
 *undoTimer*: Takes a name as an input. Restores to local storage a deleted timer by coping the session from *arrayUndo* back to local storage. The first line of the function does this by grabbing the session using the name as key in *arrayUndo*, using JSON.stringify to turn the data into a string and using the same name to save tore it back into local storage. An alert is sent. The session is deleted from session storage. The button for selecting and deleting the session are added back to the dropdrown menu using the information from *arrayUndo*. After the HTML is added into *user-selection*, the session is deleted from *arrayUndo*.
-...
+
+
 ## Functions
 
-### addAlert
+### addAlert(text)
 
 Takes a string and turns it into an alert displayed at the bottom of the page. After five seconds the alert fades out. It first creates a variable for storing the *bottom-text* container. A second variable is then made that stores the ammount of elements inside *bottom-text*, this is used on the next line for assigning an unique ID to every message so it can be deleted by anothen function inside this one called *delText*. The function takes the input text and places it between p tags with an unique ID, it's then added to *bottom-text* and this container is scrolled to the new message always appears at the bottom. Each message invokes a function stored inside called *delText*. This function finds the alert created and deletes it after five seconds. The function is stored inside *addAlert* so every message is individualy erased. 
 
-### addAlertundo
+### addAlertundo(text, name)
 
-Takes 
+Used when a session is deleted from local memory. Shows an alert with an undo button that returns the deleted session back onto local memory. It works the same as *addAlert* but it deletes itseft after ten seconds. The undo button inside de alert has the function *undoTimer()*. *name* is used as an input for *undoTimer()*
+
+#### undoTimer(name)
+
+Copies a session from *arrayUndo* using *name* as the key back into local memory. It sends back into the dropdown menu the buttons for selecting and deleting that session. 
+
+### downTimer() 
+
+Runs the timer along with listener for stoping the timer. 
+
+### dropdownSelect(name) 
+
+Takes a sessions saved in local memory, using *name* as a key, and loads it into *saveTimers*. Calls *showMenu()* to close the dropdown menu and *timerLoad()* to render the session. 
+
+## dropdownDelete(name, number)
+
+Deletes a session stored on local memory. It first calls "addAlertUndo(name)* creating an alert with a undo button. The selected session is saved into an array called *arrayUndo* using *name* as a key. *number* is use for deleting the corresponding buttons on the dropdown menu. 
+
+## nextTimer() 
+

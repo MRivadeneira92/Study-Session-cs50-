@@ -138,7 +138,7 @@
         }); 
         
         btnLoadData.addEventListener("click", function(e) {
-            myFunction();
+            showMenu();
         });
 
         btnNext.addEventListener("click", function(e) {
@@ -325,7 +325,7 @@
             delTimers = nTimers;
             delete saveTimers.length;
             loadSkip = true;
-            myFunction()
+            showMenu()
             timerLoad();
         }
 
@@ -343,13 +343,8 @@
             document.getElementById("select" + number).remove();
             document.getElementById("drop-div" + number).remove();
             arrayUndo[name] = tempData;
-            let tempKeys = Object.keys(arrayUndo);
             btnUndo = document.getElementById("undo-button");
         }
-
-        function myFunction() {
-                document.getElementById("user-selection").classList.toggle("show");
-            }
 
         function nextTimer() {   // Pass to next timer     
             let timerReplaceMin = document.getElementById("timerMin");
@@ -412,6 +407,10 @@
             if (loopTimers == true) {
                 document.getElementById("second-div").innerHTML += "<div class='button-timers'>Timer Loop: On</div>"
             }
+        }
+
+        function showMenu() {
+            document.getElementById("user-selection").classList.toggle("show");
         }
 
         function timerLoad() {
