@@ -1,5 +1,5 @@
 # Study Sessions
-#### Video demo:
+#### Video demo: https://youtu.be/jT6VK_5NexQ
 #### Description: 
 
 Study Sessions is a web app designed to help manage your time. It's written in HTML with javaScript and CSS. It's buildt so it can be set up in any way you need. It was inspired by online time trackers. I use one set up using the pomodoro technique (25 minutes of work with 5 minute breaks) but I found it cumbersome having to start each pomodoro manually.
